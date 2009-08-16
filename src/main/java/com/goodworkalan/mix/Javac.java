@@ -4,22 +4,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.goodworkalan.go.Shell;
-import com.goodworkalan.go.Task;
 
-@Task("javac")
+/**
+ * Execute the Javac compiler.
+ *
+ * @author Alan Gutierrez
+ */
 public class Javac {
+    /** Disable warnings if false. */
     private boolean warnings;
-
+    
+    /** Emit verbose output if true. */
     private boolean verbose;
 
+    /** Enable debugable output if true. */
     private boolean debug;
 
+    /** Fork the Javac compiler if true. */
     private boolean fork;
 
+    /** Warn about deprecation if true. */
     private boolean deprecation;
 
+    /** The Java language version of the source. */
     private String source;
 
+    /** The Java classfile version of the output. */
     private String target;
 
     public void execute() {
