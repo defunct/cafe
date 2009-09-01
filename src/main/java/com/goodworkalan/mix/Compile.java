@@ -1,19 +1,22 @@
 package com.goodworkalan.mix;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.goodworkalan.go.Shell;
+import com.goodworkalan.glob.Files;
+import com.goodworkalan.go.go.Argument;
+import com.goodworkalan.go.go.Task;
 
 /**
  * Execute the Javac compiler.
- *
+ * 
  * @author Alan Gutierrez
  */
-public class Javac {
+public class Compile extends Task {
     /** Disable warnings if false. */
     private boolean warnings;
-    
+
     /** Emit verbose output if true. */
     private boolean verbose;
 
@@ -31,6 +34,34 @@ public class Javac {
 
     /** The Java classfile version of the output. */
     private String target;
+    
+    /** The mix wide configuration. */
+    private Mix.Arguments configuration;
+
+    /** The mix command. */
+    private Mix mix;
+
+    public Compile() {
+    }
+    
+    public void setConfiguration(Mix.Arguments configuration) {
+        this.configuration = configuration;
+    }
+
+    /**
+     * Set the mix parent task.
+     * 
+     * @param mix
+     *            The mix parent task.
+     */
+    @Argument
+    public void setMix(Mix mix) {
+        this.mix = mix;
+    }
+    
+    public Project getProject() {
+        return new Project(configuration.getWorkingDirectory());
+    }
 
     public void execute() {
         List<String> arguments = new ArrayList<String>();
@@ -54,11 +85,15 @@ public class Javac {
             arguments.add("-target");
             arguments.add(target);
         }
-        String[] args = arguments.toArray(new String[arguments.size()]);
-        if (fork) {
-            Shell.execute("javac", arguments);
-        } else {
-            com.sun.tools.javac.Main.compile(args);
+        new File("src/test/project/target/classes").mkdirs();
+        arguments.add("-d");
+        arguments.add("src/test/project/target/classes");
+        Project project = getProject();
+        for (File directory : project.getSourceDirectories()) {
+            for (File source : project.getSources(directory)) {
+                arguments.add(new File(directory, source.toString()).toString());
+            }
         }
+        com.sun.tools.javac.Main.compile(arguments.toArray(new String[arguments.size()]));
     }
 }

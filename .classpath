@@ -13,5 +13,6 @@
 	<classpathentry kind="var" path="M2_REPO/org/testng/testng/5.8/testng-5.8-jdk15.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/go-go"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/glob"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
