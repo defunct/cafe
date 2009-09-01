@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.goodworkalan.glob.Files;
 import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.Task;
 
@@ -20,7 +19,7 @@ public class Compile extends Task {
     /** Emit verbose output if true. */
     private boolean verbose;
 
-    /** Enable debugable output if true. */
+    /** Enable debugging output if true. */
     private boolean debug;
 
     /** Fork the Javac compiler if true. */
@@ -32,7 +31,7 @@ public class Compile extends Task {
     /** The Java language version of the source. */
     private String source;
 
-    /** The Java classfile version of the output. */
+    /** The Java class file version of the output. */
     private String target;
     
     /** The mix wide configuration. */
@@ -41,9 +40,19 @@ public class Compile extends Task {
     /** The mix command. */
     private Mix mix;
 
+    /**
+     * Default constructor.
+     */
     public Compile() {
     }
-    
+
+    /**
+     * The the arguments common to all Mix commands which are specified after
+     * the mix command on the command line.
+     * 
+     * @param configuration
+     *            The arguments common to all Mix commands.
+     */
     public void setConfiguration(Mix.Arguments configuration) {
         this.configuration = configuration;
     }
@@ -58,11 +67,19 @@ public class Compile extends Task {
     public void setMix(Mix mix) {
         this.mix = mix;
     }
-    
+
+    /**
+     * Get the project model.
+     * 
+     * @return The project model.
+     */
     public Project getProject() {
         return new Project(configuration.getWorkingDirectory());
     }
 
+    /**
+     * Compile the main resources of the Java project.
+     */
     public void execute() {
         List<String> arguments = new ArrayList<String>();
         if (!warnings) {

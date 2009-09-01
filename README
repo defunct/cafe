@@ -1,0 +1,72 @@
+MIX
+
+Java project builds in Java.
+
+PURPOSE
+
+Mix is a command line utility for jar repository management and JVM based
+language compilation.
+
+MOTIVATION
+
+I do not like Ant. Maven is fine, but heavywight and mostly XML.
+
+Mix is a Java tool for building Java and other JVM languages. It has minimal
+external dependencies. It strives to be a first-class citizen in a UNIX
+enviornment, while being as usable as a command line application can be in a
+Windows enviornment.
+
+It's design is influences by the UNIX shell, and tools like git.
+
+Output is not "I'm doing this, I'm doing that" trace messag spew. Output is
+meaningful and can be fed to tools like sed, awk, Perl and Ruby. 
+
+Mix likes to emit HTML pages when human readable reports are desired. Mix will
+put up with whatever templating engine is forced upon it by a development tool,
+but Mix always prefers lightweight, no-nonsense Freemarker template language.
+
+Mix does not have a pure-Java philosophy. You can use Java to write a task, if
+you believe that will make a cross-platform build possible. However, if you are
+developing in a UNIX environment, you can just as easily call Subversion or git
+from a shell script, transfer files to your server using ssh-agent and scp. Mix
+doesn't want to elminiate your shell enviornment,if you have one that works for
+you.
+
+If you don't have a command line enviornment that works for you, Mix is easy to
+extend, it is a simple as writing a plain-old Java object, a Java Bean, that
+can perform the tasks specific to your build. This is simple enough, because Mix
+will manage your classpath and see to that you have all your dependencies in
+your class loader.
+
+While we're on the subject of dependencies, unlike other Java tools, Mix dooes
+not pull down your jar files just-in-time. Rather, Mix has a number of commands
+for building your repository, but you don't have to pay for a dependency update
+hit with every command you run. Mix believes that repository management and
+classpath management are separate and distinct tasks.
+
+Many tools try to treat jars as artifacts that magically update and vivify, but
+that magic never works without a lot of repository configuration to make it
+work. It is magic if everything you need is in the Maven central repository, but
+the moment you have to have an edge release, or a patched build, then you have
+to maintain your own repository. The tools for managing your own repository are
+weak, because repository management is supposed to be centralized, you end up
+having to build a central repository somewhere that you can pull from, in lieu
+of or in addition to the Maven central repository, so you have to manage a
+central repository in order to have your local repository.
+
+Mix intead manages your local repository, allowing you to import the jars you
+need, build your distributions, and if you want a central repository to pull
+from, you can use the same local repository toolset on your server.
+
+No, Mix makes no attempt to distribute repositories, since Jars are not sources.
+
+In fact, Mix gives you repository management tools. You get used to building
+your repository and forgetting about it, just as through you were managing Ruby
+Gems or Python Eggs.
+
+USAGE
+
+javac go/go.java
+
+java go.go mix pull
+java go.go mix pull
