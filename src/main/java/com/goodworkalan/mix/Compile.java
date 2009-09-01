@@ -22,9 +22,6 @@ public class Compile extends Task {
     /** Enable debugging output if true. */
     private boolean debug;
 
-    /** Fork the Javac compiler if true. */
-    private boolean fork;
-
     /** Warn about deprecation if true. */
     private boolean deprecation;
 
@@ -36,9 +33,6 @@ public class Compile extends Task {
     
     /** The mix wide configuration. */
     private Mix.Arguments configuration;
-
-    /** The mix command. */
-    private Mix mix;
 
     /**
      * Default constructor.
@@ -65,7 +59,6 @@ public class Compile extends Task {
      */
     @Argument
     public void setMix(Mix mix) {
-        this.mix = mix;
     }
 
     /**
