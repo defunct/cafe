@@ -1,2 +1,3 @@
-com.goodworkalan.mix.Mix
-com.goodworkalan.mix.Javac
+com.goodworkalan.mix.MixTask
+com.goodworkalan.mix.JavacTask
+com.goodworkalan.mix.MakeTask
