@@ -6,8 +6,6 @@ import java.util.Collections;
 import org.testng.annotations.Test;
 
 import com.goodworkalan.go.go.CommandInterpreter;
-import com.goodworkalan.go.go.Environment;
-import com.goodworkalan.go.go.EnvironmentBuilder;
 
 /**
  * Test the compiler.
@@ -20,8 +18,8 @@ public class CompileTest {
         MixTask.Configuration configuration = new MixTask.Configuration(new Project(new File("src/test/project"), Collections.<String, Recipe>emptyMap()));
         JavacTask compile = new JavacTask();
         compile.setConfiguration(configuration);
-        Environment environment = new EnvironmentBuilder().getInstance();
-        compile.execute(environment);
+//        Environment environment = new EnvironmentBuilder().getInstance();
+//        compile.execute(environment);
     }
     
     @Test

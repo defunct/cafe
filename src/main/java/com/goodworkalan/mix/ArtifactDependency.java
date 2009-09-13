@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.goodworkalan.go.go.Artifact;
+import com.goodworkalan.go.go.CommandPart;
+import com.goodworkalan.go.go.Executor;
 import com.goodworkalan.go.go.Library;
 
 public class ArtifactDependency implements Dependency {
@@ -15,7 +17,10 @@ public class ArtifactDependency implements Dependency {
         this.artifact = artifact;
     }
     
-    public Set<File> getFiles(Library library) {
-        return library.getFiles(Collections.singletonList(artifact), new HashSet<String>());
+    public Set<File> getFiles(Project project, Library library) {
+        return library.getFiles(Collections.singleton(artifact), new HashSet<String>());
+    }
+    
+    public void make(Executor executor, CommandPart mix) {
     }
 }

@@ -9,7 +9,7 @@ public class Recipe {
     
     private final Map<String, Dependency> dependencies;
     
-    public Recipe(Map<String, Command> commands, Map<String, Dependency> dependencies) {
+    Recipe(Map<String, Command> commands, Map<String, Dependency> dependencies) {
         this.commands = commands;
         this.dependencies = dependencies;
     }

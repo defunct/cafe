@@ -18,5 +18,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/glob"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/reflective"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/cassandra"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/spawn"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

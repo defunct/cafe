@@ -1,13 +1,11 @@
 package com.goodworkalan.mix;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.goodworkalan.go.go.Command;
+import com.goodworkalan.go.go.CommandPart;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Task;
-import com.goodworkalan.go.go.TaskInfo;
 
 @Command(parent = MixTask.class)
 public class MakeTask extends Task {
@@ -18,20 +16,18 @@ public class MakeTask extends Task {
     }
     
     @Override
-    public void execute(Environment environment) {
-        List<String> mixCommand = new ArrayList<String>();
-        mixCommand.add("mix");
-        mixCommand.addAll(Arrays.asList(environment.arguments[0]));
-        String recipe = environment.remaining[0];
+    public void execute(Environment env) {
+        CommandPart mix = env.commandPart.getParent();
+        String recipe = env.commandPart.getRemaining().get(0);
+        for (Dependency dependency : configuration.getProject().getDependencies(recipe)) {
+            dependency.make(env.executor, mix);
+        }
         for (List<String> step : configuration.getProject().getCommands(recipe)) {
-            List<String> command = new ArrayList<String>();
-            command.addAll(mixCommand);
-            command.addAll(step);
-            TaskInfo taskInfo = environment.commandInterpreter.getTaskInfo(command);
-            if (String.class.equals(taskInfo.getArguments().get("recipe"))) {
-                command.add("--recipe=" + recipe);
+            CommandPart next = mix.extend(step);
+            if (String.class.equals(next.getArgumentTypes().get("recipe"))) {
+                next = next.argument("recipe", recipe);
             }
-            environment.commandInterpreter.execute(command);
+            env.executor.execute(next);
         }
     }
 }

@@ -14,7 +14,10 @@ public class DependsElement {
         this.dependencies = dependencies;
     }
 
-    public DependsElement source(String name, String output) {
+    public DependsElement source(String name) {
+        if (!dependencies.containsKey(name)) {
+            dependencies.put(name, new SourceDependency(name));
+        }
         return this;
     }
     

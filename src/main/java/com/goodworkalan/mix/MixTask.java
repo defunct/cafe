@@ -6,13 +6,12 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 import com.goodworkalan.glob.Find;
 import com.goodworkalan.go.go.Arguable;
 import com.goodworkalan.go.go.Argument;
+import com.goodworkalan.go.go.CommandInterpreter;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Output;
 import com.goodworkalan.go.go.Task;
@@ -106,7 +105,7 @@ public class MixTask extends Task {
     }
     
     @Override
-    public void execute(Environment environment) {
+    public void execute(Environment env) {
         // Need to run the compiler out of the context (one more reason
         // why compilers are not pluggable) of the compiler command.
         Builder builder = new Builder();
@@ -140,13 +139,13 @@ public class MixTask extends Task {
                 }
                 File sourceDirectory = new File(arguments.getWorkingDirectory(), sourceDirectoryName);
                 if (sourceDirectory.isDirectory()) {
-                    List<String> arguments = new ArrayList<String>();
-                    arguments.add("mix");
-                    arguments.add("--no-project");
-                    arguments.add("javac");
-                    arguments.add("--source-directory=" + sourceDirectory.toString());
-                    arguments.add("--output-directory=" + outputDirectory.toString());
-                    environment.commandInterpreter.execute(arguments);
+                    CommandInterpreter interpreter = env.commandPart.getCommandInterpreter();
+                    interpreter
+                        .command("mix", "--no-project")
+                        .command("javac")
+                            .argument("source-directory", sourceDirectory.toString())
+                            .argument("output-directory", outputDirectory.toString())
+                        .execute();
                 }
                 // FIXME Do resources too.
             } else if (!outputDirectory.isDirectory()) {

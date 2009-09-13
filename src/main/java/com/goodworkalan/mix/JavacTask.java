@@ -144,8 +144,8 @@ public class JavacTask extends Task {
         List<File> classpath = new ArrayList<File>();
         if (recipe != null) {
             Library library = new Library(new File(System.getProperty("user.home") + "/.m2/repository"));
-            for (Dependency dependency : configuration.getProject().getDependencies(recipe)) {
-                classpath.addAll(dependency.getFiles(library));
+            for (Dependency dependency : project.getDependencies(recipe)) {
+                classpath.addAll(dependency.getFiles(project, library));
             }
         }
         if (sourceDirectory == null) {
