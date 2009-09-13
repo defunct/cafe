@@ -2,6 +2,8 @@ package com.goodworkalan.mix;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,9 +11,11 @@ import java.util.Set;
 import com.goodworkalan.glob.Files;
 import com.goodworkalan.glob.Find;
 import com.goodworkalan.go.go.Argument;
+import com.goodworkalan.go.go.Catcher;
 import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Library;
+import com.goodworkalan.go.go.PathPart;
 import com.goodworkalan.go.go.Task;
 import com.goodworkalan.spawn.Redirect;
 import com.goodworkalan.spawn.Spawn;
@@ -59,29 +63,33 @@ public class TestNGTask extends Task {
      * Execute the TestNG tests.
      */
     @Override
-    public void execute(Environment environment) {
+    public void execute(Environment env) {
         Project project = configuration.getProject();
         
         List<String> arguments = new ArrayList<String>();
         
-        arguments.add("java");
         Set<File> classpath = new LinkedHashSet<File>();
         if (recipe != null) {
-            Library library = new Library(new File(System.getProperty("user.home") + "/.m2/repository"));
-            for (Dependency dependency : project.getDependencies(recipe)) {
-                classpath.addAll(dependency.getFiles(project, library));
+            Collection<PathPart> parts = new ArrayList<PathPart>();
+            Library library = env.commandPart.getCommandInterpreter().getLibrary();
+            for (Dependency dependency : project.getRecipe(recipe).getDependencies()) {
+                parts.addAll(dependency.getPathParts(project));
             }
+            classpath.addAll(library.resolve(parts, new HashSet<Object>(), new Catcher()).getFiles());
         }
+
+        arguments.add("java");
         arguments.add("-classpath");
         arguments.add(Files.path(classpath));
         arguments.add("org.testng.TestNG");
         arguments.add("-testclass");
         arguments.add("com.goodworkalan.mix.CompileTest");
+        
         ProcessBuilder newProcess = new ProcessBuilder();
         newProcess.command().addAll(arguments);
         
         Spawn<Redirect, Redirect> spawn;
-        spawn = Spawn.spawn(new Redirect(environment.out), new Redirect(environment.err));
+        spawn = Spawn.spawn(new Redirect(env.out), new Redirect(env.err));
 
         spawn.getProcessBuilder().command().addAll(arguments);
         spawn.execute();

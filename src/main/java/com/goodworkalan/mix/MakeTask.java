@@ -3,7 +3,6 @@ package com.goodworkalan.mix;
 import java.util.List;
 
 import com.goodworkalan.go.go.Command;
-import com.goodworkalan.go.go.CommandPart;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Task;
 
@@ -17,17 +16,10 @@ public class MakeTask extends Task {
     
     @Override
     public void execute(Environment env) {
-        CommandPart mix = env.commandPart.getParent();
-        String recipe = env.commandPart.getRemaining().get(0);
-        for (Dependency dependency : configuration.getProject().getDependencies(recipe)) {
-            dependency.make(env.executor, mix);
+        List<String> remaining = env.commandPart.getRemaining();
+        if (remaining.isEmpty()) {
+            throw new MixException(0);
         }
-        for (List<String> step : configuration.getProject().getCommands(recipe)) {
-            CommandPart next = mix.extend(step);
-            if (String.class.equals(next.getArgumentTypes().get("recipe"))) {
-                next = next.argument("recipe", recipe);
-            }
-            env.executor.execute(next);
-        }
+        configuration.getProject().getRecipe(remaining.get(0));
     }
 }

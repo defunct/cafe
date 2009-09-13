@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.goodworkalan.go.go.CommandPart;
+import com.goodworkalan.go.go.Executor;
+
 /**
  * Root of a domain specific language used to specify recipies.
  * 
@@ -27,7 +30,7 @@ public class Builder {
         return null;
     }
     
-    public Project createProject(File workingDirectory) {
-        return new Project(workingDirectory, recipes);
+    public Project createProject(File workingDirectory, Executor executor, CommandPart mix) {
+        return new Project(workingDirectory, recipes, executor, mix);
     }
 }

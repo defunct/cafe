@@ -2,14 +2,20 @@ package com.goodworkalan.mix;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.goodworkalan.glob.Find;
 import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.Artifact;
+import com.goodworkalan.go.go.Catcher;
 import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Library;
+import com.goodworkalan.go.go.PathPart;
 import com.goodworkalan.go.go.Task;
 import com.goodworkalan.reflective.Method;
 import com.goodworkalan.reflective.ReflectiveException;
@@ -110,7 +116,7 @@ public class JavacTask extends Task {
      * Compile the main resources of the Java project.
      */
     @Override
-    public void execute(Environment environment) {
+    public void execute(Environment env) {
         List<String> arguments = new ArrayList<String>();
         if (!warnings) {
             arguments.add("-nowarn");
@@ -141,12 +147,14 @@ public class JavacTask extends Task {
         }
         arguments.add("-d");
         arguments.add(outputDirectory.toString());
-        List<File> classpath = new ArrayList<File>();
+        Set<File> classpath = new LinkedHashSet<File>();
         if (recipe != null) {
-            Library library = new Library(new File(System.getProperty("user.home") + "/.m2/repository"));
-            for (Dependency dependency : project.getDependencies(recipe)) {
-                classpath.addAll(dependency.getFiles(project, library));
+            Collection<PathPart> parts = new ArrayList<PathPart>();
+            Library library = env.commandPart.getCommandInterpreter().getLibrary();
+            for (Dependency dependency : project.getRecipe(recipe).getDependencies()) {
+                parts.addAll(dependency.getPathParts(project));
             }
+            classpath.addAll(library.resolve(parts, new HashSet<Object>(), new Catcher()).getFiles());
         }
         if (sourceDirectory == null) {
             for (File directory : project.getSourceDirectories()) {

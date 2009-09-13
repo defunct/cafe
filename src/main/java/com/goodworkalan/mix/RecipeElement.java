@@ -1,7 +1,11 @@
 package com.goodworkalan.mix;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+
+import com.goodworkalan.go.go.PathPart;
 
 public class RecipeElement {
     private final Builder builder;
@@ -12,12 +16,19 @@ public class RecipeElement {
     
     private final Map<String, Command> commands = new LinkedHashMap<String, Command>();
     
-    private final Map<String, Dependency> dependencies = new LinkedHashMap<String, Dependency>(); 
-
+    private final Map<String, Dependency> dependencies = new LinkedHashMap<String, Dependency>();
+    
+    private final List<PathPart> produces = new ArrayList<PathPart>();
+    
     public RecipeElement(Builder builder, Map<String, Recipe> recipes, String name) {
         this.builder = builder;
         this.recipes = recipes;
         this.name = name;
+    }
+    
+    /** Here's an idea on reuse and extension. */
+    public RecipeElement reset() {
+        return this;
     }
 
     /**
@@ -49,8 +60,12 @@ public class RecipeElement {
         return new DependsElement(this, dependencies);
     }
     
+    public ProducesElement produces() {
+        return new ProducesElement(this, produces);
+    }
+
     public Builder end() {
-        recipes.put(name, new Recipe(commands, dependencies));
+        recipes.put(name, new Recipe(commands, dependencies, produces));
         return builder;
     }
 }

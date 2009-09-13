@@ -16,7 +16,7 @@ public class DependsElement {
 
     public DependsElement source(String name) {
         if (!dependencies.containsKey(name)) {
-            dependencies.put(name, new SourceDependency(name));
+            dependencies.put(name, new RecipeDependency(name));
         }
         return this;
     }

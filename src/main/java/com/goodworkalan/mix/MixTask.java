@@ -187,7 +187,7 @@ public class MixTask extends Task {
                 }
             }
         }
-        configuration = new Configuration(builder.createProject(arguments.getWorkingDirectory()));
+        configuration = new Configuration(builder.createProject(arguments.getWorkingDirectory(), env.executor, env.commandPart));
     }
     
     public Configuration getConfiguration() {
