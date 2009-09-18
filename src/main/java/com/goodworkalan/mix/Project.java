@@ -58,7 +58,7 @@ public class Project {
      * 
      * @return A set of source files.
      */
-    public Set<File> getSources(File directory) {
+    public Set<String> getSources(File directory) {
         return new Find().include("**/*.java").find(directory);
     }
 

@@ -156,19 +156,11 @@ public class JavacTask extends Task {
             }
             classpath.addAll(library.resolve(parts, new HashSet<Object>(), new Catcher()).getFiles());
         }
-        if (sourceDirectory == null) {
-            for (File directory : project.getSourceDirectories()) {
-                for (File source : project.getSources(directory)) {
-                    arguments.add(new File(directory, source.toString()).toString());
-                }
-            }
-        } else {
-            if (!findConditions) {
-                find.include("**/*.java");
-            }
-            for (File source : find.find(sourceDirectory)) {
-                arguments.add(new File(sourceDirectory, source.toString()).toString());
-            }
+        if (!findConditions) {
+            find.include("**/*.java");
+        }
+        for (String source : find.find(sourceDirectory)) {
+            arguments.add(new File(sourceDirectory, source).toString());
         }
         Class<?> compilerClass;
         try {

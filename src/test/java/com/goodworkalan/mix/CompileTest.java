@@ -21,6 +21,6 @@ public class CompileTest {
     
     @Test
     public void foo() {
-        new CommandInterpreter(null).main("mix", "--working-directory=src/test/project", "javac");
+        new CommandInterpreter(null).main("mix", "--working-directory=src/test/project", "javac", "--source-directory=src/main/java", "--output-directory=target/classes");
     }
 }

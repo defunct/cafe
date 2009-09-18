@@ -1,4 +1,5 @@
 com.goodworkalan.mix.MixTask
+com.goodworkalan.mix.CopyTask
 com.goodworkalan.mix.JavacTask
 com.goodworkalan.mix.MakeTask
 com.goodworkalan.mix.TestNGTask

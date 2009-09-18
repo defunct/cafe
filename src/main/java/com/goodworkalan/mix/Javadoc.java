@@ -25,8 +25,8 @@ public class Javadoc {
         arguments.add("-d");
         arguments.add("src/test/project/target/apidocs");
         for (File directory : project.getSourceDirectories()) {
-            for (File source : project.getSources(directory)) {
-                arguments.add(new File(directory, source.toString()).toString());
+            for (String source : project.getSources(directory)) {
+                arguments.add(new File(directory, source).toString());
             }
         }
         try {

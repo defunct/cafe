@@ -161,8 +161,7 @@ public class MixTask extends Task {
                         throw new MixException(0, e);
                     }
                     Thread.currentThread().setContextClassLoader(classLoader);
-                    for (File classFile : new Find().include("**/*.class").find(outputDirectory)) {
-                        String className = classFile.toString();
+                    for (String className : new Find().include("**/*.class").find(outputDirectory)) {
                         className = className.replace("/", ".");
                         className = className.substring(0, className.length() - ".class".length());
                         Class<?> foundClass;
