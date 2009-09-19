@@ -15,6 +15,7 @@ import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Library;
 import com.goodworkalan.go.go.PathPart;
+import com.goodworkalan.go.go.ResolutionPart;
 import com.goodworkalan.go.go.Task;
 import com.goodworkalan.reflective.Method;
 import com.goodworkalan.reflective.ReflectiveException;
@@ -64,6 +65,11 @@ public class JavacTask extends Task {
     private Find find = new Find();
 
     @Argument
+    public void addArtifact(Artifact artifact) {
+        artifacts.add(artifact);
+    }
+
+    @Argument
     public void addRecipe(String recipe) {
         this.recipe = recipe;
     }
@@ -80,10 +86,6 @@ public class JavacTask extends Task {
         find.exclude(string);
     }
     
-    public void setArtifact(String artifact) {
-        artifacts.add(Artifact.parse(artifact));
-    }
-
     @Argument
     public void addSourceDirectory(File sourceDirectory) {
         this.sourceDirectory = sourceDirectory;
@@ -146,14 +148,19 @@ public class JavacTask extends Task {
         }
         arguments.add("-d");
         arguments.add(outputDirectory.toString());
-        Set<File> classpath = new LinkedHashSet<File>();
+        Collection<PathPart> parts = new ArrayList<PathPart>();
+        for (Artifact artifact : artifacts) {
+            parts.add(new ResolutionPart(artifact));
+        }
         if (recipe != null) {
-            Collection<PathPart> parts = new ArrayList<PathPart>();
-            Library library = env.commandPart.getCommandInterpreter().getLibrary();
             for (Dependency dependency : project.getRecipe(recipe).getDependencies()) {
                 parts.addAll(dependency.getPathParts(project));
             }
-            classpath.addAll(library.resolve(parts).getFiles());
+        }
+        Set<File> classpath = new LinkedHashSet<File>();
+        Library library = env.commandPart.getCommandInterpreter().getLibrary();
+        classpath.addAll(library.resolve(parts).getFiles());
+        if (!classpath.isEmpty()) {
             arguments.add("-cp");
             arguments.add(Files.path(classpath));
         }

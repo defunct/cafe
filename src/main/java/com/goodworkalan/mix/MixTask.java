@@ -143,6 +143,7 @@ public class MixTask extends Task {
                     interpreter
                         .command("mix", "--no-project")
                         .command("javac")
+                            .argument("artifact", "com.goodworkalan/mix/0.1")
                             .argument("source-directory", sourceDirectory.toString())
                             .argument("output-directory", outputDirectory.toString())
                         .execute();
