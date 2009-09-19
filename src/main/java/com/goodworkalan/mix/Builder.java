@@ -33,4 +33,7 @@ public class Builder {
     public Project createProject(File workingDirectory, Executor executor, CommandPart mix) {
         return new Project(workingDirectory, recipes, executor, mix);
     }
+    
+    public void end() {
+    }
 }
