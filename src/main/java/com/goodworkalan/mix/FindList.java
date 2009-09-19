@@ -2,7 +2,6 @@ package com.goodworkalan.mix;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Set;
 
 import com.goodworkalan.glob.Find;
 
