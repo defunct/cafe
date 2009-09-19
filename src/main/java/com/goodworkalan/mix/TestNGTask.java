@@ -20,6 +20,7 @@ import com.goodworkalan.go.go.Task;
 import com.goodworkalan.spawn.Redirect;
 import com.goodworkalan.spawn.Spawn;
 
+// FIXME Can you do the right thing with the camel case name?
 @Command(name = "test-ng", parent = MixTask.class)
 public class TestNGTask extends Task {
     private String recipe;

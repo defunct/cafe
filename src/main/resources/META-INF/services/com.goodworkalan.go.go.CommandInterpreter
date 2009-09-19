@@ -3,3 +3,5 @@ com.goodworkalan.mix.CopyTask
 com.goodworkalan.mix.JavacTask
 com.goodworkalan.mix.MakeTask
 com.goodworkalan.mix.TestNGTask
+com.goodworkalan.mix.DeleteTask
+com.goodworkalan.mix.PruneTask

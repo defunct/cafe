@@ -3,15 +3,14 @@ package com.goodworkalan.mix;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.goodworkalan.glob.Files;
 import com.goodworkalan.glob.Find;
 import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.Artifact;
-import com.goodworkalan.go.go.Catcher;
 import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Library;
@@ -154,7 +153,9 @@ public class JavacTask extends Task {
             for (Dependency dependency : project.getRecipe(recipe).getDependencies()) {
                 parts.addAll(dependency.getPathParts(project));
             }
-            classpath.addAll(library.resolve(parts, new HashSet<Object>(), new Catcher()).getFiles());
+            classpath.addAll(library.resolve(parts).getFiles());
+            arguments.add("-cp");
+            arguments.add(Files.path(classpath));
         }
         if (!findConditions) {
             find.include("**/*.java");

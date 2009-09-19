@@ -16,6 +16,7 @@ public class MixModule extends ProjectModule {
         builder
             .recipe("javac")
                 .depends()
+                    .artifact("com.goodworkalan", "spawn", "0.1")
                     .artifact("com.goodworkalan", "go-go", "0.1")
                     .artifact("com.goodworkalan", "glob", "0.1-SNAPSHOT")
                     .end()
@@ -51,6 +52,11 @@ public class MixModule extends ProjectModule {
                     .source("javac-test")
                     .end()
                 .command("test-ng")
+                    .end()
+                .end()
+            .recipe("clean")
+                .command("delete")
+                    .argument("directory", "smotchkiss")
                     .end()
                 .end();
     }

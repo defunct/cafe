@@ -112,7 +112,7 @@ public class ZipTask extends Task {
         in.close();
     }
     
-    protected void addAdditionalEntries() throws IOException {
+    protected void addAdditionalEntries(Environment env) throws IOException {
     }
 
     @Override
@@ -130,7 +130,7 @@ public class ZipTask extends Task {
                     }
                 }
             }
-            addAdditionalEntries();
+            addAdditionalEntries(env);
             out.close();
         } catch (IOException e) {
             throw new MixException(0, e);
