@@ -23,6 +23,7 @@ public class MixModule extends ProjectModule {
                 .command("javac")
                     .argument("source-directory", "src/main/java")
                     .argument("output-directory", "smotchkiss/classes")
+                    .argument("fork", "true")
                     .argument("include", "**/*.java")
                     .end()
                 .command("copy")

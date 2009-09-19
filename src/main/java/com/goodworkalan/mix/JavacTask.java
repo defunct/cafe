@@ -20,6 +20,8 @@ import com.goodworkalan.go.go.Task;
 import com.goodworkalan.reflective.Method;
 import com.goodworkalan.reflective.ReflectiveException;
 import com.goodworkalan.reflective.ReflectiveFactory;
+import com.goodworkalan.spawn.Redirect;
+import com.goodworkalan.spawn.Spawn;
 
 /**
  * Execute the Javac compiler.
@@ -38,6 +40,9 @@ public class JavacTask extends Task {
     private File sourceDirectory;
     
     private File outputDirectory;
+    
+    /** Fork if true. */
+    private boolean fork;
 
     /** Emit verbose output if true. */
     private boolean verbose;
@@ -94,6 +99,11 @@ public class JavacTask extends Task {
     @Argument
     public void addOutputDirectory(File outputDirectory) {
         this.outputDirectory = outputDirectory;
+    }
+    
+    @Argument
+    public void addFork(boolean fork) {
+        this.fork = fork;
     }
 
     /**
@@ -176,12 +186,25 @@ public class JavacTask extends Task {
         } catch (ClassNotFoundException e) {
             throw new MixException(0, e);
         }
-        try {
-            Object compiler = reflectiveFactory.getConstructor(compilerClass).newInstance();
-            Method method = reflectiveFactory.getMethod(compilerClass, "compile", new String [0].getClass());
-            method.invoke(compiler, new Object[] { arguments.toArray(new String[arguments.size()]) });
-        } catch (ReflectiveException e) {
-            throw new MixException(0, e);
+        if (fork) {
+            arguments.add(0, "javac");
+            
+            ProcessBuilder newProcess = new ProcessBuilder();
+            newProcess.command().addAll(arguments);
+            
+            Spawn<Redirect, Redirect> spawn;
+            spawn = Spawn.spawn(new Redirect(env.out), new Redirect(env.err));
+
+            spawn.getProcessBuilder().command().addAll(arguments);
+            spawn.execute();
+        } else {
+            try {
+                Object compiler = reflectiveFactory.getConstructor(compilerClass).newInstance();
+                Method method = reflectiveFactory.getMethod(compilerClass, "compile", new String [0].getClass());
+                method.invoke(compiler, new Object[] { arguments.toArray(new String[arguments.size()]) });
+            } catch (ReflectiveException e) {
+                throw new MixException(0, e);
+            }
         }
     }
 }
