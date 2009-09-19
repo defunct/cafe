@@ -6,13 +6,6 @@ import com.goodworkalan.mix.ProjectModule;
 public class MixModule extends ProjectModule {
     @Override
     public void build(Builder builder) {
-        // FIXME Does it make sense at all to have ...
-        // FIXME How to reuse? Can you swap in compilers? Are projects
-        // ordered by different source directories?
-        // FIXME How do I test this in Eclipse?
-        // FIXME How do I insert a transform?
-        // FIXME Maybe I build class paths separately, and mix output
-        // has a class path server?
         builder
             .recipe("javac")
                 .depends()
@@ -26,7 +19,7 @@ public class MixModule extends ProjectModule {
                     .argument("debug", "true")
                     .end()
                 .command("copy")
-                    .argument("source-directory", "src/resources/java")
+                    .argument("source-directory", "src/main/resources")
                     .argument("output-directory", "smotchkiss/classes")
                     .end()
                 .produces()
@@ -36,7 +29,7 @@ public class MixModule extends ProjectModule {
             .recipe("javac-test")
                 .depends()
                     .source("javac")
-                    .artifact("org.testng", "testng", "5.8")
+                    .artifact("org.testng", "testng", "5.10")
                     .end()
                 .command("javac")
                     .argument("source-directory", "src/test/java")
@@ -52,6 +45,7 @@ public class MixModule extends ProjectModule {
                     .source("javac-test")
                     .end()
                 .command("test-ng")
+                    .argument("source-directory", "src/test/java")
                     .end()
                 .end()
             .recipe("clean")
@@ -59,6 +53,7 @@ public class MixModule extends ProjectModule {
                     .argument("file", "smotchkiss")
                     .argument("recurse", "true")
                     .end()
-                .end();
+                .end()
+            .end();
     }
 }

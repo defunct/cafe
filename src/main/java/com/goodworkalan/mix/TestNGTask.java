@@ -25,25 +25,26 @@ import com.goodworkalan.spawn.Spawn;
 public class TestNGTask extends Task {
     private String recipe;
     
-    private boolean findConditions;
-    
-    private Find find = new Find();
+    private final FindList findList = new FindList();
     
     @Argument
     public void addRecipe(String recipe) {
         this.recipe = recipe;
     }
+    
+    @Argument
+    public void addSourceDirectory(File sourceDirectory) {
+        findList.addDirectory(sourceDirectory);
+    }
 
     @Argument
     public void addInclude(String string) {
-        findConditions = true;
-        find.include(string);
+        findList.addInclude(string);
     }
     
     @Argument
     public void addExclude(String string) {
-        findConditions = true;
-        find.exclude(string);
+        findList.addExclude(string);
     }
     
     
@@ -72,11 +73,24 @@ public class TestNGTask extends Task {
         Set<File> classpath = new LinkedHashSet<File>();
         if (recipe != null) {
             Collection<PathPart> parts = new ArrayList<PathPart>();
-            Library library = env.commandPart.getCommandInterpreter().getLibrary();
             for (Dependency dependency : project.getRecipe(recipe).getDependencies()) {
                 parts.addAll(dependency.getPathParts(project));
             }
+            Library library = env.commandPart.getCommandInterpreter().getLibrary();
             classpath.addAll(library.resolve(parts, new HashSet<Object>(), new Catcher()).getFiles());
+        }
+        
+        List<String> testClasses = new ArrayList<String>();
+        for (FindList.Entry entry : findList) {
+            Find find = entry.getFind();
+            if (!find.hasFilters()) {
+                find.include("**/*Test.java");
+            }
+            for (String className : find.find(entry.getDirectory())) {
+                className = className.replace("/", ".");
+                className = className.substring(0, className.length() - ".java".length());
+                testClasses.add(className);
+            }
         }
 
         arguments.add("java");
@@ -84,7 +98,7 @@ public class TestNGTask extends Task {
         arguments.add(Files.path(classpath));
         arguments.add("org.testng.TestNG");
         arguments.add("-testclass");
-        arguments.add("com.goodworkalan.mix.CompileTest");
+        arguments.addAll(testClasses);
         
         ProcessBuilder newProcess = new ProcessBuilder();
         newProcess.command().addAll(arguments);
@@ -93,6 +107,9 @@ public class TestNGTask extends Task {
         spawn = Spawn.spawn(new Redirect(env.out), new Redirect(env.err));
 
         spawn.getProcessBuilder().command().addAll(arguments);
-        spawn.execute();
+
+        if (spawn.execute() != 0) {
+            throw new MixError(0);
+        }
     }
 }
