@@ -4,6 +4,8 @@ import java.io.File;
 
 import com.goodworkalan.glob.Files;
 import com.goodworkalan.glob.Find;
+import com.goodworkalan.go.go.Argument;
+import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Task;
 
@@ -12,6 +14,7 @@ import com.goodworkalan.go.go.Task;
  * 
  * @author Alan Gutierrez
  */
+@Command(parent = MixTask.class)
 public class CopyTask extends Task {
     /** A file query to match files to copy. */
     private final Find find = new Find();
@@ -28,6 +31,7 @@ public class CopyTask extends Task {
      * @param sourceDirectory
      *            The source directory for the copy.
      */
+    @Argument
     public void addSourceDirectory(File sourceDirectory) {
         this.sourceDirectory = sourceDirectory;
     }
@@ -38,6 +42,7 @@ public class CopyTask extends Task {
      * @param outputDirectory
      *            The output directory for the copy.
      */
+    @Argument
     public void addOutputDirectory(File outputDirectory) {
         this.outputDirectory = outputDirectory;
     }
@@ -48,6 +53,7 @@ public class CopyTask extends Task {
      * @param include
      *            Files must match this pattern to be included.
      */
+    @Argument
     public void addInclude(String include) {
         find.include(include);
     }
@@ -58,6 +64,7 @@ public class CopyTask extends Task {
      * @param exclude
      *            Files that match this pattern are excluded.
      */
+    @Argument
     public void addExclude(String exclude) {
         find.exclude(exclude);
     }
