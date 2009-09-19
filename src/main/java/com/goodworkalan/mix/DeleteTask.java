@@ -19,6 +19,9 @@ import com.goodworkalan.go.go.Task;
 public class DeleteTask extends Task {
     /** The file to delete. */
     private File file;
+    
+    /** If true delete recursively. */
+    private boolean recurse;
 
     /**
      * The file or directory to delete.
@@ -32,14 +35,14 @@ public class DeleteTask extends Task {
     }
 
     /**
-     * The directory to delete.
+     * Whether or not to delete recursively if file is a directory.
      * 
-     * @param directory
-     *            The directory to delete.
+     * @param recurse
+     *            If true, delete file recursively if it is a directory.
      */
     @Argument
-    public void addDirectory(File directory) {
-        this.file = directory;
+    public void addRecurse(boolean recurse) {
+        this.recurse = recurse;
     }
 
     /**
@@ -50,8 +53,13 @@ public class DeleteTask extends Task {
      */
     @Override
     public void execute(Environment environment) {
-        if (!Files.delete(file)) {
-            throw new MixException(0);
+        if (recurse) {
+            if (file.exists() && !file.delete()) {
+                throw new MixError(0);
+            }
+        }
+        else if (!Files.delete(file)) {
+            throw new MixError(0);
         }
     }
 }

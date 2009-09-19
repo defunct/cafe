@@ -56,7 +56,8 @@ public class MixModule extends ProjectModule {
                 .end()
             .recipe("clean")
                 .command("delete")
-                    .argument("directory", "smotchkiss")
+                    .argument("file", "smotchkiss")
+                    .argument("recurse", "true")
                     .end()
                 .end();
     }
