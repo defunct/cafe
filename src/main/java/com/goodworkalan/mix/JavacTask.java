@@ -96,6 +96,11 @@ public class JavacTask extends Task {
     }
     
     @Argument
+    public void addDebug(boolean debug) {
+        this.debug = debug;
+    }
+    
+    @Argument
     public void addFork(boolean fork) {
         this.fork = fork;
     }
