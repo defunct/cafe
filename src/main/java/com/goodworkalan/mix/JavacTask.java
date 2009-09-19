@@ -37,8 +37,6 @@ public class JavacTask extends Task {
     /** Disable warnings if false. */
     private boolean warnings;
     
-    private File sourceDirectory;
-    
     private File outputDirectory;
     
     /** Fork if true. */
@@ -65,9 +63,7 @@ public class JavacTask extends Task {
     /** The mix wide configuration. */
     private MixTask.Configuration configuration;
     
-    private boolean findConditions;
-    
-    private Find find = new Find();
+    private FindList findList = new FindList();
 
     @Argument
     public void addArtifact(Artifact artifact) {
@@ -81,19 +77,17 @@ public class JavacTask extends Task {
     
     @Argument
     public void addInclude(String string) {
-        findConditions = true;
-        find.include(string);
+        findList.addInclude(string);
     }
     
     @Argument
     public void addExclude(String string) {
-        findConditions = true;
-        find.exclude(string);
+        findList.addExclude(string);
     }
     
     @Argument
     public void addSourceDirectory(File sourceDirectory) {
-        this.sourceDirectory = sourceDirectory;
+        findList.addDirectory(sourceDirectory);
     }
     
     @Argument
@@ -174,11 +168,14 @@ public class JavacTask extends Task {
             arguments.add("-cp");
             arguments.add(Files.path(classpath));
         }
-        if (!findConditions) {
-            find.include("**/*.java");
-        }
-        for (String source : find.find(sourceDirectory)) {
-            arguments.add(new File(sourceDirectory, source).toString());
+        for (FindList.Entry entry : findList) {
+            Find find = entry.getFind();
+            if (!find.hasFilters()) {
+                find.include("**/*.java");
+            }
+            for (String fileName : find.find(entry.getDirectory())) {
+                arguments.add(new File(entry.getDirectory(), fileName).toString());
+            }
         }
         Class<?> compilerClass;
         try {

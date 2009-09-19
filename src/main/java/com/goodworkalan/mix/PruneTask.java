@@ -60,7 +60,7 @@ public class PruneTask extends Task {
     @Override
     public void execute(Environment env) {
         for (FindList.Entry entry : findList) {
-            for (String fileName : entry.getFileNames()) {
+            for (String fileName : entry.getFind().find(entry.getDirectory())) {
                 File source = new File(entry.getDirectory(), fileName);
                 if (!Files.delete(source)) {
                     throw new MixException(0);

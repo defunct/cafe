@@ -121,7 +121,7 @@ public class ZipTask extends Task {
             out = new ZipOutputStream(new FileOutputStream(outputFile));
             out.setLevel(level);
             for (FindList.Entry entry : findList) {
-                for (String fileName : entry.getFileNames()) {
+                for (String fileName : entry.getFind().find(entry.getDirectory())) {
                     File source = new File(entry.getDirectory(), fileName);
                     if (source.isDirectory()) {
                         addDirectory(fileName);

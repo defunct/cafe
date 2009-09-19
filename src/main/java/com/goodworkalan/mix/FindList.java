@@ -45,13 +45,12 @@ public class FindList extends ArrayList<FindList.Entry> {
         }
 
         /**
-         * Get the names of the files in the directory that match the find
-         * criteria.
+         * Get the criteria for included files.
          * 
-         * @return The file names to include.
+         * @return The criteria for included files.
          */
-        public Set<String> getFileNames() {
-            return find.find(directory);
+        public Find getFind() {
+            return find;
         }
     }
 
