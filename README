@@ -7,6 +7,19 @@ PURPOSE
 Mix is a command line utility for jar repository management and JVM based
 language compilation.
 
+CONTENTS
+
+Sub project branches.
+
+cobertrua - Cobertura tasks.
+
+Checkout a sub project branch:
+
+git clone git://github.com/bigeasy/mix.git mix-cobertura
+cd mix-cobertura
+git branch --track cobertura origin/cobertura
+git checkout cobertura
+
 MOTIVATION
 
 I do not like Ant. Maven is fine, but heavywight and mostly XML.
