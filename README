@@ -1,0 +1,14 @@
+MIX COBERTURA
+
+Cobertura tasks for Mix.
+
+PURPOSE
+
+Check test coverage using Cobertura.
+
+CHECKOUT
+
+git clone git://github.com/bigeasy/mix.git mix-cobertura
+cd mix-cobertura
+git branch --track cobertura origin/cobertura
+git checkout cobertura
