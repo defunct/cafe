@@ -14,6 +14,6 @@ public class MixTest {
     @Test
     public void execute() {
         CommandInterpreter ci = new CommandInterpreter(null);
-        ci.main("mix", "make", "javac");
+        ci.execute("mix", "make", "javac");
     }
 }
