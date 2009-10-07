@@ -1,6 +1,8 @@
 package com.goodworkalan.mix;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.goodworkalan.glob.Files;
 import com.goodworkalan.glob.Find;
@@ -38,22 +40,28 @@ public class InstallTask extends Task {
 
         Project project = configuration.getProject();
         CommandPart mix = env.commandPart.getParent();
-        for (String argument : env.commandPart.getRemaining()) {
-            for (ArtifactSource source : project.getArtifactSource(argument)) {
-                env.executor.execute(mix.extend("make", source.getRecipe()));
-                Artifact artifact = source.getArtifact();
-                Find find = new Find();
-                find.include(artifact.getName() + "-" + artifact.getVersion() + "*.*");
-                File sourceDirectory = new File(source.getDirectory(), source.getArtifact().getDirectoryPath());
-                File outputDirectory = new File(libraryDirectory, source.getArtifact().getDirectoryPath());
-                for (String fileName : find.find(sourceDirectory)) {
-                    File destination = new File(outputDirectory, fileName);
-                    File parent = destination.getParentFile();
-                    if (!(parent.isDirectory() || parent.mkdirs())) {
-                        throw new MixException(0);
-                    }
-                    Files.copy(new File(sourceDirectory, fileName), destination);
+        List<ArtifactSource> artifactSources = new ArrayList<ArtifactSource>();
+        if (env.commandPart.getRemaining().isEmpty()) {
+            artifactSources = project.getArtifactSources();
+        } else {
+            for (String argument : env.commandPart.getRemaining()) {
+                artifactSources.addAll(project.getArtifactSources(argument));
+            }
+        }
+        for (ArtifactSource source : artifactSources) {
+            env.executor.execute(mix.extend("make", source.getRecipe()));
+            Artifact artifact = source.getArtifact();
+            Find find = new Find();
+            find.include(artifact.getName() + "-" + artifact.getVersion() + "*.*");
+            File sourceDirectory = new File(source.getDirectory(), source.getArtifact().getDirectoryPath());
+            File outputDirectory = new File(libraryDirectory, source.getArtifact().getDirectoryPath());
+            for (String fileName : find.find(sourceDirectory)) {
+                File destination = new File(outputDirectory, fileName);
+                File parent = destination.getParentFile();
+                if (!(parent.isDirectory() || parent.mkdirs())) {
+                    throw new MixException(0);
                 }
+                Files.copy(new File(sourceDirectory, fileName), destination);
             }
         }
     }

@@ -82,7 +82,11 @@ public class Project {
         return recipe;
     }
     
-    public List<ArtifactSource> getArtifactSource(String pattern) {
+    public List<ArtifactSource> getArtifactSources() {
+        return new ArrayList<ArtifactSource>(artifacts.values());
+    }
+    
+    public List<ArtifactSource> getArtifactSources(String pattern) {
         String[] parts = pattern.split("/");
         if (parts.length > 3) {
             throw new MixException(0);
