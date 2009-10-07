@@ -48,6 +48,7 @@ public class BasicJavaModule extends ProjectModule {
             .end();
         recipe = builder.recipe("javac-test");
         depends = recipe.depends();
+        depends.source("javac");
         for (Artifact artifact : testDepenencies) {
             depends.artifact(artifact.getGroup(), artifact.getName(), artifact.getVersion());
         }
