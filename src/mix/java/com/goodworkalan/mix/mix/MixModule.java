@@ -1,82 +1,14 @@
 package com.goodworkalan.mix.mix;
 
-import com.goodworkalan.mix.Builder;
-import com.goodworkalan.mix.ProjectModule;
+import com.goodworkalan.go.go.Artifact;
+import com.goodworkalan.mix.BasicJavaModule;
 
-public class MixModule extends ProjectModule {
-    @Override
-    public void build(Builder builder) {
-        builder
-            .recipe("javac")
-                .depends()
-                    .artifact("com.goodworkalan", "spawn", "0.1")
-                    .artifact("com.goodworkalan", "go-go", "0.1")
-                    .artifact("com.goodworkalan", "glob", "0.1-SNAPSHOT")
-                    .end()
-                .command("javac")
-                    .argument("source-directory", "src/main/java")
-                    .argument("output-directory", "smotchkiss/classes")
-                    .argument("debug", "true")
-                    .end()
-                .command("copy")
-                    .argument("source-directory", "src/main/resources")
-                    .argument("output-directory", "smotchkiss/classes")
-                    .end()
-                .produces()
-                    .classes("smotchkiss/classes")
-                    .end()
-                .end()
-            .recipe("javac-test")
-                .depends()
-                    .source("javac")
-                    .artifact("org.testng", "testng", "5.10")
-                    .end()
-                .command("javac")
-                    .argument("source-directory", "src/test/java")
-                    .argument("output-directory", "smotchkiss/test-classes")
-                    .argument("debug", "true")
-                    .end()
-                .produces()
-                    .classes("smotchkiss/test-classes")
-                    .end()
-                .end()
-            .recipe("test")
-                .depends()
-                    .source("javac-test")
-                    .end()
-                .command("test-ng")
-                    .argument("source-directory", "src/test/java")
-                    .end()
-                .end()
-            .recipe("clean")
-                .command("delete")
-                    .argument("file", "smotchkiss")
-                    .argument("recurse", "true")
-                    .end()
-                .end()
-            .recipe("distribution")
-                .depends()
-                    .source("javac")
-                    .end()
-                .command("delete")
-                    .argument("file", "smotchkiss/distribution")
-                    .argument("recurse", "true")
-                    .end()
-                .command("mkdirs")
-                    .argument("directory", "smotchkiss/distribution/com/goodworkalan/mix/0.1")
-                    .end()
-                .command("dependencies")
-                    .argument("output-file", "smotchkiss/distribution/com/goodworkalan/mix/0.1/mix-0.1.dep")
-                    .end()
-                .command("zip")
-                    .argument("source-directory", "smotchkiss/classes")
-                    .argument("level", "0")
-                    .argument("output-file", "smotchkiss/distribution/com/goodworkalan/mix/0.1/mix-0.1.jar")
-                    .end()
-                .produces()
-                    .artifact("com.goodworkalan", "mix", "0.1").in("smotchkiss/distribution")
-                    .end()
-                .end()
-            .end();
+public class MixModule extends BasicJavaModule {
+    public MixModule() {
+        super(new Artifact("com.goodworkalan", "mix", "0.1"));
+        addDependency(new Artifact("com.goodworkalan", "spawn", "0.1"));
+        addDependency(new Artifact("com.goodworkalan", "go-go", "0.1"));
+        addDependency(new Artifact("com.goodworkalan", "glob", "0.1-SNAPSHOT"));
+        addTestDependency(new Artifact("org.testng", "testng", "5.10"));
     }
 }

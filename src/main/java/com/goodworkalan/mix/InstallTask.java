@@ -47,10 +47,8 @@ public class InstallTask extends Task {
                 File sourceDirectory = new File(source.getDirectory(), source.getArtifact().getDirectoryPath());
                 File outputDirectory = new File(libraryDirectory, source.getArtifact().getDirectoryPath());
                 for (String fileName : find.find(sourceDirectory)) {
-                    System.out.println(fileName);
                     File destination = new File(outputDirectory, fileName);
                     File parent = destination.getParentFile();
-                    System.out.println(destination);
                     if (!(parent.isDirectory() || parent.mkdirs())) {
                         throw new MixException(0);
                     }
