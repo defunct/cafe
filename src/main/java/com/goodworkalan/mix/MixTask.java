@@ -119,7 +119,7 @@ public class MixTask extends Task {
                     throw new MixException(0, e);
                 }
             }
-            String outputDirectoryName = properties.getProperty("output", "target/mix/classes");
+            String outputDirectoryName = properties.getProperty("output", "target/mix-classes");
             File outputDirectory = new File(outputDirectoryName);
             if (!outputDirectory.isAbsolute()) {
                 outputDirectory = new File(arguments.getWorkingDirectory(), outputDirectoryName);
