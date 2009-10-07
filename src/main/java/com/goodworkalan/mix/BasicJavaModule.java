@@ -87,7 +87,7 @@ public class BasicJavaModule extends ProjectModule {
                     .argument("recurse", "true")
                     .end()
                 .command("mkdirs")
-                    .argument("directory", "target/distribution/com/goodworkalan/mix/0.1")
+                    .argument("directory", "target/distribution/" + produces.getDirectoryPath())
                     .end()
                 .command("dependencies")
                     .argument("output-file", "target/distribution/" + produces.getPath("", "dep"))
