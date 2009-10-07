@@ -59,6 +59,8 @@ public class MixTask extends Task {
          * directory.
          */
         private File workingDirectory = new File(".");
+        
+        private boolean offline;
 
         /**
          * Set the project root directory.
@@ -78,6 +80,15 @@ public class MixTask extends Task {
          */
         public File getWorkingDirectory() {
             return workingDirectory;
+        }
+        
+        @Argument
+        public void addOffline(boolean offline) {
+            this.offline = offline;
+        }
+        
+        public boolean isOffline() {
+            return offline;
         }
     }
     

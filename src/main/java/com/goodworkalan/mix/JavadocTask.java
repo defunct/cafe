@@ -22,6 +22,8 @@ import com.goodworkalan.go.go.Task;
 
 @Command(parent = MixTask.class)
 public class JavadocTask extends Task {
+    private MixTask.Arguments mixArguments;
+    
     private String recipe;
     
     private String visibility;
@@ -32,9 +34,15 @@ public class JavadocTask extends Task {
     
     private LinkedList<OfflineLink> offlineLinks = new LinkedList<OfflineLink>();
     
+    private List<URI> links = new ArrayList<URI>();
+    
     /** Artifacts. */
     private final List<Artifact> artifacts = new ArrayList<Artifact>();
    
+    public void setMixArguments(MixTask.Arguments mixArguments) {
+        this.mixArguments = mixArguments;
+    }
+
     @Argument
     public void addArtifact(Artifact artifact) {
         artifacts.add(artifact);
@@ -43,6 +51,11 @@ public class JavadocTask extends Task {
     /** The mix wide configuration. */
     private MixTask.Configuration configuration;
     
+    @Argument
+    public void addLink(URI uri) {
+        links.add(uri);
+    }
+
     @Argument
     public void addOfflineLink(File file) {
         offlineLinks.addLast(new OfflineLink(file));
@@ -134,8 +147,14 @@ public class JavadocTask extends Task {
         for (OfflineLink offlineLink : offlineLinks) {
             if (offlineLink.getUri() != null) {
                 arguments.add("-linkoffline");
-                arguments.add(offlineLink.getUri().toString());
+                arguments.add(offlineLink.getUri().toASCIIString());
                 arguments.add(offlineLink.getPackages().getAbsoluteFile().toURI().toString());
+            }
+        }
+        if (!mixArguments.isOffline()) {
+            for (URI link : links) {
+                arguments.add("-link");
+                arguments.add(link.toASCIIString());
             }
         }
         Set<File> classpath = new LinkedHashSet<File>();

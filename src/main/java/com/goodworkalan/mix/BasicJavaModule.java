@@ -1,5 +1,6 @@
 package com.goodworkalan.mix;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,8 @@ public class BasicJavaModule extends ProjectModule {
     
     private final Artifact produces;
     
+    private final List<URI> links = new ArrayList<URI>();
+    
     public BasicJavaModule(Artifact produces) {
         this.produces = produces;
     }
@@ -22,6 +25,10 @@ public class BasicJavaModule extends ProjectModule {
     
     public void addTestDependency(Artifact artifact) {
         testDepenencies.add(artifact);
+    }
+    
+    public void addLink(URI uri) {
+        links.add(uri);
     }
     
     @Override
@@ -63,6 +70,46 @@ public class BasicJavaModule extends ProjectModule {
                 .classes("target/test-classes")
                 .end()
             .end();
+
+        recipe = builder.recipe("javadoc");
+        recipe
+            .depends()
+                .source("javac")
+                .end();
+        recipe
+            .command("delete")
+                .argument("file", "target/apidocs")
+                .argument("recurse", "true")
+                .end()
+            .command("mkdirs")
+                .argument("directory", "target/apidocs")
+                .end();
+        CommandElement<RecipeElement> command = recipe.command("javadoc");
+        command
+            .argument("source-directory", "src/main/java")
+            .argument("output-directory", "target/apidocs");
+        for (URI link : links) {
+            command.argument("link", link.toASCIIString());
+        }
+        command.end();
+        recipe
+            .command("delete")
+                .argument("file", "target/devdocs")
+                .argument("recurse", "true")
+                .end()
+            .command("mkdirs")
+                .argument("directory", "target/devdocs")
+                .end();
+        command = recipe.command("javadoc");
+        command
+            .argument("source-directory", "src/main/java")
+            .argument("output-directory", "target/apidocs")
+            .argument("visibility", "private");
+        for (URI link : links) {
+            command.argument("link", link.toASCIIString());
+        }
+        command.end();
+        recipe.end();
         builder
             .recipe("test")
                 .depends()
@@ -99,36 +146,6 @@ public class BasicJavaModule extends ProjectModule {
                     .end()
                 .produces()
                     .artifact(produces.getGroup(), produces.getName(), produces.getVersion()).in("target/distribution")
-                    .end()
-                .end()
-            .recipe("javadoc")
-                .depends()
-                    .source("javac")
-                    .end()
-                .command("delete")
-                    .argument("file", "target/apidocs")
-                    .argument("recurse", "true")
-                    .end()
-                .command("mkdirs")
-                    .argument("directory", "target/apidocs")
-                    .end()
-                .command("javadoc")
-                    .argument("source-directory", "src/main/java")
-                    .argument("output-directory", "target/apidocs")
-                    .argument("offline-link", "src/mix/package-lists/java")
-                    .argument("offline-uri", "http://java.sun.com/j2se/1.5.0/docs/api")
-                    .end()
-                .command("delete")
-                    .argument("file", "target/devdocs")
-                    .argument("recurse", "true")
-                    .end()
-                .command("mkdirs")
-                    .argument("directory", "target/devdocs")
-                    .end()
-                .command("javadoc")
-                    .argument("source-directory", "src/main/java")
-                    .argument("output-directory", "target/devdocs")
-                    .argument("visibility", "private")
                     .end()
                 .end()
             .end();
