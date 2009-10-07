@@ -13,7 +13,7 @@ public class MixTest {
     /** Test the welcome message. */
     @Test
     public void execute() {
-        CommandInterpreter ci = new CommandInterpreter(null);
+        CommandInterpreter ci = new CommandInterpreter();
         ci.execute("mix", "make", "javac");
     }
 }

@@ -11,7 +11,6 @@ import java.util.Set;
 import com.goodworkalan.glob.Files;
 import com.goodworkalan.glob.Find;
 import com.goodworkalan.go.go.Argument;
-import com.goodworkalan.go.go.Catcher;
 import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Library;
@@ -76,7 +75,7 @@ public class TestNGTask extends Task {
                 parts.addAll(dependency.getPathParts(project));
             }
             Library library = env.commandPart.getCommandInterpreter().getLibrary();
-            classpath.addAll(library.resolve(parts, new HashSet<Object>(), new Catcher()).getFiles());
+            classpath.addAll(library.resolve(parts, new HashSet<Object>()).getFiles());
         }
         
         List<String> testClasses = new ArrayList<String>();

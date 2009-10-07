@@ -90,18 +90,19 @@ public class ZipTask extends Task {
         if (!entryName.endsWith("/")) {
             entryName = entryName + "/";
         }
-        if (seen.contains(entryName)) {
-            throw new MixException(0);
+        if (!seen.contains(entryName)) {
+            seen.add(entryName);
+            ZipEntry zipEntry = new ZipEntry(entryName);
+            out.putNextEntry(zipEntry);
+            out.closeEntry();
         }
-        ZipEntry zipEntry = new ZipEntry(entryName);
-        out.putNextEntry(zipEntry);
-        out.closeEntry();
     }
     
     protected void addFile(File source, String entryName) throws IOException {
         if (seen.contains(entryName)) {
             throw new MixException(0);
         }
+        seen.add(entryName);
         byte[] buffer = this.buffer;
         FileInputStream in = new FileInputStream(source);
         ZipEntry zipEntry = new ZipEntry(entryName);
