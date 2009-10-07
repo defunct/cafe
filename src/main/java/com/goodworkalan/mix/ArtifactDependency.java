@@ -17,4 +17,8 @@ public class ArtifactDependency implements Dependency {
     public Collection<PathPart> getPathParts(Project project) {
         return Collections.<PathPart>singletonList(new ResolutionPart(artifact));
     }
+    
+    public Collection<Artifact> getArtifacts(Project project) {
+        return Collections.singleton(artifact);
+    }
 }

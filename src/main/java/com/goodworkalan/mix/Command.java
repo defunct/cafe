@@ -8,6 +8,8 @@ class Command {
     
     public final List<String> arguments = new ArrayList<String>();
     
+    public final List<String> paramters = new ArrayList<String>();
+    
     public Command(String name) {
         this.name = name;
     }

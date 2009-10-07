@@ -10,11 +10,11 @@ import com.goodworkalan.go.go.PathPart;
 public class Recipe {
     private final Map<String, Command> commands;
     
-    private final Map<String, Dependency> dependencies;
+    private final Map<List<String>, Dependency> dependencies;
     
     private final Collection<PathPart> produce;
     
-    Recipe(Map<String, Command> commands, Map<String, Dependency> dependencies, Collection<PathPart> produce) {
+    Recipe(Map<String, Command> commands, Map<List<String>, Dependency> dependencies, Collection<PathPart> produce) {
         this.commands = commands;
         this.dependencies = dependencies;
         this.produce = produce;

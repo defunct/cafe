@@ -11,6 +11,13 @@ public class CommandElement<T> {
         this.command = command;
     }
     
+    
+    public CommandElement<T> parameter(String parameter) {
+        this.command.paramters.add(parameter);
+        return this;
+    }
+
+    
     public CommandElement<T> argument(String name, String value) {
         command.arguments.add("--" + name + "=" + value);
         return this;

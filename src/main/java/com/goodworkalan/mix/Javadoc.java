@@ -1,6 +1,5 @@
 package com.goodworkalan.mix;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +23,6 @@ public class Javadoc {
         List<String> arguments = new ArrayList<String>();
         arguments.add("-d");
         arguments.add("src/test/project/target/apidocs");
-        for (File directory : project.getSourceDirectories()) {
-            for (String source : project.getSources(directory)) {
-                arguments.add(new File(directory, source).toString());
-            }
-        }
         try {
             com.sun.tools.javadoc.Main.execute(arguments.toArray(new String[arguments.size()]));
         } catch (Exception e) {

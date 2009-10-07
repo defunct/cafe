@@ -2,6 +2,7 @@ package com.goodworkalan.mix;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.goodworkalan.go.go.CommandPart;
@@ -15,6 +16,8 @@ import com.goodworkalan.go.go.Executor;
 public class Builder {
     private final Map<String, Recipe> recipes = new HashMap<String, Recipe>();
     
+    private final Map<List<String>, ArtifactSource> artifacts = new HashMap<List<String>, ArtifactSource>();
+
     /**
      * Create a recipe with the given name.
      * 
@@ -23,7 +26,7 @@ public class Builder {
      * @return A recipe language element to specify project properties.
      */
     public RecipeElement recipe(String name) {
-        return new RecipeElement(this, recipes, name);
+        return new RecipeElement(this, artifacts, recipes, name);
     }
 
     public ProvidesElement provides(String group, String name, String version) {
@@ -31,7 +34,7 @@ public class Builder {
     }
     
     public Project createProject(File workingDirectory, Executor executor, CommandPart mix) {
-        return new Project(workingDirectory, recipes, executor, mix);
+        return new Project(workingDirectory, artifacts, recipes, executor, mix);
     }
     
     public void end() {

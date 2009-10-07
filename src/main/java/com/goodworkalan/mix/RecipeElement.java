@@ -16,13 +16,16 @@ public class RecipeElement {
     
     private final Map<String, Command> commands = new LinkedHashMap<String, Command>();
     
-    private final Map<String, Dependency> dependencies = new LinkedHashMap<String, Dependency>();
+    private final Map<List<String>, Dependency> dependencies = new LinkedHashMap<List<String>, Dependency>();
     
     private final List<PathPart> produces = new ArrayList<PathPart>();
     
-    public RecipeElement(Builder builder, Map<String, Recipe> recipes, String name) {
+    private final Map<List<String>, ArtifactSource> artifacts; 
+    
+    public RecipeElement(Builder builder, Map<List<String>, ArtifactSource> artifacts, Map<String, Recipe> recipes, String name) {
         this.builder = builder;
         this.recipes = recipes;
+        this.artifacts = artifacts;
         this.name = name;
     }
     
@@ -61,7 +64,7 @@ public class RecipeElement {
     }
     
     public ProducesElement produces() {
-        return new ProducesElement(this, produces);
+        return new ProducesElement(this, name, produces, artifacts);
     }
 
     public Builder end() {

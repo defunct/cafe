@@ -149,10 +149,7 @@ public class JavacTask extends Task {
             arguments.add(target);
         }
         Project project = configuration.getProject();
-        if (outputDirectory == null) {
-            outputDirectory = new File(project.getOutputDirectory(), "classes");
-        }
-        if (!outputDirectory.isDirectory() && !outputDirectory.mkdirs()) {
+        if (outputDirectory == null || !(outputDirectory.isDirectory() || outputDirectory.mkdirs())) {
             throw new MixException(0);
         }
         arguments.add("-d");

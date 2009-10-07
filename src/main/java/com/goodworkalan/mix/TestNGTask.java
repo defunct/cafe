@@ -46,8 +46,7 @@ public class TestNGTask extends Task {
     public void addExclude(String string) {
         findList.addExclude(string);
     }
-    
-    
+
     /** The Mix configuration. */
     private MixTask.Configuration configuration;
 

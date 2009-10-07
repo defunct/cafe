@@ -1,5 +1,7 @@
 package com.goodworkalan.mix;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import com.goodworkalan.go.go.Artifact;
@@ -7,16 +9,17 @@ import com.goodworkalan.go.go.Artifact;
 public class DependsElement {
     private final RecipeElement recipeElement;
     
-    private final Map<String, Dependency> dependencies; 
+    private final Map<List<String>, Dependency> dependencies; 
     
-    public DependsElement(RecipeElement recipeElement, Map<String, Dependency> dependencies) {
+    public DependsElement(RecipeElement recipeElement, Map<List<String>, Dependency> dependencies) {
         this.recipeElement = recipeElement;
         this.dependencies = dependencies;
     }
 
+    // FIXME Rename classes.
     public DependsElement source(String name) {
         if (!dependencies.containsKey(name)) {
-            dependencies.put(name, new RecipeDependency(name));
+            dependencies.put(Collections.singletonList(name), new RecipeDependency(name));
         }
         return this;
     }
@@ -27,8 +30,9 @@ public class DependsElement {
 
     public DependsElement artifact(String group, String name, String version) {
         Artifact artifact = new Artifact(group, name, version);
-        if (!dependencies.containsKey(artifact.getKey())) {
-            dependencies.put(artifact.getKey(), new ArtifactDependency(artifact));
+        List<String> key = artifact.getKey().subList(0, 2);
+        if (!dependencies.containsKey(key)) {
+            dependencies.put(key, new ArtifactDependency(artifact));
         }
         return this;
     }

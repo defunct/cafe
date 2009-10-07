@@ -5,3 +5,7 @@ com.goodworkalan.mix.MakeTask
 com.goodworkalan.mix.TestNGTask
 com.goodworkalan.mix.DeleteTask
 com.goodworkalan.mix.PruneTask
+com.goodworkalan.mix.ZipTask
+com.goodworkalan.mix.MkdirsTask
+com.goodworkalan.mix.InstallTask
+com.goodworkalan.mix.DependenciesTask
