@@ -52,7 +52,7 @@ public class DeleteTask extends Task {
      *            The execution environment.
      */
     @Override
-    public void execute(Environment environment) {
+    public void execute(Environment env) {
         if (!recurse) {
             if (file.exists() && !file.delete()) {
                 throw new MixError(0);

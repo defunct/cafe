@@ -14,7 +14,7 @@ public class RecipeElement {
     
     private final Map<String, Recipe> recipes;
     
-    private final Map<String, Command> commands = new LinkedHashMap<String, Command>();
+    private final List<Command> commands = new ArrayList<Command>();
     
     private final Map<List<String>, Dependency> dependencies = new LinkedHashMap<List<String>, Dependency>();
     
@@ -50,7 +50,7 @@ public class RecipeElement {
 
     public CommandElement<RecipeElement> command(String name) {
         Command command = new Command(name);
-        commands.put(name, command);
+        commands.add(command);
         return new CommandElement<RecipeElement>(this, command);
     }
 

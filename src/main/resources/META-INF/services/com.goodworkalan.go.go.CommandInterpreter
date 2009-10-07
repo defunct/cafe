@@ -9,3 +9,4 @@ com.goodworkalan.mix.ZipTask
 com.goodworkalan.mix.MkdirsTask
 com.goodworkalan.mix.InstallTask
 com.goodworkalan.mix.DependenciesTask
+com.goodworkalan.mix.JavadocTask

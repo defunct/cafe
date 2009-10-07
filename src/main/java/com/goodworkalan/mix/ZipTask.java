@@ -31,10 +31,12 @@ public class ZipTask extends Task {
 
     /** The output file name. */
     private File outputFile;
-    
+
     /**
      * Set the output file name.
-     * @param outputFile The output file name.
+     * 
+     * @param outputFile
+     *            The output file name.
      */
     @Argument
     public void addOutputFile(File outputFile) {
@@ -63,10 +65,10 @@ public class ZipTask extends Task {
     }
 
     /**
-     * Apply the exclude criteria to the last directory added to this task.
+     * Apply the include criteria to the last directory added to this task.
      * 
-     * @param exclude
-     *            The exclude pattern.
+     * @param include
+     *            The include pattern.
      */
     @Argument
     public void addInclude(String include) {
@@ -74,10 +76,10 @@ public class ZipTask extends Task {
     }
 
     /**
-     * Apply the include criteria to the last directory added to this task.
+     * Apply the exclude criteria to the last directory added to this task.
      * 
-     * @param include
-     *            The include pattern.
+     * @param exclude
+     *            The exclude pattern.
      */
     @Argument
     public void addExclude(String exclude) {

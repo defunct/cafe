@@ -8,13 +8,13 @@ import java.util.Map;
 import com.goodworkalan.go.go.PathPart;
 
 public class Recipe {
-    private final Map<String, Command> commands;
+    private final List<Command> commands;
     
     private final Map<List<String>, Dependency> dependencies;
     
     private final Collection<PathPart> produce;
     
-    Recipe(Map<String, Command> commands, Map<List<String>, Dependency> dependencies, Collection<PathPart> produce) {
+    Recipe(List<Command> commands, Map<List<String>, Dependency> dependencies, Collection<PathPart> produce) {
         this.commands = commands;
         this.dependencies = dependencies;
         this.produce = produce;
@@ -22,10 +22,10 @@ public class Recipe {
     
     public List<List<String>> getCommands() {
         List<List<String>> commands = new ArrayList<List<String>>();
-        for(Map.Entry<String, Command> entry : this.commands.entrySet()) {
+        for(Command command : this.commands) {
             List<String> line = new ArrayList<String>();
-            line.add(entry.getValue().name);
-            line.addAll(entry.getValue().arguments);
+            line.add(command.name);
+            line.addAll(command.arguments);
             commands.add(line);
         }
         return commands;
