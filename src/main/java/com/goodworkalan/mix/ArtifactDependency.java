@@ -21,4 +21,7 @@ public class ArtifactDependency implements Dependency {
     public Collection<Artifact> getArtifacts(Project project) {
         return Collections.singleton(artifact);
     }
+    
+    public void make(Project project) {
+    }
 }

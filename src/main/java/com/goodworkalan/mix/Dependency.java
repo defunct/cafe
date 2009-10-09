@@ -9,4 +9,6 @@ public interface Dependency {
     public Collection<PathPart> getPathParts(Project project);
     
     public Collection<Artifact> getArtifacts(Project project);
+    
+    public void make(Project project);
 }

@@ -1,4 +1,4 @@
-#!/usr/bin/env go
+#!/usr/bin/env go --go:artifacts=mix.go
 
 + com.goodworkalan go-go-maven-library 0.1
 + com.goodworkalan mix 0.1

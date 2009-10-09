@@ -66,11 +66,14 @@ public class Project {
     public File getWorkingDirectory() {
         return workingDirectory;
     }
-
-    public Recipe getRecipe(String name) {
+    
+    public void make(String name) {
         Recipe recipe = recipes.get(name);
         if (!made.contains(name)) {
             made.add(name);
+            for (Dependency dependency : recipe.getDependencies()) {
+                dependency.make(this);
+            }
             for (List<String> step : recipe.getCommands()) {
                 CommandPart next = mix.extend(step);
                 if (String.class.equals(next.getArgumentTypes().get("recipe"))) {
@@ -79,7 +82,10 @@ public class Project {
                 executor.execute(next);
             }
         }
-        return recipe;
+    }
+
+    public Recipe getRecipe(String name) {
+        return recipes.get(name);
     }
     
     public List<ArtifactSource> getArtifactSources() {

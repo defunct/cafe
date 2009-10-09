@@ -32,4 +32,8 @@ public class RecipeDependency implements Dependency {
         }
         return artifacts;
     }
+    
+    public void make(Project project) {
+        project.make(recipeName);
+    }
 }
