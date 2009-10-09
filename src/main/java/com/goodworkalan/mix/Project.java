@@ -83,6 +83,15 @@ public class Project {
             }
         }
     }
+    
+    /**
+     * Get a copy of the list of recipes in this project.
+     * 
+     * @return A copy of the list of recipes.
+     */
+    public List<Recipe> getRecipes() {
+        return new ArrayList<Recipe>(recipes.values());
+    }
 
     public Recipe getRecipe(String name) {
         return recipes.get(name);
