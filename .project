@@ -1,0 +1,13 @@
+<projectDescription>
+  <name>mix-eclipse</name>
+  <comment>Eclipse project generator for Mix.</comment>
+  <projects/>
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+  </natures>
+</projectDescription>
