@@ -16,7 +16,7 @@ public class MakeTask extends Task {
     
     @Override
     public void execute(Environment env) {
-        List<String> remaining = env.commandPart.getRemaining();
+        List<String> remaining = env.part.getRemaining();
         if (remaining.isEmpty()) {
             throw new MixException(0);
         }

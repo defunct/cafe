@@ -74,7 +74,7 @@ public class TestNGTask extends Task {
             for (Dependency dependency : project.getRecipe(recipe).getDependencies()) {
                 parts.addAll(dependency.getPathParts(project));
             }
-            Library library = env.commandPart.getCommandInterpreter().getLibrary();
+            Library library = env.part.getCommandInterpreter().getLibrary();
             classpath.addAll(library.resolve(parts, new HashSet<Object>()).getFiles());
         }
         

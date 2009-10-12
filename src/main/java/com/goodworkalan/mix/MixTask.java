@@ -150,7 +150,7 @@ public class MixTask extends Task {
                 }
                 File sourceDirectory = new File(arguments.getWorkingDirectory(), sourceDirectoryName);
                 if (sourceDirectory.isDirectory()) {
-                    CommandInterpreter interpreter = env.commandPart.getCommandInterpreter();
+                    CommandInterpreter interpreter = env.part.getCommandInterpreter();
                     interpreter
                         .command("mix", "--no-project")
                         .command("javac")
@@ -198,7 +198,7 @@ public class MixTask extends Task {
                 }
             }
         }
-        configuration = new Configuration(builder.createProject(arguments.getWorkingDirectory(), env.executor, env.commandPart));
+        configuration = new Configuration(builder.createProject(arguments.getWorkingDirectory(), env.executor, env.part));
     }
     
     public Configuration getConfiguration() {

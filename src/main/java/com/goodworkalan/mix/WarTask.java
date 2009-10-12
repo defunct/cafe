@@ -87,7 +87,7 @@ public class WarTask extends ZipTask {
                 parts.addAll(recipe.getProduce());
             }
         }
-        Library library = env.commandPart.getCommandInterpreter().getLibrary();
+        Library library = env.part.getCommandInterpreter().getLibrary();
         for (File file : library.resolve(parts).getFiles()) {
             try {
                 new ZipFile(file);

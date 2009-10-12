@@ -158,7 +158,7 @@ public class JavadocTask extends Task {
             }
         }
         Set<File> classpath = new LinkedHashSet<File>();
-        Library library = env.commandPart.getCommandInterpreter().getLibrary();
+        Library library = env.part.getCommandInterpreter().getLibrary();
         classpath.addAll(library.resolve(parts).getFiles());
         if (!classpath.isEmpty()) {
             arguments.add("-classpath");

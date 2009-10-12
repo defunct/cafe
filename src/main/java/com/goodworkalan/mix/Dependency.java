@@ -13,7 +13,7 @@ import com.goodworkalan.go.go.PathPart;
 public interface Dependency {
     /**
      * Get the part parts for the dependency. The path parts are to be used to
-     * create a {@link LibraryPath}.
+     * create a <code>LibraryPath</code>.
      * 
      * @param project
      *            The project.

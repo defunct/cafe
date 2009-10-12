@@ -39,12 +39,12 @@ public class InstallTask extends Task {
         }
 
         Project project = configuration.getProject();
-        CommandPart mix = env.commandPart.getParent();
+        CommandPart mix = env.part.getParent();
         List<ArtifactSource> artifactSources = new ArrayList<ArtifactSource>();
-        if (env.commandPart.getRemaining().isEmpty()) {
+        if (env.part.getRemaining().isEmpty()) {
             artifactSources = project.getArtifactSources();
         } else {
-            for (String argument : env.commandPart.getRemaining()) {
+            for (String argument : env.part.getRemaining()) {
                 artifactSources.addAll(project.getArtifactSources(argument));
             }
         }
