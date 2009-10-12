@@ -1,3 +1,4 @@
-#!/usr/bin/env go --go:artifacts=mix.go
+#!/usr/bin/env go
 
+@ artifacts mix.go
 + com.goodworkalan mix 0.1
