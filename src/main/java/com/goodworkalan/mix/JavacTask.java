@@ -179,13 +179,12 @@ public class JavacTask extends Task {
                 arguments.add(new File(entry.getDirectory(), fileName).toString());
             }
         }
-        Class<?> compilerClass;
+        Class<?> compilerClass = null;
         try {
             compilerClass = Class.forName("com.sun.tools.javac.Main");
         } catch (ClassNotFoundException e) {
-            throw new MixException(0, e);
         }
-        if (fork) {
+        if (fork || compilerClass == null) {
             arguments.add(0, "javac");
             
             ProcessBuilder newProcess = new ProcessBuilder();

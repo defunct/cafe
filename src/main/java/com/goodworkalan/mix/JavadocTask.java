@@ -19,10 +19,18 @@ import com.goodworkalan.go.go.Library;
 import com.goodworkalan.go.go.PathPart;
 import com.goodworkalan.go.go.ResolutionPart;
 import com.goodworkalan.go.go.Task;
+import com.goodworkalan.reflective.Method;
+import com.goodworkalan.reflective.ReflectiveFactory;
+import com.goodworkalan.spawn.Redirect;
+import com.goodworkalan.spawn.Spawn;
 
 @Command(parent = MixTask.class)
 public class JavadocTask extends Task {
+    private final ReflectiveFactory reflectiveFactory = new ReflectiveFactory();
+    
     private MixTask.Arguments mixArguments;
+    
+    private boolean fork;
     
     private String recipe;
     
@@ -164,11 +172,29 @@ public class JavadocTask extends Task {
             arguments.add("-classpath");
             arguments.add(Files.path(classpath));
         }
-        
+        Class<?> compilerClass = null;
         try {
-            com.sun.tools.javadoc.Main.execute(arguments.toArray(new String[arguments.size()]));
-        } catch (Exception e) {
-            e.printStackTrace();
+            compilerClass = Class.forName("com.sun.tools.javadoc.Main");
+        } catch (ClassNotFoundException e) {
+        }
+        if (fork || compilerClass == null) {
+            arguments.add(0, "javadoc");
+            
+            ProcessBuilder newProcess = new ProcessBuilder();
+            newProcess.command().addAll(arguments);
+            
+            Spawn<Redirect, Redirect> spawn;
+            spawn = Spawn.spawn(new Redirect(env.out), new Redirect(env.err));
+            
+            spawn.getProcessBuilder().command().addAll(arguments);
+            spawn.execute();
+        } else {
+            try {
+                Method method = reflectiveFactory.getMethod(compilerClass, "execute", new String [0].getClass());
+                method.invoke(null, new Object[] { arguments.toArray(new String[arguments.size()]) });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
