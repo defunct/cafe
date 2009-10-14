@@ -1,4 +1,4 @@
 #!/usr/bin/env go
 
 @ artifacts mix.go
-+ com.goodworkalan mix 0.1
++ com.goodworkalan/mix/0.1
