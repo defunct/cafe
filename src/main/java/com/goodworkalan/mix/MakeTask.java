@@ -20,6 +20,6 @@ public class MakeTask extends Task {
         if (remaining.isEmpty()) {
             throw new MixException(0);
         }
-        configuration.getProject().make(remaining.get(0));
+        configuration.getProject().make(env.io, remaining.get(0));
     }
 }

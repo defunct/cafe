@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import com.goodworkalan.go.go.Artifact;
+import com.goodworkalan.go.go.InputOutput;
 import com.goodworkalan.go.go.PathPart;
 import com.goodworkalan.go.go.ResolutionPart;
 
@@ -34,7 +35,8 @@ public class ArtifactDependency implements Dependency {
      *            The project.
      */
     public Collection<PathPart> getPathParts(Project project) {
-        return Collections.<PathPart>singletonList(new ResolutionPart(artifact));
+        return Collections
+                .<PathPart> singletonList(new ResolutionPart(artifact));
     }
 
     /**
@@ -50,9 +52,11 @@ public class ArtifactDependency implements Dependency {
     /**
      * A do nothing make task.
      * 
+     * @param io
+     *            The input/output streams.
      * @param project
      *            The project.
      */
-    public void make(Project project) {
+    public void make(InputOutput io, Project project) {
     }
 }

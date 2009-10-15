@@ -12,6 +12,7 @@ import java.util.TreeMap;
 
 import com.goodworkalan.go.go.CommandPart;
 import com.goodworkalan.go.go.Executor;
+import com.goodworkalan.go.go.InputOutput;
 
 /**
  * Describes a software project, its source files, outputs and dependencies.
@@ -66,20 +67,28 @@ public class Project {
     public File getWorkingDirectory() {
         return workingDirectory;
     }
-    
-    public void make(String name) {
+
+    /**
+     * Make the given recipe if it has not already been made.
+     * 
+     * @param io
+     *            The input/output streams.
+     * @param name
+     *            The name of the recipe to make.
+     */
+    public void make(InputOutput io, String name) {
         Recipe recipe = recipes.get(name);
         if (!made.contains(name)) {
             made.add(name);
             for (Dependency dependency : recipe.getDependencies()) {
-                dependency.make(this);
+                dependency.make(io, this);
             }
             for (List<String> step : recipe.getCommands()) {
                 CommandPart next = mix.extend(step);
                 if (String.class.equals(next.getArgumentTypes().get("recipe"))) {
                     next = next.argument("recipe", name);
                 }
-                executor.execute(next);
+                executor.execute(io, next);
             }
         }
     }

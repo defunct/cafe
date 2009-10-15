@@ -157,7 +157,7 @@ public class MixTask extends Task {
                             .argument("artifact", "com.goodworkalan/mix/0.1")
                             .argument("source-directory", sourceDirectory.toString())
                             .argument("output-directory", outputDirectory.toString())
-                        .execute();
+                        .execute(env.io);
                 }
                 // FIXME Do resources too.
             } else if (!outputDirectory.isDirectory()) {

@@ -49,7 +49,7 @@ public class InstallTask extends Task {
             }
         }
         for (ArtifactSource source : artifactSources) {
-            env.executor.execute(mix.extend("make", source.getRecipe()));
+            env.executor.execute(env.io, mix.extend("make", source.getRecipe()));
             Artifact artifact = source.getArtifact();
             Find find = new Find();
             find.include(artifact.getName() + "-" + artifact.getVersion() + "*.*");

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.goodworkalan.go.go.Artifact;
+import com.goodworkalan.go.go.InputOutput;
 import com.goodworkalan.go.go.PathPart;
 
 // FIXME OutputDepdenency and RecipeDependency
@@ -64,10 +65,12 @@ public class RecipeDependency implements Dependency {
     /**
      * Make the recipe by calling the make method of the given project.
      * 
+     * @param io
+     *            The input/output streams.
      * @param project
      *            The project.
      */
-    public void make(Project project) {
-        project.make(name);
+    public void make(InputOutput io, Project project) {
+        project.make(io, name);
     }
 }
