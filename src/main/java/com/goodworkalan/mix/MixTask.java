@@ -168,7 +168,7 @@ public class MixTask extends Task {
                 try {
                     ClassLoader classLoader;
                     try {
-                        classLoader = new URLClassLoader(new URL[] { outputDirectory.getAbsoluteFile().toURL() }, currentClassLoader);
+                        classLoader = new URLClassLoader(new URL[] { outputDirectory.getAbsoluteFile().toURI().toURL() }, currentClassLoader);
                     } catch (MalformedURLException e) {
                         throw new MixException(0, e);
                     }

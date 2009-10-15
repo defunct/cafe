@@ -104,6 +104,16 @@ public class JavacTask extends Task {
     public void addFork(boolean fork) {
         this.fork = fork;
     }
+    
+    @Argument
+    public void addSource(String source) {
+        this.source = source;
+    }
+    
+    @Argument
+    public void addDeprecation(boolean deprecation) {
+        this.deprecation = deprecation;
+    }
 
     /**
      * Default constructor.
@@ -139,6 +149,7 @@ public class JavacTask extends Task {
         }
         if (deprecation) {
             arguments.add("-deprecation");
+            arguments.add("-Xlint:deprecation");
         }
         if (source != null) {
             arguments.add("-source");
