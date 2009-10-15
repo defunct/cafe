@@ -102,7 +102,7 @@ public class TestNGTask extends Task {
         newProcess.command().addAll(arguments);
         
         Spawn<Redirect, Redirect> spawn;
-        spawn = Spawn.spawn(new Redirect(env.out), new Redirect(env.err));
+        spawn = Spawn.spawn(new Redirect(env.io.out), new Redirect(env.io.err));
 
         spawn.getProcessBuilder().command().addAll(arguments);
 
