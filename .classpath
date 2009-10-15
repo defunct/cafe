@@ -2,15 +2,15 @@
   <classpathentry kind="src" path="src/main/java"/>
   <classpathentry kind="src" path="src/main/resources" excluding="**/*.java"/>
   <classpathentry kind="output" path="target/classes"/>
-  <classpathentry kind="var" path="M2_REPO/com/goodworkalan/cassandra/0.7-SNAPSHOT/cassandra-0.7-SNAPSHOT.jar" sourcepath="M2_REPO/com/goodworkalan/cassandra/0.7-SNAPSHOT/cassandra-0.7-SNAPSHOT-sources.jar">
+  <classpathentry kind="var" path="M2_REPO/com/goodworkalan/cassandra/0.7/cassandra-0.7.jar" sourcepath="M2_REPO/com/goodworkalan/cassandra/0.7/cassandra-0.7-sources.jar">
     <attributes>
-      <attribute value="jar:file:/Users/alan/.m2/repository/com/goodworkalan/cassandra/0.7-SNAPSHOT/cassandra-0.7-SNAPSHOT-javadoc.jar!/" name="javadoc_location"/>
+      <attribute value="jar:file:/Users/alan/.m2/repository/com/goodworkalan/cassandra/0.7/cassandra-0.7-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
   <classpathentry kind="var" path="M2_REPO/org/freemarker/freemarker/2.3.13/freemarker-2.3.13.jar" sourcepath="M2_REPO/org/freemarker/freemarker/2.3.13/freemarker-2.3.13-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/com/goodworkalan/glob/0.1-SNAPSHOT/glob-0.1-SNAPSHOT.jar" sourcepath="M2_REPO/com/goodworkalan/glob/0.1-SNAPSHOT/glob-0.1-SNAPSHOT-sources.jar">
+  <classpathentry kind="var" path="M2_REPO/com/goodworkalan/glob/0.1/glob-0.1.jar" sourcepath="M2_REPO/com/goodworkalan/glob/0.1/glob-0.1-sources.jar">
     <attributes>
-      <attribute value="jar:file:/Users/alan/.m2/repository/com/goodworkalan/glob/0.1-SNAPSHOT/glob-0.1-SNAPSHOT-javadoc.jar!/" name="javadoc_location"/>
+      <attribute value="jar:file:/Users/alan/.m2/repository/com/goodworkalan/glob/0.1/glob-0.1-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
   <classpathentry kind="var" path="M2_REPO/com/goodworkalan/go-go/0.1/go-go-0.1.jar" sourcepath="M2_REPO/com/goodworkalan/go-go/0.1/go-go-0.1-sources.jar">
@@ -28,9 +28,9 @@
   </classpathentry>
   <classpathentry kind="var" path="M2_REPO/org/mockito/mockito-core/1.6/mockito-core-1.6.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/objenesis/objenesis/1.0/objenesis-1.0.jar" sourcepath="M2_REPO/org/objenesis/objenesis/1.0/objenesis-1.0-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/com/goodworkalan/reflective/0.1-SNAPSHOT/reflective-0.1-SNAPSHOT.jar" sourcepath="M2_REPO/com/goodworkalan/reflective/0.1-SNAPSHOT/reflective-0.1-SNAPSHOT-sources.jar">
+  <classpathentry kind="var" path="M2_REPO/com/goodworkalan/reflective/0.1/reflective-0.1.jar" sourcepath="M2_REPO/com/goodworkalan/reflective/0.1/reflective-0.1-sources.jar">
     <attributes>
-      <attribute value="jar:file:/Users/alan/.m2/repository/com/goodworkalan/reflective/0.1-SNAPSHOT/reflective-0.1-SNAPSHOT-javadoc.jar!/" name="javadoc_location"/>
+      <attribute value="jar:file:/Users/alan/.m2/repository/com/goodworkalan/reflective/0.1/reflective-0.1-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.4.2/slf4j-api-1.4.2.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.4.2/slf4j-api-1.4.2-sources.jar"/>

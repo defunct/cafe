@@ -100,7 +100,7 @@ public class EclipseTask extends Task {
             }
         }
         
-        Library library = env.commandPart.getCommandInterpreter().getLibrary();
+        Library library = env.part.getCommandInterpreter().getLibrary();
         LibraryPath path = library.resolve(parts);
         List<Artifact> artifacts = path.getArtifacts();
         
@@ -143,11 +143,11 @@ public class EclipseTask extends Task {
             Element part = doc.createElement("classpathentry");
             part.setAttribute("kind", "var");
             part.setAttribute("path", variable + "/" + artifact.getPath("jar"));
-            File source = new File(directory, artifact.getPath("sources", "jar"));
+            File source = new File(directory, artifact.getPath("sources/jar"));
             if (source.exists()) {
-                part.setAttribute("sourcepath", variable + "/" + artifact.getPath("sources", "jar"));
+                part.setAttribute("sourcepath", variable + "/" + artifact.getPath("sources/jar"));
             }
-            File javadoc = new File(directory, artifact.getPath("javadoc", "jar"));
+            File javadoc = new File(directory, artifact.getPath("javadoc/jar"));
             if (javadoc.exists()) {
                 Element attributes = doc.createElement("attributes");
                 Element attribute = doc.createElement("attribute");
