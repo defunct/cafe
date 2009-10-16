@@ -7,7 +7,6 @@ import java.util.Map;
 
 import com.goodworkalan.go.go.CommandPart;
 import com.goodworkalan.go.go.Executor;
-import com.goodworkalan.reflective.Constructor;
 import com.goodworkalan.reflective.ReflectiveException;
 import com.goodworkalan.reflective.ReflectiveFactory;
 
