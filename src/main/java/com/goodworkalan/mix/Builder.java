@@ -7,6 +7,9 @@ import java.util.Map;
 
 import com.goodworkalan.go.go.CommandPart;
 import com.goodworkalan.go.go.Executor;
+import com.goodworkalan.reflective.Constructor;
+import com.goodworkalan.reflective.ReflectiveException;
+import com.goodworkalan.reflective.ReflectiveFactory;
 
 /**
  * Root of a domain specific language used to specify recipies.
@@ -14,9 +17,19 @@ import com.goodworkalan.go.go.Executor;
  * @author Alan Gutierrez
  */
 public class Builder {
+    private final ReflectiveFactory reflectiveFactory;
+    
     private final Map<String, Recipe> recipes = new HashMap<String, Recipe>();
     
     private final Map<List<String>, ArtifactSource> artifacts = new HashMap<List<String>, ArtifactSource>();
+
+    public Builder() {
+        this(new ReflectiveFactory());
+    }
+
+    Builder(ReflectiveFactory reflectiveFactory) {
+        this.reflectiveFactory = reflectiveFactory;
+    }
 
     /**
      * Create a recipe with the given name.
@@ -35,6 +48,14 @@ public class Builder {
     
     public Project createProject(File workingDirectory, Executor executor, CommandPart mix) {
         return new Project(workingDirectory, artifacts, recipes, executor, mix);
+    }
+    
+    public <T> T cookbook(Class<T> cookbookClass) {
+        try {
+            return reflectiveFactory.getConstructor(cookbookClass, Builder.class).newInstance(this);
+        } catch (ReflectiveException e) {
+            throw new MixException(0, e);
+        }
     }
     
     public void end() {
