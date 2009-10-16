@@ -20,13 +20,8 @@ import com.goodworkalan.mix.MixError;
 import com.goodworkalan.spawn.Redirect;
 import com.goodworkalan.spawn.Spawn;
 
-/**
- * Instrument classes for Cobertura coverage testing. 
- *  
- * @author Alan Gutierrez
- */
 @Command(parent = CoberturaTask.class)
-public class InstrumentTask extends Task {
+public class ReportTask extends Task {
     /** A file query to match files to copy. */
     private final FindList findList = new FindList();
 
@@ -38,9 +33,6 @@ public class InstrumentTask extends Task {
 
     /** The output directory for instrumented classes. */
     private File outputDirectory;
-    
-    /** The list regular expression to filter out certain lines. */
-    private final List<String> ignores = new ArrayList<String>();
 
     /** The generic Cobertrua task arguments. */
     private CoberturaTask.Arguments coberturaArguments;
@@ -48,7 +40,7 @@ public class InstrumentTask extends Task {
     public void setArguments(CoberturaTask.Arguments coberturaArguments) {
         this.coberturaArguments = coberturaArguments;
     }
-
+    
     /**
      * Add a source directory that contains class files.
      * 
@@ -58,26 +50,7 @@ public class InstrumentTask extends Task {
     public void addSourceDirectory(File sourceDirectory) {
         findList.addDirectory(sourceDirectory);
     }
-
-    /**
-     * Include class files that match the given glob include pattern.
-     * 
-     * @param include
-     *            Class files must match this pattern to be included.
-     */
-    public void addInclude(String include) {
-        findList.addInclude(include);
-    }
-
-    /**
-     * Exclude class files that match the given glob include pattern.
-     * 
-     * @param exclude
-     *            Class files must match this pattern to be included.
-     */
-    public void addExclude(String exclude) {
-        findList.addExclude(exclude);
-    }
+    
 
     /**
      * Set the output directory for instrumented classes.
@@ -90,21 +63,6 @@ public class InstrumentTask extends Task {
         this.outputDirectory = outputDirectory;
     }
 
-    /**
-     * Specify a regular expression to filter out certain lines of your source
-     * code. This is useful for ignoring logging statements, for example. You
-     * can have as many <ignore/> statements as you want.
-     * 
-     * @param ignore
-     *            A regular expression to filter out certain lines.
-     */
-    public void addIgnore(String ignore) {
-        ignores.add(ignore);
-    }
-    
-    public void addDataFile(File dataFile) {
-        this.dataFile = dataFile;
-    }
 
     @Override
     public void execute(Environment env) {
@@ -121,7 +79,7 @@ public class InstrumentTask extends Task {
         arguments.add("-classpath");
         arguments.add(Files.path(classpath));
 
-        arguments.add("net.sourceforge.cobertura.instrument.Main");
+        arguments.add("net.sourceforge.cobertura.reporting.Main");
         
         arguments.add("--destination");
         arguments.add(outputDirectory.toString());
@@ -131,16 +89,16 @@ public class InstrumentTask extends Task {
             arguments.add(dataFile.toString());
         }
         
-        for (String ignore : ignores) {
-            arguments.add("--ignore");
-            arguments.add(ignore);
-        }
-        
+        List<String> files = new ArrayList<String>();
         for (FindList.Entry entry : findList) {
+            arguments.add("--basedir");
+            arguments.add(entry.getDirectory().toString());
             for (String fileName : entry.getFind().find(entry.getDirectory())) {
-                arguments.add(new File(entry.getDirectory(), fileName).toString());
+                files.add(fileName);
             }
         }
+        
+        arguments.addAll(files);
 
         System.out.println(arguments);
         ProcessBuilder newProcess = new ProcessBuilder();
@@ -156,4 +114,3 @@ public class InstrumentTask extends Task {
         }
     }
 }
-

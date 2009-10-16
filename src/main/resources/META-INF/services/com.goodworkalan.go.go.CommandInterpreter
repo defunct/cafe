@@ -1,1 +1,2 @@
-com.goodworkalan.mix.InstrumentTask
+com.goodworkalan.mix.cobertura.InstrumentTask
+com.goodworkalan.mix.cobertura.ReportTask
