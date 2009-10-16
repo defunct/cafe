@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import com.goodworkalan.go.go.Artifact;
+import com.goodworkalan.go.go.Include;
 import com.goodworkalan.go.go.InputOutput;
 import com.goodworkalan.go.go.PathPart;
 import com.goodworkalan.go.go.ResolutionPart;
@@ -14,17 +15,17 @@ import com.goodworkalan.go.go.ResolutionPart;
  * @author Alan Gutierrez
  */
 public class ArtifactDependency implements Dependency {
-    /** The artifact. */
-    private final Artifact artifact;
+    /** he artifact and its exclusions. */
+    private final Include include;
 
     /**
      * Create a single artifact dependency.
      * 
-     * @param artifact
-     *            The artifact.
+     * @param include
+     *            The artifact and its exclusions.
      */
-    public ArtifactDependency(Artifact artifact) {
-        this.artifact = artifact;
+    public ArtifactDependency(Include include) {
+        this.include = include;
     }
 
     /**
@@ -35,8 +36,7 @@ public class ArtifactDependency implements Dependency {
      *            The project.
      */
     public Collection<PathPart> getPathParts(Project project) {
-        return Collections
-                .<PathPart> singletonList(new ResolutionPart(artifact));
+        return Collections.<PathPart> singletonList(new ResolutionPart(include));
     }
 
     /**
@@ -46,7 +46,7 @@ public class ArtifactDependency implements Dependency {
      *            The project.
      */
     public Collection<Artifact> getArtifacts(Project project) {
-        return Collections.singleton(artifact);
+        return Collections.singleton(include.getArtifact());
     }
 
     /**

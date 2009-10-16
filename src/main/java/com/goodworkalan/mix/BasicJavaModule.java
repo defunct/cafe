@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.goodworkalan.go.go.Artifact;
+import com.goodworkalan.go.go.Include;
 
 public class BasicJavaModule extends ProjectModule {
-    private final List<Artifact> dependencies = new ArrayList<Artifact>();
+    private final List<Include> dependencies = new ArrayList<Include>();
     
-    private final List<Artifact> testDepenencies = new ArrayList<Artifact>();
+    private final List<Include> testDepenencies = new ArrayList<Include>();
     
     private final Artifact produces;
     
@@ -19,12 +20,12 @@ public class BasicJavaModule extends ProjectModule {
         this.produces = produces;
     }
     
-    public void addDependency(Artifact artifact) {
-        dependencies.add(artifact);
+    public void addDependency(Artifact artifact, Artifact...excludes) {
+        dependencies.add(new Include(artifact, excludes));
     }
     
-    public void addTestDependency(Artifact artifact) {
-        testDepenencies.add(artifact);
+    public void addTestDependency(Artifact artifact, Artifact...excludes) {
+        testDepenencies.add(new Include(artifact, excludes));
     }
     
     public void addLink(URI uri) {
@@ -33,49 +34,44 @@ public class BasicJavaModule extends ProjectModule {
     
     @Override
     public void build(Builder builder) {
-        RecipeElement recipe = builder.recipe("javac");
-        DependsElement depends = recipe.depends();
-        for (Artifact artifact : dependencies) {
-            depends.artifact(artifact.getGroup(), artifact.getName(), artifact.getVersion());
-        }
-        depends.end();
-        recipe
-            .command("javac")
-                .argument("source-directory", "src/main/java")
-                .argument("output-directory", "target/classes")
-                .argument("source", "1.5")
-                .argument("deprecation", "true")
-                .argument("debug", "true")
+        builder
+            .recipe("javac")
+                .depends()
+                    .artifact(dependencies)
+                    .end()
+                .command("javac")
+                    .argument("source-directory", "src/main/java")
+                    .argument("output-directory", "target/classes")
+                    .argument("source", "1.5")
+                    .argument("deprecation", "true")
+                    .argument("debug", "true")
+                    .end()
+                .command("copy")
+                    .argument("source-directory", "src/main/resources")
+                    .argument("output-directory", "target/classes")
+                    .end()
+                .produces()
+                    .classes("target/classes")
+                    .end()
                 .end()
-            .command("copy")
-                .argument("source-directory", "src/main/resources")
-                .argument("output-directory", "target/classes")
-                .end()
-            .produces()
-                .classes("target/classes")
-                .end()
-            .end();
-        recipe = builder.recipe("javac-test");
-        depends = recipe.depends();
-        depends.source("javac");
-        for (Artifact artifact : testDepenencies) {
-            depends.artifact(artifact.getGroup(), artifact.getName(), artifact.getVersion());
-        }
-        depends.end();
-        recipe
-            .command("javac")
-                .argument("source-directory", "src/test/java")
-                .argument("output-directory", "target/test-classes")
-                .argument("source", "1.5")
-                .argument("deprecation", "true")
-                .argument("debug", "true")
-                .end()
-            .produces()
-                .classes("target/test-classes")
-                .end()
-            .end();
+            .recipe("javac-test")
+                .depends()
+                    .source("javac")
+                    .artifact(testDepenencies)
+                    .end()
+                .command("javac")
+                    .argument("source-directory", "src/test/java")
+                    .argument("output-directory", "target/test-classes")
+                    .argument("source", "1.5")
+                    .argument("deprecation", "true")
+                    .argument("debug", "true")
+                    .end()
+                .produces()
+                    .classes("target/test-classes")
+                    .end()
+                .end();
 
-        recipe = builder.recipe("javadoc");
+        RecipeElement recipe = builder.recipe("javadoc");
         recipe
             .depends()
                 .source("javac")
