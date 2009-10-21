@@ -5,7 +5,6 @@ import java.util.Collections;
 
 import com.goodworkalan.go.go.Artifact;
 import com.goodworkalan.go.go.Include;
-import com.goodworkalan.go.go.InputOutput;
 import com.goodworkalan.go.go.PathPart;
 import com.goodworkalan.go.go.ResolutionPart;
 
@@ -36,7 +35,7 @@ public class ArtifactDependency implements Dependency {
      *            The project.
      */
     public Collection<PathPart> getPathParts(Project project) {
-        return Collections.<PathPart> singletonList(new ResolutionPart(include));
+        return Collections.<PathPart>singletonList(new ResolutionPart(include));
     }
 
     /**
@@ -50,13 +49,13 @@ public class ArtifactDependency implements Dependency {
     }
 
     /**
-     * A do nothing make task.
+     * Return an empty collection indicating no dependent recipes.
      * 
-     * @param io
-     *            The input/output streams.
      * @param project
      *            The project.
+     * @return An empty list.
      */
-    public void make(InputOutput io, Project project) {
+    public Collection<String> getRecipes(Project project) {
+        return Collections.emptyList();
     }
 }

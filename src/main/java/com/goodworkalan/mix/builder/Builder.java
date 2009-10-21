@@ -1,4 +1,4 @@
-package com.goodworkalan.mix;
+package com.goodworkalan.mix.builder;
 
 import java.io.File;
 import java.util.HashMap;
@@ -7,6 +7,11 @@ import java.util.Map;
 
 import com.goodworkalan.go.go.CommandPart;
 import com.goodworkalan.go.go.Executor;
+import com.goodworkalan.mix.ArtifactSource;
+import com.goodworkalan.mix.MixException;
+import com.goodworkalan.mix.Project;
+import com.goodworkalan.mix.ProvidesElement;
+import com.goodworkalan.mix.Recipe;
 import com.goodworkalan.reflective.ReflectiveException;
 import com.goodworkalan.reflective.ReflectiveFactory;
 
@@ -46,7 +51,7 @@ public class Builder {
     }
     
     public Project createProject(File workingDirectory, Executor executor, CommandPart mix) {
-        return new Project(workingDirectory, artifacts, recipes, executor, mix);
+        return new Project(workingDirectory, artifacts, recipes);
     }
     
     public <T> T cookbook(Class<T> cookbookClass) {

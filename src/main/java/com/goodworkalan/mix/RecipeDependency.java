@@ -2,9 +2,9 @@ package com.goodworkalan.mix;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import com.goodworkalan.go.go.Artifact;
-import com.goodworkalan.go.go.InputOutput;
 import com.goodworkalan.go.go.PathPart;
 
 // FIXME OutputDepdenency and RecipeDependency
@@ -62,15 +62,7 @@ public class RecipeDependency implements Dependency {
         return artifacts;
     }
 
-    /**
-     * Make the recipe by calling the make method of the given project.
-     * 
-     * @param io
-     *            The input/output streams.
-     * @param project
-     *            The project.
-     */
-    public void make(InputOutput io, Project project) {
-        project.make(io, name);
+    public Collection<String> getRecipes(Project project) {
+        return Collections.singleton(name);
     }
 }

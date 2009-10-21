@@ -52,7 +52,7 @@ public class FindList extends ArrayList<FindList.Entry> {
             return find;
         }
     }
-
+    
     /**
      * Add the given directory to the find list.
      * 

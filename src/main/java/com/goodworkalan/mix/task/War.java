@@ -1,4 +1,4 @@
-package com.goodworkalan.mix;
+package com.goodworkalan.mix.task;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +13,12 @@ import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Library;
 import com.goodworkalan.go.go.PathPart;
-import com.goodworkalan.go.go.Command;
+import com.goodworkalan.mix.Dependency;
+import com.goodworkalan.mix.MixException;
+import com.goodworkalan.mix.MixTask;
+import com.goodworkalan.mix.Project;
+import com.goodworkalan.mix.Recipe;
+import com.goodworkalan.mix.builder.RecipeElement;
 
 /**
  * Create a web application archive copying artifact dependencies to the
@@ -21,8 +26,7 @@ import com.goodworkalan.go.go.Command;
  * 
  * @author Alan Gutierrez
  */
-@Command(parent = MixTask.class)
-public class WarTask extends ZipTask {
+public class War extends Zip {
     /**
      * List or recipe names paired to a flag to indicate whether to include the
      * dependencies or the produce of the recipe.
@@ -31,6 +35,10 @@ public class WarTask extends ZipTask {
 
     /** The Mix configuration. */
     private MixTask.Configuration configuration;
+
+    public War(RecipeElement program) {
+        super(program);
+    }
 
     /**
      * Set the Mix configuration output.
@@ -76,8 +84,7 @@ public class WarTask extends ZipTask {
         Collection<PathPart> parts = new ArrayList<PathPart>();
         Project project = configuration.getProject();
         for (Map<String, Boolean> pair : recipes) {
-            Map.Entry<String, Boolean> entry = pair.entrySet().iterator()
-                    .next();
+            Map.Entry<String, Boolean> entry = pair.entrySet().iterator().next();
             Recipe recipe = project.getRecipe(entry.getKey());
             if (entry.getValue()) {
                 for (Dependency dependency : recipe.getDependencies()) {

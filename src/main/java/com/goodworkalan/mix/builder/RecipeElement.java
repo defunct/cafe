@@ -1,4 +1,4 @@
-package com.goodworkalan.mix;
+package com.goodworkalan.mix.builder;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -6,15 +6,25 @@ import java.util.List;
 import java.util.Map;
 
 import com.goodworkalan.go.go.PathPart;
+import com.goodworkalan.mix.ArtifactSource;
+import com.goodworkalan.mix.Dependency;
+import com.goodworkalan.mix.MixException;
+import com.goodworkalan.mix.ProducesElement;
+import com.goodworkalan.mix.Recipe;
+import com.goodworkalan.mix.RecipeModule;
+import com.goodworkalan.reflective.ReflectiveException;
+import com.goodworkalan.reflective.ReflectiveFactory;
 
 public class RecipeElement {
+    private final ReflectiveFactory reflectiveFactory = new ReflectiveFactory();
+
     private final Builder builder;
     
     private final String name;
     
     private final Map<String, Recipe> recipes;
     
-    private final List<Command> commands = new ArrayList<Command>();
+    private final List<Executable> program = new ArrayList<Executable>();
     
     private final Map<List<String>, Dependency> dependencies = new LinkedHashMap<List<String>, Dependency>();
     
@@ -27,6 +37,10 @@ public class RecipeElement {
         this.recipes = recipes;
         this.artifacts = artifacts;
         this.name = name;
+    }
+    
+    public void addExecutable(Executable executable) {
+        program.add(executable);
     }
     
     /** Here's an idea on reuse and extension. */
@@ -48,10 +62,12 @@ public class RecipeElement {
         return this;
     }
 
-    public CommandElement<RecipeElement> command(String name) {
-        Command command = new Command(name);
-        commands.add(command);
-        return new CommandElement<RecipeElement>(this, command);
+    public <T> T task(Class<T> taskClass) {
+        try {
+            return reflectiveFactory.getConstructor(taskClass, RecipeElement.class).newInstance(this);
+        } catch (ReflectiveException e) {
+            throw new MixException(0, e);
+        }
     }
 
     /**
@@ -59,8 +75,8 @@ public class RecipeElement {
      * 
      * @return A depends language element to specify project dependencies.
      */
-    public DependsElement depends() {
-        return new DependsElement(this, dependencies);
+    public DependsElement<RecipeElement> depends() {
+        return new DependsElement<RecipeElement>(this, dependencies);
     }
     
     public ProducesElement produces() {
@@ -68,7 +84,7 @@ public class RecipeElement {
     }
 
     public Builder end() {
-        recipes.put(name, new Recipe(commands, dependencies, produces));
+        recipes.put(name, new Recipe(program, dependencies, produces));
         return builder;
     }
 }

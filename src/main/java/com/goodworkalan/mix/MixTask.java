@@ -15,6 +15,7 @@ import com.goodworkalan.go.go.CommandInterpreter;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Output;
 import com.goodworkalan.go.go.Task;
+import com.goodworkalan.mix.builder.Builder;
 import com.goodworkalan.reflective.ReflectiveException;
 import com.goodworkalan.reflective.ReflectiveFactory;
 

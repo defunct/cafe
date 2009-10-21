@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.goodworkalan.go.go.DirectoryPart;
 import com.goodworkalan.go.go.PathPart;
+import com.goodworkalan.mix.builder.RecipeElement;
 
 public class ProducesElement {
     private final RecipeElement recipeElement;
@@ -23,8 +24,8 @@ public class ProducesElement {
         this.artifacts = artifacts;
     }
     
-    public ProducesElement classes(String classesDirectory) {
-        produces.add(new DirectoryPart(new File(classesDirectory)));
+    public ProducesElement classes(File classesDirectory) {
+        produces.add(new DirectoryPart(classesDirectory));
         return this;
     }
     

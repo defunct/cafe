@@ -1,4 +1,4 @@
-package com.goodworkalan.mix;
+package com.goodworkalan.mix.builder;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -7,26 +7,37 @@ import java.util.Map;
 
 import com.goodworkalan.go.go.Artifact;
 import com.goodworkalan.go.go.Include;
+import com.goodworkalan.mix.ArtifactDependency;
+import com.goodworkalan.mix.Dependency;
+import com.goodworkalan.mix.RecipeDependency;
 
-public class DependsElement {
-    private final RecipeElement recipeElement;
+/**
+ * Specify the dependencies of a project.
+ * 
+ * FIXME I can probably merge all elements into one, after I implement siblings
+ * that is all Dependency derived classes, then I can move this to a separate
+ * package, it is the only one with a tight binding.
+ *  
+ * @author Alan Gutierrez
+ */
+public class DependsElement<P> {
+    private final P recipeElement;
     
     private final Map<List<String>, Dependency> dependencies; 
     
-    public DependsElement(RecipeElement recipeElement, Map<List<String>, Dependency> dependencies) {
+    public DependsElement(P recipeElement, Map<List<String>, Dependency> dependencies) {
         this.recipeElement = recipeElement;
         this.dependencies = dependencies;
     }
 
-    // FIXME Rename classes.
-    public DependsElement source(String name) {
+    public DependsElement<P> classes(String name) {
         if (!dependencies.containsKey(name)) {
             dependencies.put(Collections.singletonList(name), new RecipeDependency(name));
         }
         return this;
     }
     
-    public DependsElement sibling(String group, String name, String version) {
+    public DependsElement<P> sibling(String group, String name, String version) {
         return this;
     }
 
@@ -38,7 +49,7 @@ public class DependsElement {
      * @return This depends language element to continue specifying
      *         dependencies.
      */
-    public DependsElement artifact(Include...includes) {
+    public DependsElement<P> artifact(Include...includes) {
         for (Include include : includes) {
             List<String> key = include.getArtifact().getKey().subList(0, 2);
             if (!dependencies.containsKey(key)) {
@@ -48,6 +59,13 @@ public class DependsElement {
         return this;
     }
     
+    public DependsElement<P> dependencies(Map<List<String>, Dependency> dependencies) {
+        this.dependencies.putAll(dependencies);
+        return this;
+    }
+    
+
+    
     /**
      * Add artifacts while also specifying excludes.
      * 
@@ -56,11 +74,11 @@ public class DependsElement {
      * @return This depends language element to continue specifying
      *         dependencies.
      */
-    public DependsElement artifact(Collection<Include> includes) {
+    public DependsElement<P> artifact(Collection<Include> includes) {
         return artifact(includes.toArray(new Include[includes.size()]));
     }
 
-    public DependsElement artifact(String group, String name, String version) {
+    public DependsElement<P> artifact(String group, String name, String version) {
         Artifact artifact = new Artifact(group, name, version);
         List<String> key = artifact.getKey().subList(0, 2);
         if (!dependencies.containsKey(key)) {
@@ -69,7 +87,7 @@ public class DependsElement {
         return this;
     }
     
-    public RecipeElement end() {
+    public P end() {
         return recipeElement;
     }
 }

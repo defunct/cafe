@@ -1,4 +1,4 @@
-package com.goodworkalan.mix;
+package com.goodworkalan.mix.task;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,13 +9,16 @@ import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import com.goodworkalan.go.go.Argument;
-import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Environment;
-import com.goodworkalan.go.go.Task;
+import com.goodworkalan.mix.FindList;
+import com.goodworkalan.mix.MixException;
+import com.goodworkalan.mix.Project;
+import com.goodworkalan.mix.builder.Executable;
+import com.goodworkalan.mix.builder.RecipeElement;
 
-@Command(parent = MixTask.class)
-public class ZipTask extends Task {
+public class Zip {
+    private final RecipeElement recipeElement;
+
     private final byte[] buffer = new byte[4098];
 
     private ZipOutputStream out;
@@ -30,17 +33,21 @@ public class ZipTask extends Task {
     private int level = 0;
 
     /** The output file name. */
-    private File outputFile;
+    private File output;
+
+    public Zip(RecipeElement recipeElement) {
+        this.recipeElement = recipeElement;
+    }
 
     /**
      * Set the output file name.
      * 
-     * @param outputFile
+     * @param output
      *            The output file name.
      */
-    @Argument
-    public void addOutputFile(File outputFile) {
-        this.outputFile = outputFile;
+    public Zip output(File output) {
+        this.output = output;
+        return this;
     }
 
     /**
@@ -49,9 +56,9 @@ public class ZipTask extends Task {
      * @param level
      *            The compression level.
      */
-    @Argument
-    public void addLevel(int level) {
+    public Zip level(int level) {
         this.level = level;
+        return this;
     }
 
     /**
@@ -59,33 +66,10 @@ public class ZipTask extends Task {
      * 
      * @param sourceDirectory
      */
-    @Argument
-    public void addSourceDirectory(File sourceDirectory) {
-        findList.addDirectory(sourceDirectory);
+    public FindElement<Zip> source(File directory) {
+        return new FindElement<Zip>(this, findList, directory);
     }
 
-    /**
-     * Apply the include criteria to the last directory added to this task.
-     * 
-     * @param include
-     *            The include pattern.
-     */
-    @Argument
-    public void addInclude(String include) {
-        findList.addInclude(include);
-    }
-
-    /**
-     * Apply the exclude criteria to the last directory added to this task.
-     * 
-     * @param exclude
-     *            The exclude pattern.
-     */
-    @Argument
-    public void addExclude(String exclude) {
-        findList.addExclude(exclude);
-    }
-    
     protected void addDirectory(String entryName) throws IOException {
         if (!entryName.endsWith("/")) {
             entryName = entryName + "/";
@@ -118,25 +102,29 @@ public class ZipTask extends Task {
     protected void addAdditionalEntries(Environment env) throws IOException {
     }
 
-    @Override
-    public void execute(Environment env) {
-        try {
-            out = new ZipOutputStream(new FileOutputStream(outputFile));
-            out.setLevel(level);
-            for (FindList.Entry entry : findList) {
-                for (String fileName : entry.getFind().find(entry.getDirectory())) {
-                    File source = new File(entry.getDirectory(), fileName);
-                    if (source.isDirectory()) {
-                        addDirectory(fileName);
-                    } else {
-                        addFile(source, fileName);
+    public RecipeElement end() {
+        recipeElement.addExecutable(new Executable() {
+            public void execute(Project project, Environment env) {
+                try {
+                    out = new ZipOutputStream(new FileOutputStream(output));
+                    out.setLevel(level);
+                    for (FindList.Entry entry : findList) {
+                        for (String fileName : entry.getFind().find(entry.getDirectory())) {
+                            File source = new File(entry.getDirectory(), fileName);
+                            if (source.isDirectory()) {
+                                addDirectory(fileName);
+                            } else {
+                                addFile(source, fileName);
+                            }
+                        }
                     }
+                    addAdditionalEntries(env);
+                    out.close();
+                } catch (IOException e) {
+                    throw new MixException(0, e);
                 }
             }
-            addAdditionalEntries(env);
-            out.close();
-        } catch (IOException e) {
-            throw new MixException(0, e);
-        }
+        });
+        return recipeElement;
     }
 }
