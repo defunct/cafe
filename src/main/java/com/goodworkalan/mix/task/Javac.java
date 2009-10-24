@@ -40,6 +40,8 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
     /** Disable warnings if false. */
     private boolean warnings;
     
+    private File output;
+    
     /** Artifacts. */
     private final List<Artifact> artifacts = new ArrayList<Artifact>();
     
@@ -112,7 +114,7 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
                             compilerClass = Class.forName("com.sun.tools.javac.Main");
                         } catch (ClassNotFoundException e) {
                         }
-                        if (fork || compilerClass == null) {
+                        if ((fork != null && fork) || compilerClass == null) {
                             arguments.add(0, "javac");
                             
                             ProcessBuilder newProcess = new ProcessBuilder();
@@ -148,6 +150,11 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
         return new FindElement<Javac>(this, findList, directory);
     }
     
+    public Javac output(File output) {
+        this.output = output;
+        return this;
+    }
+
     public Javac source(FindList findList) {
         findList.addAll(findList);
         return this;

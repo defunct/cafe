@@ -63,9 +63,7 @@ public class DependsElement<P> {
         this.dependencies.putAll(dependencies);
         return this;
     }
-    
 
-    
     /**
      * Add artifacts while also specifying excludes.
      * 
@@ -78,13 +76,8 @@ public class DependsElement<P> {
         return artifact(includes.toArray(new Include[includes.size()]));
     }
 
-    public DependsElement<P> artifact(String group, String name, String version) {
-        Artifact artifact = new Artifact(group, name, version);
-        List<String> key = artifact.getKey().subList(0, 2);
-        if (!dependencies.containsKey(key)) {
-            dependencies.put(key, new ArtifactDependency(new Include(artifact)));
-        }
-        return this;
+    public DependsElement<P> artifact(Artifact artifact) {
+        return artifact(new Include(artifact));
     }
     
     public P end() {

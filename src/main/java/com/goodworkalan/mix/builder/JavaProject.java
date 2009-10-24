@@ -17,15 +17,12 @@ import com.goodworkalan.mix.task.JavadocConfiguration;
 import com.goodworkalan.mix.task.JavadocEnd;
 import com.goodworkalan.mix.task.JavadocOptionsElement;
 import com.goodworkalan.mix.task.Mkdirs;
-import com.goodworkalan.mix.task.OutputConfiguration;
 import com.goodworkalan.mix.task.TestNG;
 import com.goodworkalan.mix.task.Zip;
 
 
 public class JavaProject extends JavaSpecificsElement {
     private Artifact produces;
-    
-    private final Builder builder;
     
     private final List<JavacConfiguration> javacConfigurations = new ArrayList<JavacConfiguration>();
     
@@ -34,13 +31,12 @@ public class JavaProject extends JavaSpecificsElement {
     private final List<JavadocConfiguration> devdocConfigurations = new ArrayList<JavadocConfiguration>();
     
     public JavaProject(Builder builder) {
-        this.builder = builder;
-        this
-            .main()
-                .javac()
-                     .output(new File("target/classes"))
-                     .end()
-                .end();
+        super(builder);
+    }
+    
+    public JavaProject produces(Artifact artifact) {
+        this.produces = artifact;
+        return this;
     }
     
     public JavacOptionsElement<JavaProject, JavacOptionsElement<JavaProject, ?>> javac() {
@@ -74,7 +70,7 @@ public class JavaProject extends JavaSpecificsElement {
                     .dependencies(mainDependencies)
                     .end()
                 .task(Delete.class)
-                    .file(getOutput(javacConfigurations))
+                    .file(new File("target/classes"))
                     .recurse(true)
                     .end()
                 .task(Javac.class)
@@ -123,6 +119,8 @@ public class JavaProject extends JavaSpecificsElement {
                     .end()
                 .task(Javadoc.class)
                     .configure(apidocConfigurations)
+                    .source(new File("src/main/java")).end()
+                    .output(new File("target/apidocs"))
                     .end()
                 .end()
             .recipe("devdoc")
@@ -137,6 +135,8 @@ public class JavaProject extends JavaSpecificsElement {
                     .end()
                 .task(Javadoc.class)
                     .configure(devdocConfigurations)
+                    .source(new File("src/main/main")).end()
+                    .output(new File("target/devdocs"))
                     .end()
                 .end()
             .recipe("test")
@@ -144,7 +144,7 @@ public class JavaProject extends JavaSpecificsElement {
                     .classes("javac")
                     .end()
                 .task(TestNG.class)
-                    .classes(getOutput(javacConfigurations))
+                    .classes(new File("target/classes"))
                     .end()
                 .end()
             .recipe("clean")
@@ -153,9 +153,9 @@ public class JavaProject extends JavaSpecificsElement {
                     .recurse(true)
                     .end()
                 .end()
-            .recipe("distribute")
+            .recipe("distribution")
                 .depends()
-                    .classes("javac").classes("apidocs")
+                    .classes("javac").classes("apidoc")
                     .end()
                 .task(Delete.class)
                     .file(new File("target/distribution"))
@@ -183,17 +183,8 @@ public class JavaProject extends JavaSpecificsElement {
                     .source(new File("target/apidocs")).end()
                     .level(0)
                     .output(new File("target/distribution/" + produces.getPath("javadoc/jar")))
+                    .end()
                 .end();
         return builder;
-    }
-
-    private File getOutput(List<? extends OutputConfiguration> configurations) {
-        File mainClassOutput = null;
-        for (OutputConfiguration configuration : configurations) {
-            if (configuration.getOuptut() != null) {
-                mainClassOutput = configuration.getOuptut();
-            }
-        }
-        return mainClassOutput;
     }
 }

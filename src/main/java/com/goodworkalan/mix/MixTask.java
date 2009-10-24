@@ -11,11 +11,14 @@ import java.util.Properties;
 import com.goodworkalan.glob.Find;
 import com.goodworkalan.go.go.Arguable;
 import com.goodworkalan.go.go.Argument;
+import com.goodworkalan.go.go.Artifact;
 import com.goodworkalan.go.go.CommandInterpreter;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Output;
 import com.goodworkalan.go.go.Task;
 import com.goodworkalan.mix.builder.Builder;
+import com.goodworkalan.mix.builder.Executable;
+import com.goodworkalan.mix.task.Javac;
 import com.goodworkalan.reflective.ReflectiveException;
 import com.goodworkalan.reflective.ReflectiveFactory;
 
@@ -151,14 +154,19 @@ public class MixTask extends Task {
                 }
                 File sourceDirectory = new File(arguments.getWorkingDirectory(), sourceDirectoryName);
                 if (sourceDirectory.isDirectory()) {
-                    CommandInterpreter interpreter = env.part.getCommandInterpreter();
-                    interpreter
-                        .command("mix", "--no-project")
-                        .command("javac")
-                            .argument("artifact", "com.goodworkalan/mix/0.1")
-                            .argument("source-directory", sourceDirectory.toString())
-                            .argument("output-directory", outputDirectory.toString())
-                        .execute(env.io);
+                    Builder hiddenBuilder = new Builder();
+                    hiddenBuilder
+                        .recipe("javac")
+                            .task(Javac.class)
+                                .artifact(new Artifact("com.goodworkalan/mix/0.1"))
+                                .source(sourceDirectory).end()
+                                .output(outputDirectory)
+                                .end()
+                             .end();
+                    Project project = hiddenBuilder.createProject(arguments.getWorkingDirectory(), env.executor, env.part);
+                    for (Executable executable : project.getRecipe("javac").getProgram()) {
+                        executable.execute(project, env);
+                    }
                 }
                 // FIXME Do resources too.
             } else if (!outputDirectory.isDirectory()) {

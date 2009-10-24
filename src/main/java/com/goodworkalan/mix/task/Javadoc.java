@@ -19,7 +19,6 @@ import com.goodworkalan.go.go.PathPart;
 import com.goodworkalan.go.go.ResolutionPart;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.FindList;
-import com.goodworkalan.mix.MixTask;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
 import com.goodworkalan.mix.builder.RecipeElement;
@@ -30,8 +29,6 @@ import com.goodworkalan.spawn.Spawn;
 
 public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
     private final ReflectiveFactory reflectiveFactory = new ReflectiveFactory();
-    
-    private MixTask.Arguments mixArguments;
     
     private boolean fork;
     
@@ -86,12 +83,12 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
                             arguments.add(entry.getKey().toASCIIString());
                             arguments.add(entry.getValue().getAbsoluteFile().toURI().toString());
                         }
-                        if (!mixArguments.isOffline()) {
-                            for (URI link : links) {
-                                arguments.add("-link");
-                                arguments.add(link.toASCIIString());
-                            }
-                        }
+//                        if (!mixArguments.isOffline()) {
+//                            for (URI link : links) {
+//                                arguments.add("-link");
+//                                arguments.add(link.toASCIIString());
+//                            }
+//                        }
                         Set<File> classpath = new LinkedHashSet<File>();
                         Library library = env.part.getCommandInterpreter().getLibrary();
                         classpath.addAll(library.resolve(parts).getFiles());
@@ -139,10 +136,6 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
             configuration.configure(this);
         }
         return this;
-    }
-
-    public void setMixArguments(MixTask.Arguments mixArguments) {
-        this.mixArguments = mixArguments;
     }
 
     public Javadoc artifact(Artifact artifact) {

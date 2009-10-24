@@ -14,6 +14,6 @@ public class MixTest {
     @Test
     public void execute() {
         CommandInterpreter ci = new CommandInterpreter();
-        ci.execute("mix", "make", "distribution");
+        ci.execute("mix", "--working-directory=src/test/project", "make", "distribution");
     }
 }

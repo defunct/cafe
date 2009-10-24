@@ -20,8 +20,6 @@ public class JavacOptionsElement<P, S> {
     
     protected Boolean unchecked;
     
-    protected File output;
-    
     protected final SelfServer<S> self;
 
     protected JavacEnd ending;
@@ -74,17 +72,8 @@ public class JavacOptionsElement<P, S> {
         return self.getSelf();
     }
     
-    public S output(File output) {
-        this.output = output;
-        return self.getSelf();
-    }
-    
     public P end() {
         ending.end(new JavacConfiguration() {
-            public File getOuptut() {
-                return output;
-            }
-
             public void configure(Javac javac) {
                 if (debug != null) {
                     javac.debug(debug);
@@ -100,12 +89,6 @@ public class JavacOptionsElement<P, S> {
                 }
                 if (unchecked != null) {
                     javac.unchecked(unchecked);
-                }
-            }
-            
-            public void configure(Outputable<?> outputable) {
-                if (output != null) {
-                    outputable.output(output);
                 }
             }
         });

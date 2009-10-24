@@ -1,11 +1,8 @@
 package com.goodworkalan.mix;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Environment;
@@ -27,7 +24,7 @@ public class MakeTask extends Task {
             throw new MixException(0);
         }
         Project project = configuration.getProject();
-        Map<String, Recipe> buildQueue = new LinkedHashMap<String, Recipe>();
+        LinkedList<String> buildQueue = new LinkedList<String>();
         LinkedList<String> recipeQueue = new LinkedList<String>();
         recipeQueue.add(remaining.get(0));
         while (!recipeQueue.isEmpty()) {
@@ -38,12 +35,10 @@ public class MakeTask extends Task {
                     recipeQueue.addLast(recipeName);
                 }
             }
-            buildQueue.put(name, recipe);
+            buildQueue.addFirst(name);
         }
-        List<Recipe> build = new ArrayList<Recipe>(buildQueue.values());
-        Collections.reverse(build);
-        for (Recipe recipe : build) {
-            for (Executable executable : recipe.getProgram()) {
+        for (String recipeName : new LinkedHashSet<String>(buildQueue)) {
+            for (Executable executable : project.getRecipe(recipeName).getProgram()) {
                 executable.execute(project, env);
             }
         }

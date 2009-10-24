@@ -5,15 +5,12 @@ import com.goodworkalan.mix.ProjectModule;
 import com.goodworkalan.mix.builder.Builder;
 import com.goodworkalan.mix.builder.JavaProject;
 
-public class MixModule extends ProjectModule {
-    public MixModule() {
-    }
-    
+public class HelloProject extends ProjectModule {
     @Override
     public void build(Builder builder) {
         builder
             .cookbook(JavaProject.class)
-                .produces(new Artifact("com.goodworkalan", "mix", "0.1"))
+                .produces(new Artifact("com.goodworkalan", "hello", "0.1"))
                 .main()
                     .depends()
                         .artifact(new Artifact("com.goodworkalan/spawn/0.1"))

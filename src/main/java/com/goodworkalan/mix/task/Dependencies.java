@@ -61,7 +61,9 @@ public class Dependencies {
                         }
                     }
                 }
-                
+                if (!output.getParentFile().isDirectory() && !output.getParentFile().mkdirs()) {
+                    throw new MixException(0);
+                }
                 try {
                     Writer writer = new FileWriter(output);
                     for (Artifact artifact : dependencies.values()) {
