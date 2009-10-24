@@ -51,7 +51,7 @@ public class Delete {
 
     public RecipeElement end() {
         recipeElement.addExecutable(new Executable() {
-            public void execute(Project project, Environment env) {
+            public void execute(Environment env, Project project, String recipeName) {
                 if (!recurse) {
                     if (file.exists() && !file.delete()) {
                         throw new MixError(0);

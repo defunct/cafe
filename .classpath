@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry excluding="**/*.java" kind="src" path="src/main/resources"/>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java"/>
-	<classpathentry kind="src" output="target/mix/classes" path="src/mix/java"/>
+	<classpathentry kind="src" output="target/mix-classes" path="src/mix/java"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/go-go"/>
 	<classpathentry kind="var" path="M2_REPO/com/goodworkalan/cassandra/0.7/cassandra-0.7.jar" sourcepath="M2_REPO/com/goodworkalan/cassandra/0.7/cassandra-0.7-sources.jar">
 		<attributes>

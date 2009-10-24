@@ -29,8 +29,6 @@ import com.goodworkalan.spawn.Redirect;
 import com.goodworkalan.spawn.Spawn;
 
 public class TestNG extends Task {
-    private String recipe;
-    
     private final FindList findList = new FindList();
     
     private final List<File> classes = new ArrayList<File>();
@@ -54,11 +52,6 @@ public class TestNG extends Task {
         artifacts.add(artifact);
         return this;
     }
-
-    public TestNG recipe(String recipe) {
-        this.recipe = recipe;
-        return this;
-    }
     
     public FindElement<TestNG> source(File directory) {
         return new FindElement<TestNG>(this, findList, directory);
@@ -71,7 +64,7 @@ public class TestNG extends Task {
 
     public RecipeElement end() {
         recipeElement.addExecutable(new Executable() {
-            public void execute(Project project, Environment env) {
+            public void execute(Environment env, Project project, String recipeName) {
                 List<String> arguments = new ArrayList<String>();
                 
                 Set<File> classpath = new LinkedHashSet<File>();
@@ -82,10 +75,8 @@ public class TestNG extends Task {
                 for (Artifact artifact : artifacts) {
                     parts.add(new ResolutionPart(artifact));
                 }
-                if (recipe != null) {
-                    for (Dependency dependency : project.getRecipe(recipe).getDependencies()) {
-                        parts.addAll(dependency.getPathParts(project));
-                    }
+                for (Dependency dependency : project.getRecipe(recipeName).getDependencies()) {
+                    parts.addAll(dependency.getPathParts(project));
                 }
                 Library library = env.part.getCommandInterpreter().getLibrary();
                 classpath.addAll(library.resolve(parts, new HashSet<Object>()).getFiles());

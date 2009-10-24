@@ -31,7 +31,7 @@ public class Dependencies {
     /**
      * Set the output file.
      * 
-     * @param outputFile
+     * @param output
      *            The output file.
      */
     public Dependencies output(File output) {
@@ -52,7 +52,7 @@ public class Dependencies {
 
     public RecipeElement end() {
         recipeElement.addExecutable(new Executable() {
-            public void execute(Project project, Environment env) {
+            public void execute(Environment env, Project project, String recipeName) {
                 LinkedHashMap<List<String>, Artifact> dependencies = new LinkedHashMap<List<String>, Artifact>();
                 if (recipe != null) {
                     for (Dependency dependency : project.getRecipe(recipe).getDependencies()) {

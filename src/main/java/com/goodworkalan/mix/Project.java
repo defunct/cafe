@@ -56,8 +56,8 @@ public class Project {
         return new ArrayList<Recipe>(recipes.values());
     }
 
-    public Recipe getRecipe(String name) {
-        return recipes.get(name);
+    public Recipe getRecipe(String recipeName) {
+        return recipes.get(recipeName);
     }
     
     public List<ArtifactSource> getArtifactSources() {

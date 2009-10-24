@@ -12,7 +12,6 @@ import com.goodworkalan.glob.Find;
 import com.goodworkalan.go.go.Arguable;
 import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.Artifact;
-import com.goodworkalan.go.go.CommandInterpreter;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Output;
 import com.goodworkalan.go.go.Task;
@@ -34,10 +33,20 @@ public class MixTask extends Task {
     /** If true, attempt to load a project. */
     private boolean project = true;
     
+    /**
+     * Create a mix task.
+     */
     public MixTask() {
         this(new ReflectiveFactory());
     }
-    
+
+    /**
+     * Create a mix task with the given reflective factory for testing. The
+     * given reflective factory can simulate reflection exceptions.
+     * 
+     * @param reflectiveFactory
+     *            The reflective factory.
+     */
     MixTask(ReflectiveFactory reflectiveFactory) {
         this.reflectiveFactory = reflectiveFactory;
     }
@@ -64,6 +73,7 @@ public class MixTask extends Task {
          */
         private File workingDirectory = new File(".");
         
+        /** Whether or not Mix is being run without an Internet connection. */
         private boolean offline;
 
         /**
@@ -85,12 +95,23 @@ public class MixTask extends Task {
         public File getWorkingDirectory() {
             return workingDirectory;
         }
-        
+
+        /**
+         * Set whether or not Mix is being run without an Internet connection.
+         * 
+         * @param offline
+         *            If true, Mix is being run without an Internet connection.
+         */
         @Argument
         public void addOffline(boolean offline) {
             this.offline = offline;
         }
-        
+
+        /**
+         * Get whether or not Mix is being run without an Internet connection.
+         * 
+         * @return True Mix is being run without an Internet connection.
+         */
         public boolean isOffline() {
             return offline;
         }
@@ -165,7 +186,7 @@ public class MixTask extends Task {
                              .end();
                     Project project = hiddenBuilder.createProject(arguments.getWorkingDirectory(), env.executor, env.part);
                     for (Executable executable : project.getRecipe("javac").getProgram()) {
-                        executable.execute(project, env);
+                        executable.execute(env, project, "javac");
                     }
                 }
                 // FIXME Do resources too.

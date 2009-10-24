@@ -1,6 +1,5 @@
 package com.goodworkalan.mix.task;
 
-import java.io.File;
 
 public class JavacOptionsElement<P, S> {
     protected final P parent;

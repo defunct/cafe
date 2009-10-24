@@ -37,13 +37,7 @@ public class RecipeDependency implements Dependency {
      *            The project.
      */
     public Collection<PathPart> getPathParts(Project project) {
-        Collection<PathPart> parts = new ArrayList<PathPart>();
-        Recipe recipe = project.getRecipe(name);
-        parts.addAll(recipe.getProduce());
-        for (Dependency dependency : recipe.getDependencies()) {
-            parts.addAll(dependency.getPathParts(project));
-        }
-        return parts;
+        return Collections.<PathPart>singletonList(new RecipePathPart(project, name));
     }
 
     /**

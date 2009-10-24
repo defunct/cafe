@@ -32,8 +32,6 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
     
     private boolean fork;
     
-    private String recipe;
-    
     private String visibility;
     
     private File output;
@@ -49,7 +47,7 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
             public void end(JavadocConfiguration configuration) {
                 configure(configuration);
                 parent.addExecutable(new Executable() {
-                    public void execute(Project project, Environment env) {
+                    public void execute(Environment env, Project project, String recipeName) {
                         List<String> arguments = new ArrayList<String>();
                         
                         arguments.add("-d");
@@ -63,10 +61,8 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
                         for (Artifact artifact : artifacts) {
                             parts.add(new ResolutionPart(artifact));
                         }
-                        if (recipe != null) {
-                            for (Dependency dependency : project.getRecipe(recipe).getDependencies()) {
-                                parts.addAll(dependency.getPathParts(project));
-                            }
+                        for (Dependency dependency : project.getRecipe(recipeName).getDependencies()) {
+                            parts.addAll(dependency.getPathParts(project));
                         }
                         for (FindList.Entry entry : findList) {
                             Find find = entry.getFind();
@@ -153,11 +149,6 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
         return this;
     }
     
-    public Javadoc recipe(String recipe) {
-        this.recipe = recipe;
-        return this;
-    }
-
     public FindElement<Javadoc> source(File directory) {
         return new FindElement<Javadoc>(this, findList, directory);
     }

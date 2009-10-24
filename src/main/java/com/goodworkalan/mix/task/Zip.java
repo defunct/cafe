@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import com.goodworkalan.glob.Find;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.mix.FindList;
 import com.goodworkalan.mix.MixException;
@@ -64,7 +65,7 @@ public class Zip {
     /**
      * Add a source directory.
      * 
-     * @param sourceDirectory
+     * @param directory The source directory.
      */
     public FindElement<Zip> source(File directory) {
         return new FindElement<Zip>(this, findList, directory);
@@ -102,21 +103,25 @@ public class Zip {
     protected void addAdditionalEntries(Environment env) throws IOException {
     }
 
+    protected void addFind(Find find, File directory) throws IOException {
+        for (String fileName : find.find(directory)) {
+            File source = new File(directory, fileName);
+            if (source.isDirectory()) {
+                addDirectory(fileName);
+            } else {
+                addFile(source, fileName);
+            }
+        }
+    }
+    
     public RecipeElement end() {
         recipeElement.addExecutable(new Executable() {
-            public void execute(Project project, Environment env) {
+            public void execute(Environment env, Project project, String recipeName) {
                 try {
                     out = new ZipOutputStream(new FileOutputStream(output));
                     out.setLevel(level);
                     for (FindList.Entry entry : findList) {
-                        for (String fileName : entry.getFind().find(entry.getDirectory())) {
-                            File source = new File(entry.getDirectory(), fileName);
-                            if (source.isDirectory()) {
-                                addDirectory(fileName);
-                            } else {
-                                addFile(source, fileName);
-                            }
-                        }
+                        addFind(entry.getFind(), entry.getDirectory());
                     }
                     addAdditionalEntries(env);
                     out.close();
@@ -124,6 +129,7 @@ public class Zip {
                     throw new MixException(0, e);
                 }
             }
+
         });
         return recipeElement;
     }

@@ -1,11 +1,11 @@
 package com.goodworkalan.mix;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import com.goodworkalan.go.go.PathPart;
 import com.goodworkalan.mix.builder.Executable;
 
 public class Recipe {
@@ -13,12 +13,12 @@ public class Recipe {
     
     private final Map<List<String>, Dependency> dependencies;
     
-    private final Collection<PathPart> produce;
+    private final Set<File> classes;
     
-    public Recipe(List<Executable> program, Map<List<String>, Dependency> dependencies, Collection<PathPart> produce) {
+    public Recipe(List<Executable> program, Map<List<String>, Dependency> dependencies, Set<File> classes) {
         this.program = program;
         this.dependencies = dependencies;
-        this.produce = produce;
+        this.classes = classes;
     }
     
     public List<Executable> getProgram() {
@@ -29,7 +29,7 @@ public class Recipe {
         return new ArrayList<Dependency>(dependencies.values());
     }
     
-    public Collection<PathPart> getProduce() {
-        return produce;
+    public Set<File> getClasses() {
+        return classes;
     }
 }

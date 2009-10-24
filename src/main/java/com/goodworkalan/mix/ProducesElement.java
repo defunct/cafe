@@ -3,9 +3,8 @@ package com.goodworkalan.mix;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import com.goodworkalan.go.go.DirectoryPart;
-import com.goodworkalan.go.go.PathPart;
 import com.goodworkalan.mix.builder.RecipeElement;
 
 public class ProducesElement {
@@ -13,19 +12,19 @@ public class ProducesElement {
     
     private final String recipe;
 
-    private final List<PathPart> produces;
+    private final Set<File> classes;
     
     private final Map<List<String>, ArtifactSource> artifacts;
     
-    public ProducesElement(RecipeElement recipeElement, String recipe, List<PathPart> produces, Map<List<String>, ArtifactSource> artifacts) {
+    public ProducesElement(RecipeElement recipeElement, String recipe, Set<File> classes, Map<List<String>, ArtifactSource> artifacts) {
         this.recipeElement = recipeElement;
         this.recipe = recipe;
-        this.produces = produces;
+        this.classes = classes;
         this.artifacts = artifacts;
     }
     
     public ProducesElement classes(File classesDirectory) {
-        produces.add(new DirectoryPart(classesDirectory));
+        classes.add(classesDirectory);
         return this;
     }
     

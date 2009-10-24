@@ -35,8 +35,6 @@ import com.goodworkalan.spawn.Spawn;
 public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
     private final ReflectiveFactory reflectiveFactory = new ReflectiveFactory();
     
-    private String recipe;
-    
     /** Disable warnings if false. */
     private boolean warnings;
     
@@ -53,7 +51,7 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
             public void end(JavacConfiguration configuration) {
                 configure(configuration);
                 parent.addExecutable(new Executable() {
-                    public void execute(Project project, Environment env) {
+                    public void execute(Environment env, Project project, String recipeName) {
                         List<String> arguments = new ArrayList<String>();
                         if (!warnings) {
                             arguments.add("-nowarn");
@@ -88,10 +86,8 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
                         for (Artifact artifact : artifacts) {
                             parts.add(new ResolutionPart(artifact));
                         }
-                        if (recipe != null) {
-                            for (Dependency dependency : project.getRecipe(recipe).getDependencies()) {
-                                parts.addAll(dependency.getPathParts(project));
-                            }
+                        for (Dependency dependency : project.getRecipe(recipeName).getDependencies()) {
+                            parts.addAll(dependency.getPathParts(project));
                         }
                         Set<File> classpath = new LinkedHashSet<File>();
                         Library library = env.part.getCommandInterpreter().getLibrary();

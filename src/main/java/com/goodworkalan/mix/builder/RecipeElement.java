@@ -1,11 +1,13 @@
 package com.goodworkalan.mix.builder;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import com.goodworkalan.go.go.PathPart;
 import com.goodworkalan.mix.ArtifactSource;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.MixException;
@@ -28,7 +30,7 @@ public class RecipeElement {
     
     private final Map<List<String>, Dependency> dependencies = new LinkedHashMap<List<String>, Dependency>();
     
-    private final List<PathPart> produces = new ArrayList<PathPart>();
+    private final Set<File> classes = new LinkedHashSet<File>();
     
     private final Map<List<String>, ArtifactSource> artifacts; 
     
@@ -80,11 +82,11 @@ public class RecipeElement {
     }
     
     public ProducesElement produces() {
-        return new ProducesElement(this, name, produces, artifacts);
+        return new ProducesElement(this, name, classes, artifacts);
     }
 
     public Builder end() {
-        recipes.put(name, new Recipe(program, dependencies, produces));
+        recipes.put(name, new Recipe(program, dependencies, classes));
         return builder;
     }
 }

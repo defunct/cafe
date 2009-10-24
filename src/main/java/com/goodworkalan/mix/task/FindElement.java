@@ -32,8 +32,8 @@ public class FindElement<T> {
      * @param exclude
      *            The exclude pattern.
      */
-    public FindElement<T> exclude(String include) {
-        findList.addExclude(include);
+    public FindElement<T> exclude(String exclude) {
+        findList.addExclude(exclude);
         return this;
     }
 

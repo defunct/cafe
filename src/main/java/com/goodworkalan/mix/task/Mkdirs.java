@@ -26,7 +26,7 @@ public class Mkdirs {
     
     public RecipeElement end() {
         recipeElement.addExecutable(new Executable() {
-            public void execute(Project project, Environment env) {
+            public void execute(Environment env, Project project, String recipeName) {
                 for (File directory : directories) {
                     if (directory.exists()) {
                         if (!directory.isDirectory()) {

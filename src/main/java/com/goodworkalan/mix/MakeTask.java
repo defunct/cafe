@@ -39,7 +39,7 @@ public class MakeTask extends Task {
         }
         for (String recipeName : new LinkedHashSet<String>(buildQueue)) {
             for (Executable executable : project.getRecipe(recipeName).getProgram()) {
-                executable.execute(project, env);
+                executable.execute(env, project, recipeName);
             }
         }
     }

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipFile;
 
-import com.goodworkalan.go.go.Argument;
+import com.goodworkalan.glob.Find;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Library;
 import com.goodworkalan.go.go.PathPart;
@@ -56,9 +56,9 @@ public class War extends Zip {
      * @param recipeName
      *            The recipe name.
      */
-    @Argument
-    public void addDependency(String recipeName) {
+    public War depdenecies(String recipeName) {
         recipes.add(Collections.singletonMap(recipeName, false));
+        return this;
     }
 
     /**
@@ -67,9 +67,9 @@ public class War extends Zip {
      * @param recipeName
      *            The recipe name.
      */
-    @Argument
-    public void addProduce(String recipeName) {
+    public War classes(String recipeName) {
         recipes.add(Collections.singletonMap(recipeName, true));
+        return this;
     }
 
     /**
@@ -91,7 +91,9 @@ public class War extends Zip {
                     parts.addAll(dependency.getPathParts(project));
                 }
             } else {
-                parts.addAll(recipe.getProduce());
+                for (File file : recipe.getClasses()) {
+                    addFind(new Find(), file);
+                }
             }
         }
         Library library = env.part.getCommandInterpreter().getLibrary();

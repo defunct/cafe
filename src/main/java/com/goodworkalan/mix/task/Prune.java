@@ -31,7 +31,7 @@ public class Prune {
     
     public RecipeElement end() {
         recipeElement.addExecutable(new Executable() {
-            public void execute(Project project, Environment env) {
+            public void execute(Environment env, Project project, String recipeName) {
                 for (FindList.Entry entry : findList) {
                     for (String fileName : entry.getFind().find(entry.getDirectory())) {
                         File source = new File(entry.getDirectory(), fileName);

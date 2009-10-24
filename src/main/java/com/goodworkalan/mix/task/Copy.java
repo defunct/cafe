@@ -50,7 +50,7 @@ public class Copy {
 
     public RecipeElement end() {
         recipeElement.addExecutable(new Executable() {
-            public void execute(Project project, Environment env) {
+            public void execute(Environment env, Project project, String recipeName) {
                 for (FindList.Entry entry : findList) {
                     File sourceDirectory = entry.getDirectory();
                     if (sourceDirectory.isDirectory()) {
