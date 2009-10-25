@@ -12,8 +12,9 @@ import com.goodworkalan.go.go.Artifact;
 import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Task;
 import com.goodworkalan.mix.MixError;
+import com.goodworkalan.mix.MixTask;
 
-@Command(name = "test-ng", hidden = true)
+@Command(name = "test-ng", hidden = true, parent = MixTask.class)
 public class TestNGTask extends Task {
     public final static class Arguments implements Arguable {
         public final Map<String, String> defines = new LinkedHashMap<String, String>();

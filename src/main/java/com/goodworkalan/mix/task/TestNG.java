@@ -39,6 +39,8 @@ public class TestNG extends Task {
     
     private final RecipeElement recipeElement;
     
+    private File output;
+    
     public TestNG(RecipeElement recipeElement) {
         this.recipeElement = recipeElement;
     }
@@ -61,19 +63,26 @@ public class TestNG extends Task {
         systemProperties.put(name, value);
         return this;
     }
+    
+    public TestNG output(File output) {
+        this.output = output;
+        return this;
+    }
 
     public RecipeElement end() {
         recipeElement.addExecutable(new Executable() {
             public void execute(Environment env, Project project, String recipeName) {
-                TestNGTask.Arguments additional = env.executor.getArguments(env.part, TestNGTask.Arguments.class);
+                System.out.println("START");
+                TestNGTask.Arguments additional = env.executor.getArguments(TestNGTask.Arguments.class);
+                System.out.println("END");
 
                 for (Map.Entry<String, String> entry : additional.defines.entrySet()) {
                     define(entry.getKey(), entry.getValue());
                 }
                 
-                classes.addAll(additional.classes);
+                classes.addAll(0, additional.classes);
                 
-                artifacts.addAll(additional.artifacts);
+                artifacts.addAll(0, additional.artifacts);
                 
                 List<String> arguments = new ArrayList<String>();
                 
@@ -111,9 +120,15 @@ public class TestNG extends Task {
                 for (Map.Entry<String, String> entry : systemProperties.entrySet()) {
                     arguments.add("-D" + entry.getKey() + "=" + entry.getValue());
                 }
-                
+
                 arguments.add("-ea");
                 arguments.add("org.testng.TestNG");
+                
+                if (output != null) {
+                    arguments.add("-d");
+                    arguments.add(output.toString());
+                }
+
                 arguments.add("-testclass");
                 arguments.addAll(testClasses);
                 
