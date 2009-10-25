@@ -25,14 +25,8 @@ public class ArtifactElement {
      */
     private final Map<List<String>, ArtifactSource> artifacts;
 
-    /** The artifact group. */
-    private final String group;
-
-    /** The artifact name. */
-    private final String name;
-
-    /** The artifact version. */
-    private final String version;
+    /** The artifact. */
+    private final Artifact artifact; 
 
     /**
      * Create a new artifact element.
@@ -51,13 +45,11 @@ public class ArtifactElement {
      * @param version
      *            The artifact version.
      */
-    ArtifactElement(ProducesElement produces, String recipe, Map<List<String>, ArtifactSource> artifacts, String group, String name, String version) {
+    ArtifactElement(ProducesElement produces, String recipe, Map<List<String>, ArtifactSource> artifacts, Artifact artifact) {
         this.produces = produces;
         this.recipe = recipe;
         this.artifacts = artifacts;
-        this.group = group;
-        this.name = name;
-        this.version = version;
+        this.artifact = artifact;
     }
 
     /**
@@ -68,9 +60,8 @@ public class ArtifactElement {
      *            The output directory for the artifact.
      * @return The parent language element.
      */
-    public ProducesElement in(String directory) {
-        Artifact artifact = new Artifact(group, name, version);
-        artifacts.put(artifact.getKey(), new ArtifactSource(artifact, recipe, new File(directory)));
+    public ProducesElement in(File directory) {
+        artifacts.put(artifact.getKey(), new ArtifactSource(artifact, recipe, directory));
         return produces;
     }
 }

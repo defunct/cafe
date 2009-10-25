@@ -20,6 +20,8 @@ import com.goodworkalan.mix.RecipeDependency;
  *  
  * @author Alan Gutierrez
  */
+// FIXME Make recipe execution a separate dependency list, that way you can 
+// have this dependency be only for paths.
 public class DependsElement<P> {
     private final P recipeElement;
     
@@ -44,8 +46,8 @@ public class DependsElement<P> {
     /**
      * Add artifacts while also specifying excludes.
      * 
-     * @param include
-     *            An artifact to include.
+     * @param includes
+     *            An artifacts to include.
      * @return This depends language element to continue specifying
      *         dependencies.
      */
@@ -67,8 +69,8 @@ public class DependsElement<P> {
     /**
      * Add artifacts while also specifying excludes.
      * 
-     * @param include
-     *            An artifact to include.
+     * @param includes
+     *            An artifacts to include.
      * @return This depends language element to continue specifying
      *         dependencies.
      */

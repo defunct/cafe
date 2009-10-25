@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.goodworkalan.go.go.Artifact;
 import com.goodworkalan.mix.builder.RecipeElement;
 
 public class ProducesElement {
@@ -28,8 +29,8 @@ public class ProducesElement {
         return this;
     }
     
-    public ArtifactElement artifact(String group, String name, String version) {
-        return new ArtifactElement(this, recipe, artifacts, group, name, version);
+    public ArtifactElement artifact(Artifact artifact) {
+        return new ArtifactElement(this, recipe, artifacts, artifact);
     }
     
     public RecipeElement end() {

@@ -10,7 +10,6 @@ import com.goodworkalan.go.go.Executor;
 import com.goodworkalan.mix.ArtifactSource;
 import com.goodworkalan.mix.MixException;
 import com.goodworkalan.mix.Project;
-import com.goodworkalan.mix.ProvidesElement;
 import com.goodworkalan.mix.Recipe;
 import com.goodworkalan.reflective.ReflectiveException;
 import com.goodworkalan.reflective.ReflectiveFactory;
@@ -46,10 +45,6 @@ public class Builder {
         return new RecipeElement(this, artifacts, recipes, name);
     }
 
-    public ProvidesElement provides(String group, String name, String version) {
-        return null;
-    }
-    
     public Project createProject(File workingDirectory, Executor executor, CommandPart mix) {
         return new Project(workingDirectory, artifacts, recipes);
     }

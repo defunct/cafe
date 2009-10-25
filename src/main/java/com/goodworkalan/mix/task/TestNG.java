@@ -65,6 +65,16 @@ public class TestNG extends Task {
     public RecipeElement end() {
         recipeElement.addExecutable(new Executable() {
             public void execute(Environment env, Project project, String recipeName) {
+                TestNGTask.Arguments additional = env.executor.getArguments(env.part, TestNGTask.Arguments.class);
+
+                for (Map.Entry<String, String> entry : additional.defines.entrySet()) {
+                    define(entry.getKey(), entry.getValue());
+                }
+                
+                classes.addAll(additional.classes);
+                
+                artifacts.addAll(additional.artifacts);
+                
                 List<String> arguments = new ArrayList<String>();
                 
                 Set<File> classpath = new LinkedHashSet<File>();
@@ -106,6 +116,8 @@ public class TestNG extends Task {
                 arguments.add("org.testng.TestNG");
                 arguments.add("-testclass");
                 arguments.addAll(testClasses);
+                
+                System.out.println(arguments);
                 
                 ProcessBuilder newProcess = new ProcessBuilder();
                 newProcess.command().addAll(arguments);
