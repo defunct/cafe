@@ -62,7 +62,17 @@ public class ReportTask extends Task {
     public void addOutputDirectory(File outputDirectory) {
         this.outputDirectory = outputDirectory;
     }
-
+    
+    /**
+     * Set the name and location of the cobertura data file.
+     * 
+     * @param dataFile
+     *            The data file.
+     */
+    @Argument
+    public void addDataFile(File dataFile) {
+        this.dataFile = dataFile;
+    }
 
     @Override
     public void execute(Environment env) {

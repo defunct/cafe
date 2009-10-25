@@ -98,10 +98,18 @@ public class InstrumentTask extends Task {
      * @param ignore
      *            A regular expression to filter out certain lines.
      */
+    @Argument
     public void addIgnore(String ignore) {
         ignores.add(ignore);
     }
-    
+
+    /**
+     * Set the name and location of the cobertura data file.
+     * 
+     * @param dataFile
+     *            The data file.
+     */
+    @Argument
     public void addDataFile(File dataFile) {
         this.dataFile = dataFile;
     }
