@@ -10,18 +10,18 @@ import java.util.Set;
 import com.goodworkalan.glob.Files;
 import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.Command;
+import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Library;
 import com.goodworkalan.go.go.PathPart;
 import com.goodworkalan.go.go.ResolutionPart;
-import com.goodworkalan.go.go.Task;
 import com.goodworkalan.mix.FindList;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.spawn.Redirect;
 import com.goodworkalan.spawn.Spawn;
 
-@Command(parent = CoberturaTask.class)
-public class ReportTask extends Task {
+@Command(parent = CoberturaCommand.class)
+public class ReportCommand implements Commandable {
     /** A file query to match files to copy. */
     private final FindList findList = new FindList();
 
@@ -34,10 +34,10 @@ public class ReportTask extends Task {
     /** The output directory for instrumented classes. */
     private File outputDirectory;
 
-    /** The generic Cobertrua task arguments. */
-    private CoberturaTask.Arguments coberturaArguments;
+    /** The generic Cobertura task arguments. */
+    private CoberturaCommand.Arguments coberturaArguments;
     
-    public void setArguments(CoberturaTask.Arguments coberturaArguments) {
+    public void setArguments(CoberturaCommand.Arguments coberturaArguments) {
         this.coberturaArguments = coberturaArguments;
     }
     
@@ -74,7 +74,6 @@ public class ReportTask extends Task {
         this.dataFile = dataFile;
     }
 
-    @Override
     public void execute(Environment env) {
         List<String> arguments = new ArrayList<String>();
         

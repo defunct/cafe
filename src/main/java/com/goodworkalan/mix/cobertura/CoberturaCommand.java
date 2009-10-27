@@ -4,11 +4,12 @@ import com.goodworkalan.go.go.Arguable;
 import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.Artifact;
 import com.goodworkalan.go.go.Command;
-import com.goodworkalan.go.go.Task;
-import com.goodworkalan.mix.MixTask;
+import com.goodworkalan.go.go.Commandable;
+import com.goodworkalan.go.go.Environment;
+import com.goodworkalan.mix.MixCommand;
 
-@Command(parent = MixTask.class)
-public class CoberturaTask extends Task {
+@Command(parent = MixCommand.class)
+public class CoberturaCommand implements Commandable {
     public final static class Arguments implements Arguable {
         private Artifact cobertura = new Artifact("cobertura", "cobertura", "1.8");
         
@@ -23,5 +24,8 @@ public class CoberturaTask extends Task {
         public Artifact getCobertura() {
             return cobertura;
         }
+    }
+    
+    public void execute(Environment env) {
     }
 }
