@@ -14,7 +14,7 @@ import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.Artifact;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Output;
-import com.goodworkalan.go.go.Task;
+import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.mix.builder.Builder;
 import com.goodworkalan.mix.builder.Executable;
 import com.goodworkalan.mix.task.Javac;
@@ -26,7 +26,7 @@ import com.goodworkalan.reflective.ReflectiveFactory;
  * 
  * @author Alan Gutierrez
  */
-public class MixTask extends Task {
+public class MixCommand implements Commandable {
     /** Use to create project modules. */
     private final ReflectiveFactory reflectiveFactory;
     
@@ -36,7 +36,7 @@ public class MixTask extends Task {
     /**
      * Create a mix task.
      */
-    public MixTask() {
+    public MixCommand() {
         this(new ReflectiveFactory());
     }
 
@@ -47,7 +47,7 @@ public class MixTask extends Task {
      * @param reflectiveFactory
      *            The reflective factory.
      */
-    MixTask(ReflectiveFactory reflectiveFactory) {
+    MixCommand(ReflectiveFactory reflectiveFactory) {
         this.reflectiveFactory = reflectiveFactory;
     }
     
@@ -140,7 +140,6 @@ public class MixTask extends Task {
         this.arguments = arguments;
     }
     
-    @Override
     public void execute(Environment env) {
         // Need to run the compiler out of the context (one more reason
         // why compilers are not pluggable) of the compiler command.

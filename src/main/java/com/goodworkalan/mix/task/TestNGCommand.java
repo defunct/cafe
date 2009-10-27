@@ -10,12 +10,13 @@ import com.goodworkalan.go.go.Arguable;
 import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.Artifact;
 import com.goodworkalan.go.go.Command;
-import com.goodworkalan.go.go.Task;
+import com.goodworkalan.go.go.Commandable;
+import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.mix.MixError;
-import com.goodworkalan.mix.MixTask;
+import com.goodworkalan.mix.MixCommand;
 
-@Command(name = "test-ng", hidden = true, parent = MixTask.class)
-public class TestNGTask extends Task {
+@Command(name = "test-ng", hidden = true, parent = MixCommand.class)
+public class TestNGCommand implements Commandable {
     public final static class Arguments implements Arguable {
         public final Map<String, String> defines = new LinkedHashMap<String, String>();
         
@@ -41,5 +42,14 @@ public class TestNGTask extends Task {
         public void addArtifact(Artifact artifact) {
             artifacts.add(artifact);
         }
+    }
+
+    /**
+     * A no-op implementation of execute.
+     * 
+     * @param env
+     *            The execution environment.
+     */
+    public void execute(Environment env) {
     }
 }

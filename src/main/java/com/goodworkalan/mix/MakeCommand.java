@@ -5,19 +5,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.goodworkalan.go.go.Command;
+import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
-import com.goodworkalan.go.go.Task;
 import com.goodworkalan.mix.builder.Executable;
 
-@Command(parent = MixTask.class)
-public class MakeTask extends Task {
-    private MixTask.Configuration configuration;
+@Command(parent = MixCommand.class)
+public class MakeCommand implements Commandable {
+    private MixCommand.Configuration configuration;
     
-    public void setConfiguration(MixTask.Configuration configuration) {
+    public void setConfiguration(MixCommand.Configuration configuration) {
         this.configuration = configuration;
     }
     
-    @Override
     public void execute(Environment env) {
         List<String> remaining = env.part.getRemaining();
         if (remaining.isEmpty()) {

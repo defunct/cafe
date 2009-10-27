@@ -11,15 +11,15 @@ import com.goodworkalan.go.go.Artifact;
 import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.CommandPart;
 import com.goodworkalan.go.go.Environment;
-import com.goodworkalan.go.go.Task;
+import com.goodworkalan.go.go.Commandable;
 
-@Command(parent = MixTask.class)
-public class InstallTask extends Task {
+@Command(parent = MixCommand.class)
+public class InstallCommand implements Commandable {
     private File libraryDirectory;
     
-    private MixTask.Configuration configuration;
+    private MixCommand.Configuration configuration;
     
-    public void setConfiguration(MixTask.Configuration configuration) {
+    public void setConfiguration(MixCommand.Configuration configuration) {
         this.configuration = configuration;
     }
     
@@ -28,7 +28,6 @@ public class InstallTask extends Task {
         this.libraryDirectory = libraryDirectory;
     }
 
-    @Override
     public void execute(Environment env) {
         if (libraryDirectory == null) {
             if (System.getProperty("user.home") == null) {

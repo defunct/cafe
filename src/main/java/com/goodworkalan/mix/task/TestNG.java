@@ -18,7 +18,6 @@ import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Library;
 import com.goodworkalan.go.go.PathPart;
 import com.goodworkalan.go.go.ResolutionPart;
-import com.goodworkalan.go.go.Task;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.FindList;
 import com.goodworkalan.mix.MixError;
@@ -28,7 +27,7 @@ import com.goodworkalan.mix.builder.RecipeElement;
 import com.goodworkalan.spawn.Redirect;
 import com.goodworkalan.spawn.Spawn;
 
-public class TestNG extends Task {
+public class TestNG {
     private final FindList findList = new FindList();
     
     private final List<File> classes = new ArrayList<File>();
@@ -73,7 +72,7 @@ public class TestNG extends Task {
         recipeElement.addExecutable(new Executable() {
             public void execute(Environment env, Project project, String recipeName) {
                 System.out.println("START");
-                TestNGTask.Arguments additional = env.executor.getArguments(TestNGTask.Arguments.class);
+                TestNGCommand.Arguments additional = env.executor.getArguments(TestNGCommand.Arguments.class);
                 System.out.println("END");
 
                 for (Map.Entry<String, String> entry : additional.defines.entrySet()) {
@@ -148,12 +147,5 @@ public class TestNG extends Task {
             }
         });
         return recipeElement;
-    }
-    
-    /**
-     * Execute the TestNG tests.
-     */
-    @Override
-    public void execute(Environment env) {
     }
 }

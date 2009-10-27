@@ -1,4 +1,4 @@
-com.goodworkalan.mix.MixTask
-com.goodworkalan.mix.MakeTask
-com.goodworkalan.mix.InstallTask
-com.goodworkalan.mix.task.TestNGTask
+com.goodworkalan.mix.MixCommand
+com.goodworkalan.mix.MakeCommand
+com.goodworkalan.mix.InstallCommand
+com.goodworkalan.mix.task.TestNGCommand

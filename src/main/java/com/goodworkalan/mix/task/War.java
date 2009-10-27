@@ -15,7 +15,7 @@ import com.goodworkalan.go.go.Library;
 import com.goodworkalan.go.go.PathPart;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.MixException;
-import com.goodworkalan.mix.MixTask;
+import com.goodworkalan.mix.MixCommand;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.Recipe;
 import com.goodworkalan.mix.builder.RecipeElement;
@@ -34,7 +34,7 @@ public class War extends Zip {
     private final List<Map<String, Boolean>> recipes = new ArrayList<Map<String, Boolean>>();
 
     /** The Mix configuration. */
-    private MixTask.Configuration configuration;
+    private MixCommand.Configuration configuration;
 
     public War(RecipeElement program) {
         super(program);
@@ -46,7 +46,7 @@ public class War extends Zip {
      * @param configuration
      *            The Mix configuration.
      */
-    public void setConfiguration(MixTask.Configuration configuration) {
+    public void setConfiguration(MixCommand.Configuration configuration) {
         this.configuration = configuration;
     }
 
