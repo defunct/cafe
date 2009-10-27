@@ -29,34 +29,33 @@ import org.xml.sax.SAXException;
 
 import com.goodworkalan.go.go.Artifact;
 import com.goodworkalan.go.go.Command;
+import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Library;
 import com.goodworkalan.go.go.LibraryEntry;
 import com.goodworkalan.go.go.LibraryPath;
 import com.goodworkalan.go.go.PathPart;
-import com.goodworkalan.go.go.Task;
 import com.goodworkalan.mix.Dependency;
+import com.goodworkalan.mix.MixCommand;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.MixException;
-import com.goodworkalan.mix.MixTask;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.Recipe;
 
-@Command(parent = MixTask.class)
-public class EclipseTask extends Task {
-    private MixTask.Configuration mixConfiguration;
+@Command(parent = MixCommand.class)
+public class EclipseCommand implements Commandable {
+    private MixCommand.Configuration mixConfiguration;
     
-    private MixTask.Arguments mixArguments;
+    private MixCommand.Arguments mixArguments;
     
-    public void setMixConfiguration(MixTask.Configuration mixConfiguration) {
+    public void setMixConfiguration(MixCommand.Configuration mixConfiguration) {
         this.mixConfiguration = mixConfiguration;
     }
     
-    public void setMixArguments(MixTask.Arguments mixArguments) {
+    public void setMixArguments(MixCommand.Arguments mixArguments) {
         this.mixArguments = mixArguments;
     }
     
-    @Override
     public void execute(Environment env) {
         File file = new File(mixArguments.getWorkingDirectory(), ".classpath");
         if (!file.exists()) {
