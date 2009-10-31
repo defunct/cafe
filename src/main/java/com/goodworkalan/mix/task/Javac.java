@@ -59,7 +59,7 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
                         if (verbose != null && verbose) {
                             arguments.add("-verbose");
                         }
-                        if (debug != null && debug) {
+                        if (debug == null || debug) {
                             arguments.add("-g");
                         }
                         if (deprecation != null && deprecation) {
