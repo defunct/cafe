@@ -18,6 +18,7 @@ import com.goodworkalan.mix.task.JavadocEnd;
 import com.goodworkalan.mix.task.JavadocOptionsElement;
 import com.goodworkalan.mix.task.Mkdirs;
 import com.goodworkalan.mix.task.TestNG;
+import com.goodworkalan.mix.task.War;
 import com.goodworkalan.mix.task.Zip;
 
 
@@ -154,6 +155,17 @@ public class JavaProject extends JavaSpecificsElement {
                 .task(Delete.class)
                     .file(new File("target"))
                     .recurse(true)
+                    .end()
+                .end()
+            .recipe("war")
+                .make("distribution")
+                .depends()
+                    .classes("javac")
+                    .end()
+                .task(War.class)
+                    .source(new File("src/main/webapp")).end()
+                    .level(0)
+                    .output(new File("war.war"))
                     .end()
                 .end()
             .recipe("distribution")

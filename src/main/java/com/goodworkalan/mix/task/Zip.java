@@ -100,16 +100,24 @@ public class Zip {
         in.close();
     }
     
-    protected void addAdditionalEntries(Environment env) throws IOException {
+    protected void addAdditionalEntries(Environment env, Project project, String recipeName) throws IOException {
     }
 
     protected void addFind(Find find, File directory) throws IOException {
+        addFind(find, directory, "");
+    }
+
+    protected void addFind(Find find, File directory, String prefix) throws IOException {
+        assert prefix != null;
+        if (prefix.length() > 0 && !prefix.endsWith("/")) {
+            prefix = prefix + "/";
+        }
         for (String fileName : find.find(directory)) {
             File source = new File(directory, fileName);
             if (source.isDirectory()) {
-                addDirectory(fileName);
+                addDirectory(prefix + fileName);
             } else {
-                addFile(source, fileName);
+                addFile(source, prefix + fileName);
             }
         }
     }
@@ -123,7 +131,7 @@ public class Zip {
                     for (FindList.Entry entry : findList) {
                         addFind(entry.getFind(), entry.getDirectory());
                     }
-                    addAdditionalEntries(env);
+                    addAdditionalEntries(env, project, recipeName);
                     out.close();
                 } catch (IOException e) {
                     throw new MixException(0, e);

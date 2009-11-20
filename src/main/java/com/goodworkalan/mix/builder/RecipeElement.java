@@ -41,6 +41,10 @@ public class RecipeElement {
         this.name = name;
     }
     
+    public RecipeElement make(String recipe) {
+        return this;
+    }
+    
     public void addExecutable(Executable executable) {
         program.add(executable);
     }
