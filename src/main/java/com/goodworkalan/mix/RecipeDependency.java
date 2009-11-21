@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import com.goodworkalan.go.go.Artifact;
+import com.goodworkalan.go.go.Include;
 import com.goodworkalan.go.go.PathPart;
 
 // FIXME OutputDepdenency and RecipeDependency
@@ -47,11 +47,11 @@ public class RecipeDependency implements Dependency {
      * @param project
      *            The project.
      */
-    public Collection<Artifact> getArtifacts(Project project) {
-        Collection<Artifact> artifacts = new ArrayList<Artifact>();
+    public Collection<Include> getIncludes(Project project) {
+        Collection<Include> artifacts = new ArrayList<Include>();
         Recipe recipe = project.getRecipe(name);
         for (Dependency dependency : recipe.getDependencies()) {
-            artifacts.addAll(dependency.getArtifacts(project));
+            artifacts.addAll(dependency.getIncludes(project));
         }
         return artifacts;
     }

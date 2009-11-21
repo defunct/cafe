@@ -2,7 +2,7 @@ package com.goodworkalan.mix;
 
 import java.util.Collection;
 
-import com.goodworkalan.go.go.Artifact;
+import com.goodworkalan.go.go.Include;
 import com.goodworkalan.go.go.PathPart;
 
 /**
@@ -28,7 +28,7 @@ public interface Dependency {
      *            The project.
      * @return A collection of the immediate artifact dependencies.
      */
-    public Collection<Artifact> getArtifacts(Project project);
+    public Collection<Include> getIncludes(Project project);
 
     /**
      * Get a collection of the immediate recipe dependencies.

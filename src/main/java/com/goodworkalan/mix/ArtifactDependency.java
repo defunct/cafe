@@ -3,7 +3,6 @@ package com.goodworkalan.mix;
 import java.util.Collection;
 import java.util.Collections;
 
-import com.goodworkalan.go.go.Artifact;
 import com.goodworkalan.go.go.Include;
 import com.goodworkalan.go.go.PathPart;
 import com.goodworkalan.go.go.ResolutionPart;
@@ -44,8 +43,8 @@ public class ArtifactDependency implements Dependency {
      * @param project
      *            The project.
      */
-    public Collection<Artifact> getArtifacts(Project project) {
-        return Collections.singleton(include.getArtifact());
+    public Collection<Include> getIncludes(Project project) {
+        return Collections.singleton(include);
     }
 
     /**
