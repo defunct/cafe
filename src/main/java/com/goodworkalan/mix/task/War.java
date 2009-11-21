@@ -47,7 +47,6 @@ public class War extends Zip {
         for (Dependency dependency : recipe.getDependencies()) {
             parts.addAll(dependency.getPathParts(project));
         }
-        System.out.println(parts);
         Library library = env.part.getCommandInterpreter().getLibrary();
         for (File file : library.resolve(parts).getFiles()) {
             if (file.isDirectory()) {
