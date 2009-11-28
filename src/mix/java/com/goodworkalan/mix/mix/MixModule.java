@@ -6,9 +6,6 @@ import com.goodworkalan.mix.builder.Builder;
 import com.goodworkalan.mix.builder.JavaProject;
 
 public class MixModule extends ProjectModule {
-    public MixModule() {
-    }
-    
     @Override
     public void build(Builder builder) {
         builder

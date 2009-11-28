@@ -8,6 +8,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Properties;
 
+import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.comfort.io.Find;
 import com.goodworkalan.go.go.Arguable;
 import com.goodworkalan.go.go.Argument;
@@ -17,6 +18,7 @@ import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Output;
 import com.goodworkalan.mix.builder.Builder;
 import com.goodworkalan.mix.builder.Executable;
+import com.goodworkalan.mix.builder.Rebuild;
 import com.goodworkalan.mix.task.Javac;
 import com.goodworkalan.reflective.ReflectiveException;
 import com.goodworkalan.reflective.ReflectiveFactory;
@@ -183,19 +185,31 @@ public class MixCommand implements Commandable {
             if (!outputDirectory.isAbsolute()) {
                 outputDirectory = new File(arguments.getWorkingDirectory(), outputDirectoryName);
             }
-            if (!outputDirectory.exists()) {
+            String sourceDirectoryName = properties.getProperty("source", "src/mix/java");
+            if (new File(sourceDirectoryName).isAbsolute()) {
+                throw new MixException(0);
+            }
+            FindList sources = new FindList();
+            sources.addDirectory(new File(sourceDirectoryName));
+            sources.isFile();
+            String resourceDirectoryName = properties.getProperty("resources", "src/mix/resources");
+            if (new File(sourceDirectoryName).isAbsolute()) {
+                throw new MixException(0);
+            }
+            sources.addDirectory(new File(resourceDirectoryName));
+            sources.isFile();
+            FindList outputs = new FindList();
+            outputs.addDirectory(outputDirectory);
+            outputs.isFile();
+            if (new Rebuild(sources, outputs).isDirty()) {
+                System.out.println("Building mix.");
+                if (outputDirectory.exists()) {
+                    Files.delete(outputDirectory);
+                }
                 if (!outputDirectory.mkdirs()) {
                     throw new MixException(0);
                 }
-            } else if (!outputDirectory.isDirectory()) {
-                throw new MixException(0);
-            }
-            if (new Find().include("**/*.class").find(outputDirectory).isEmpty()) {
                 // FIXME Do a dependency check instead.
-                String sourceDirectoryName = properties.getProperty("source", "src/mix/java");
-                if (new File(sourceDirectoryName).isAbsolute()) {
-                    throw new MixException(0);
-                }
                 File sourceDirectory = new File(arguments.getWorkingDirectory(), sourceDirectoryName);
                 if (sourceDirectory.isDirectory()) {
                     Builder hiddenBuilder = new Builder();
