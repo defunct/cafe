@@ -18,7 +18,7 @@ public class MixModule extends ProjectModule {
                     .depends()
                         .artifact(new Artifact("com.goodworkalan/spawn/0.1"))
                         .artifact(new Artifact("com.goodworkalan/go-go/0.1"))
-                        .artifact(new Artifact("com.goodworkalan/glob/0.1"))
+                        .artifact(new Artifact("com.goodworkalan/comfort-io/0.1"))
                         .end()
                     .end()
                 .test()
