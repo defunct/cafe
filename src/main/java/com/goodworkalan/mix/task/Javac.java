@@ -8,8 +8,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.goodworkalan.glob.Files;
-import com.goodworkalan.glob.Find;
+import com.goodworkalan.comfort.io.Files;
+import com.goodworkalan.comfort.io.Find;
 import com.goodworkalan.go.go.Artifact;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Library;

@@ -2,7 +2,7 @@ package com.goodworkalan.mix.task;
 
 import java.io.File;
 
-import com.goodworkalan.glob.Files;
+import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;

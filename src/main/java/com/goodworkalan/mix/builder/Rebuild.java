@@ -2,7 +2,7 @@ package com.goodworkalan.mix.builder;
 
 import java.io.File;
 
-import com.goodworkalan.glob.Find;
+import com.goodworkalan.comfort.io.Find;
 import com.goodworkalan.mix.FindList;
 
 /**

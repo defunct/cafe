@@ -3,7 +3,7 @@ package com.goodworkalan.mix;
 import java.io.File;
 import java.util.ArrayList;
 
-import com.goodworkalan.glob.Find;
+import com.goodworkalan.comfort.io.Find;
 
 /**
  * Build a list of file finds to execute for a task from the command line.

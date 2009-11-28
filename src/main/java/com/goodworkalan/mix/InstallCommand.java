@@ -4,14 +4,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.goodworkalan.glob.Files;
-import com.goodworkalan.glob.Find;
+import com.goodworkalan.comfort.io.Files;
+import com.goodworkalan.comfort.io.Find;
 import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.Artifact;
 import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.CommandPart;
-import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Commandable;
+import com.goodworkalan.go.go.Environment;
 
 @Command(parent = MixCommand.class)
 public class InstallCommand implements Commandable {

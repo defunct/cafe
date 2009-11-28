@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.zip.ZipFile;
 
-import com.goodworkalan.glob.Find;
+import com.goodworkalan.comfort.io.Find;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Library;
 import com.goodworkalan.go.go.PathPart;
