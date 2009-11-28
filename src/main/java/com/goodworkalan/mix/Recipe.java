@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.goodworkalan.mix.builder.Executable;
+import com.goodworkalan.mix.builder.Rebuild;
 
 public class Recipe {
     private final List<Executable> program;
@@ -15,10 +16,35 @@ public class Recipe {
     
     private final Set<File> classes;
     
-    public Recipe(List<Executable> program, Map<List<String>, Dependency> dependencies, Set<File> classes) {
+    /** The list of rebuild test conditions for the recipe. */
+    private final List<Rebuild> rebuilds;
+
+    /**
+     * Create a new recipe.
+     * 
+     * @param program
+     *            The list of executables.
+     * @param dependencies
+     *            A map of dependencies.
+     * @param classes
+     *            The list of output class directories.
+     * @param rebuilds
+     *            The list of rebuild test conditions for the recipe.
+     */
+    public Recipe(List<Executable> program, Map<List<String>, Dependency> dependencies, Set<File> classes, List<Rebuild> rebuilds) {
         this.program = program;
         this.dependencies = dependencies;
         this.classes = classes;
+        this.rebuilds = rebuilds;
+    }
+
+    /**
+     * Get the list of rebuild test conditions for the recipe.
+     * 
+     * @return The list of rebuild test conditions for the recipe.
+     */
+    public List<Rebuild> getRebuilds() {
+        return rebuilds;
     }
     
     public List<Executable> getProgram() {

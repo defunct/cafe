@@ -121,21 +121,45 @@ public class MixCommand implements Commandable {
      * The output from running the mix task.
      */
     public final static class Configuration implements Output {
+        /** The project defintion. */
         private final Project project;
-        
+
+        /**
+         * Create a new configuration.
+         * 
+         * @param project
+         *            The project definition.
+         */
         public Configuration(Project project) {
             this.project = project;
         }
-        
+
+        /**
+         * Get the project definition.
+         * 
+         * @return The project definition.
+         */
         public Project getProject() {
             return project;
         }
     }
     
+    /**
+     * The configuration class produced by executing the mix command.
+     */
     private Configuration configuration;
     
+    /**
+     * The mix comamnd arguments.
+     */
     private Arguments arguments = new Arguments();
-    
+
+    /**
+     * Set the mix command arguments.
+     * 
+     * @param arguments
+     *            The mix command arguments.
+     */
     public void setArguments(Arguments arguments) {
         this.arguments = arguments;
     }

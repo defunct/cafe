@@ -34,6 +34,8 @@ public class RecipeElement {
     
     private final Map<List<String>, ArtifactSource> artifacts; 
     
+    private final List<Rebuild> rebuilds = new ArrayList<Rebuild>();
+    
     public RecipeElement(Builder builder, Map<List<String>, ArtifactSource> artifacts, Map<String, Recipe> recipes, String name) {
         this.builder = builder;
         this.recipes = recipes;
@@ -43,6 +45,19 @@ public class RecipeElement {
     
     public RecipeElement make(String recipe) {
         return this;
+    }
+
+    /**
+     * Return element in the domain-specific language that specifies a rebuild
+     * if dirty test that compares a set of source files to a set of output
+     * files and skips running the recipe if all the source is older than all
+     * the output.
+     * 
+     * @return A rebuild language element to specify rebuild if dirty source and
+     *         output files.
+     */
+    public RebuildElement rebuild() {
+        return new RebuildElement(this, rebuilds);
     }
     
     public void addExecutable(Executable executable) {
@@ -89,8 +104,13 @@ public class RecipeElement {
         return new ProducesElement(this, name, classes, artifacts);
     }
 
+    /**
+     * Terminate the recipe statement and record the recipe.
+     * 
+     * @return The builder element in order to continue specifying recipes.
+     */
     public Builder end() {
-        recipes.put(name, new Recipe(program, dependencies, classes));
+        recipes.put(name, new Recipe(program, dependencies, classes, rebuilds));
         return builder;
     }
 }

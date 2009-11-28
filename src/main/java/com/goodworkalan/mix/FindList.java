@@ -84,4 +84,18 @@ public class FindList extends ArrayList<FindList.Entry> {
     public void addExclude(String exclude) {
         get(size() - 1).find.exclude(exclude);
     }
+
+    /**
+     * Apply the file type criteria to the find of the last directory added to
+     * this find list.
+     * <p>
+     * This will include only files that are <em>normal</em> files according to
+     * <code>File.isFile</code>. A files is <em>normal</em> if it is not a
+     * directory and satisfies additional system specific criteria. Files
+     * created in Java that are not directories are considered <em>normal</em>
+     * files.
+     */
+    public void isFile() {
+        get(size() - 1).find.isFile();
+    }
 }
