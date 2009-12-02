@@ -20,7 +20,7 @@ public class MixProject extends ProjectModule {
                     .end()
                 .test()
                     .depends()
-                        .artifact(new Artifact("org.testng/testng/5.10"))
+                        .artifact(new Artifact("org.testng/testng/5.10/jdk15"))
                         .end()
                     .end()
                 .end()
