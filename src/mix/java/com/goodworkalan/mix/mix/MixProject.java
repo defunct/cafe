@@ -5,7 +5,7 @@ import com.goodworkalan.mix.ProjectModule;
 import com.goodworkalan.mix.builder.Builder;
 import com.goodworkalan.mix.builder.JavaProject;
 
-public class MixModule extends ProjectModule {
+public class MixProject extends ProjectModule {
     @Override
     public void build(Builder builder) {
         builder
@@ -14,7 +14,7 @@ public class MixModule extends ProjectModule {
                 .main()
                     .depends()
                         .artifact(new Artifact("com.goodworkalan/spawn/0.1"))
-                        .artifact(new Artifact("com.goodworkalan/go-go/0.1"))
+                        .artifact(new Artifact("com.goodworkalan/go-go/0.1.1"))
                         .artifact(new Artifact("com.goodworkalan/comfort-io/0.1.1"))
                         .end()
                     .end()
