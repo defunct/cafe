@@ -42,7 +42,7 @@ public class RecipePathPart implements PathPart {
         throw new UnsupportedOperationException();
     }
 
-    public Object getKey() {
+    public Object getUnversionedKey() {
         return project.getRecipe(recipeName);
     }
 
