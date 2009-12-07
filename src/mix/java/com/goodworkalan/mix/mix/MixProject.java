@@ -10,7 +10,7 @@ public class MixProject extends ProjectModule {
     public void build(Builder builder) {
         builder
             .cookbook(JavaProject.class)
-                .produces(new Artifact("com.goodworkalan/mix/0.1.1"))
+                .produces(new Artifact("com.goodworkalan/mix/0.1.2"))
                 .main()
                     .depends()
                         .artifact(new Artifact("com.goodworkalan/spawn/0.1"))
