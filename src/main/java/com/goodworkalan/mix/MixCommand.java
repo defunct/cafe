@@ -242,6 +242,7 @@ public class MixCommand implements Commandable {
                     Thread.currentThread().setContextClassLoader(classLoader);
                     for (String className : new Find().include("**/*.class").find(outputDirectory)) {
                         className = className.replace("/", ".");
+                        className = className.replace("\\", ".");
                         className = className.substring(0, className.length() - ".class".length());
                         Class<?> foundClass;
                         try {
