@@ -11,7 +11,7 @@ import com.goodworkalan.mix.MixCommand;
 @Command(parent = MixCommand.class)
 public class CoberturaCommand implements Commandable {
     public final static class Arguments implements Arguable {
-        private Artifact cobertura = new Artifact("cobertura", "cobertura", "1.8");
+        private Artifact cobertura = new Artifact("cobertura", "cobertura", "1.8", null);
         
         public Arguments() {
         }

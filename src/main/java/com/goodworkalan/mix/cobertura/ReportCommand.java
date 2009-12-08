@@ -7,7 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.goodworkalan.glob.Files;
+import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Commandable;
