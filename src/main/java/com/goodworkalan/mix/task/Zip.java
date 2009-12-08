@@ -71,19 +71,8 @@ public class Zip {
         return new FindElement<Zip>(this, findList, directory);
     }
 
-    protected void addDirectory(String entryName) throws IOException {
-        if (!entryName.endsWith("/")) {
-            entryName = entryName + "/";
-        }
-        if (!seen.contains(entryName)) {
-            seen.add(entryName);
-            ZipEntry zipEntry = new ZipEntry(entryName);
-            out.putNextEntry(zipEntry);
-            out.closeEntry();
-        }
-    }
-    
     protected void addFile(File source, String entryName) throws IOException {
+        entryName = entryName.replace(File.separator, "/");
         if (seen.contains(entryName)) {
             throw new MixException(0);
         }
@@ -114,9 +103,7 @@ public class Zip {
         }
         for (String fileName : find.find(directory)) {
             File source = new File(directory, fileName);
-            if (source.isDirectory()) {
-                addDirectory(prefix + fileName);
-            } else {
+            if (!source.isDirectory()) {
                 addFile(source, prefix + fileName);
             }
         }
