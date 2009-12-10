@@ -2,6 +2,26 @@ MIX
 
 Java project builds in Java.
 
+    Issues and Tasks: http://github.com/bigeasy/mix/issues
+
+    Source: http://github.com/bigeasy/mix/tree/master
+    Documentation: http://wiki.github.com/bigeasy/mix
+
+    License: The MIT License
+
+    Dependencies:
+        Jav-a-Go-Go:    http://github.com/bigeasy/go-go
+        Spawn:          http://github.com/bigeasy/spawn
+        Comfort I/O:    http://github.com/bigeasy/comfort-io
+        Reflective:     http://github.com/bigeasy/reflective
+        Cassandra:      http://github.com/bigeasy/cassandra
+
+    Contact: alan@blogometer.com
+
+    See-Also:
+        Jav-a-Go-Go     http://github.com/bigeasy/go-go
+        Java Cups       http://github.com/bigeasy/cups
+
 PURPOSE
 
 Mix is a command line utility for jar repository management and JVM based
