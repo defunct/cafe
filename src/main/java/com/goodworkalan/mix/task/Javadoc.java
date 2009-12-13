@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.goodworkalan.comfort.io.ComfortIOException;
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.comfort.io.Find;
 import com.goodworkalan.go.go.Artifact;
@@ -28,6 +29,7 @@ import com.goodworkalan.spawn.Redirect;
 import com.goodworkalan.spawn.Spawn;
 
 public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
+    /** The reflective factory used to create the Javadoc task. */
     private final ReflectiveFactory reflectiveFactory = new ReflectiveFactory();
     
     private boolean fork;
@@ -35,6 +37,9 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
     private String visibility;
     
     private File output;
+    
+    /** The directory where package lists for offline linking are kept. */
+    private File packageLists;
     
     private FindList findList = new FindList();
     
@@ -78,6 +83,25 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
                             arguments.add("-linkoffline");
                             arguments.add(entry.getKey().toASCIIString());
                             arguments.add(entry.getValue().getAbsoluteFile().toURI().toString());
+                        }
+                        if (packageLists != null && packageLists.isDirectory()) {
+                            for (File file : packageLists.listFiles()) {
+                                if (file.isDirectory() && file.canRead()) {
+                                    try {
+                                        for (String line : Files.slurp(new File(file, "url"))) {
+                                            line = line.trim();
+                                            if (line.length() != 0) {
+                                                arguments.add("-linkoffline");
+                                                arguments.add(line);
+                                                arguments.add(file.getAbsoluteFile().toURI().toString());
+                                                break;
+                                            }
+                                        }
+                                    } catch (ComfortIOException e) {
+                                        // If we can't read the URL file, then it doesn't get linked.
+                                    }
+                                }
+                            }
                         }
 //                        if (!mixArguments.isOffline()) {
 //                            for (URI link : links) {
@@ -155,6 +179,22 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
 
     public Javadoc output(File directory) {
         this.output = directory;
+        return this;
+    }
+
+    /**
+     * Set the directory where package lists for offline linking are stored. The
+     * directory will contain a directory for each library that will be linked
+     * offline. In each library directory will be the package list and a file
+     * named <code>url</code> that contains the URL where the documentation is
+     * hosted.
+     * 
+     * @param directory
+     *            The package lists.
+     * @return This Javadoc object.
+     */
+    public Javadoc packageLists(File directory) {
+        this.packageLists = directory;
         return this;
     }
 }

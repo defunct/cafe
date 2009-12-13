@@ -33,6 +33,7 @@ import com.goodworkalan.spawn.Spawn;
  * @author Alan Gutierrez
  */
 public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
+    /** The reflective factory used to create the Javac task. */
     private final ReflectiveFactory reflectiveFactory = new ReflectiveFactory();
     
     /** Disable warnings if false. */
