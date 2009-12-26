@@ -78,11 +78,15 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
                             arguments.add("-target");
                             arguments.add(target);
                         }
-                        if (output == null || !(output.isDirectory() || output.mkdirs())) {
+                        if (output == null) {
+                            throw new MixException(0);
+                        }
+                        File workingOutput = env.io.relativize(output);
+                        if (!(workingOutput.isDirectory() || workingOutput.mkdirs())) {
                             throw new MixException(0);
                         }
                         arguments.add("-d");
-                        arguments.add(output.toString());
+                        arguments.add(workingOutput.getPath());
                         Collection<PathPart> parts = new ArrayList<PathPart>();
                         for (Artifact artifact : artifacts) {
                             parts.add(new ResolutionPart(artifact));
@@ -102,8 +106,9 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
                             if (!find.hasFilters()) {
                                 find.include("**/*.java");
                             }
-                            for (String fileName : find.find(entry.getDirectory())) {
-                                arguments.add(new File(entry.getDirectory(), fileName).toString());
+                            File directory = env.io.relativize(entry.getDirectory());
+                            for (String fileName : find.find(directory)) {
+                                arguments.add(new File(directory, fileName).toString());
                             }
                         }
                         Class<?> compilerClass = null;

@@ -61,12 +61,9 @@ public class MakeCommand implements Commandable {
                 }
             }
             if (build) {
-                System.out.println("Building.");
                 for (Executable executable : project.getRecipe(recipeName).getProgram()) {
                     executable.execute(env, project, recipeName);
                 }
-            } else {
-                System.out.println("Already built.");
             }
         }
     }

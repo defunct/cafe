@@ -113,10 +113,10 @@ public class Zip {
         recipeElement.addExecutable(new Executable() {
             public void execute(Environment env, Project project, String recipeName) {
                 try {
-                    out = new ZipOutputStream(new FileOutputStream(output));
+                    out = new ZipOutputStream(new FileOutputStream(env.io.relativize(output)));
                     out.setLevel(level);
                     for (FindList.Entry entry : findList) {
-                        addFind(entry.getFind(), entry.getDirectory());
+                        addFind(entry.getFind(), env.io.relativize(entry.getDirectory()));
                     }
                     addAdditionalEntries(env, project, recipeName);
                     out.close();
@@ -124,7 +124,6 @@ public class Zip {
                     throw new MixException(0, e);
                 }
             }
-
         });
         return recipeElement;
     }

@@ -18,16 +18,13 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="var" path="M2_REPO/junit/junit/3.8.1/junit-3.8.1.jar" sourcepath="M2_REPO/junit/junit/3.8.1/junit-3.8.1-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/goodworkalan/cassandra/0.7/cassandra-0.7.jar" sourcepath="M2_REPO/com/goodworkalan/cassandra/0.7/cassandra-0.7-sources.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:file:/Users/alan/.m2/repository/com/goodworkalan/cassandra/0.7/cassandra-0.7-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="var" path="M2_REPO/com/goodworkalan/reflective/0.1/reflective-0.1.jar" sourcepath="M2_REPO/com/goodworkalan/reflective/0.1/reflective-0.1-sources.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:file:/Users/alan/.m2/repository/com/goodworkalan/reflective/0.1/reflective-0.1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/comfort-io"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/cassandra"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/notice"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -56,7 +56,7 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
                         List<String> arguments = new ArrayList<String>();
                         
                         arguments.add("-d");
-                        arguments.add(output.toString());
+                        arguments.add(env.io.relativize(output).getPath());
                         
                         if (visibility != null) {
                             arguments.add("-" + visibility);
@@ -74,31 +74,39 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
                             if (!find.hasFilters()) {
                                 find.include("**/*.java");
                             }
-                            for (String fileName : find.find(entry.getDirectory())) {
-                                arguments.add(new File(entry.getDirectory(), fileName).toString());
+                            File directory = env.io.relativize(entry.getDirectory());
+                            for (String fileName : find.find(directory)) {
+                                arguments.add(new File(directory, fileName).toString());
                             }
                         }
                         arguments.add("-quiet");
                         for (Map.Entry<URI, File> entry : offlineLinks.entrySet()) {
                             arguments.add("-linkoffline");
                             arguments.add(entry.getKey().toASCIIString());
-                            arguments.add(entry.getValue().getAbsoluteFile().toURI().toString());
+                            File packages = entry.getValue();
+                            if (!packages.isAbsolute()) {
+                                packages = new File(env.io.dir, packages.getPath());
+                            }
+                            arguments.add(packages.getAbsoluteFile().toURI().toString());
                         }
-                        if (packageLists != null && packageLists.isDirectory()) {
-                            for (File file : packageLists.listFiles()) {
-                                if (file.isDirectory() && file.canRead()) {
-                                    try {
-                                        for (String line : Files.slurp(new File(file, "url"))) {
-                                            line = line.trim();
-                                            if (line.length() != 0) {
-                                                arguments.add("-linkoffline");
-                                                arguments.add(line);
-                                                arguments.add(file.getAbsoluteFile().toURI().toString());
-                                                break;
+                        if (packageLists != null) {
+                            File workingPackageLists = env.io.relativize(packageLists);
+                            if (workingPackageLists.isDirectory()) {
+                                for (File file : workingPackageLists.listFiles()) {
+                                    if (file.isDirectory() && file.canRead()) {
+                                        try {
+                                            for (String line : Files.slurp(new File(file, "url"))) {
+                                                line = line.trim();
+                                                if (line.length() != 0) {
+                                                    arguments.add("-linkoffline");
+                                                    arguments.add(line);
+                                                    arguments.add(file.getAbsoluteFile().toURI().toString());
+                                                    break;
+                                                }
                                             }
+                                        } catch (ComfortIOException e) {
+                                            // If we can't read the URL file, then it doesn't get linked.
                                         }
-                                    } catch (ComfortIOException e) {
-                                        // If we can't read the URL file, then it doesn't get linked.
                                     }
                                 }
                             }

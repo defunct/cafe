@@ -73,10 +73,14 @@ public class MixCommand implements Commandable {
          * The project root directory, defaults to the current working
          * directory.
          */
+        // FIXME Outgoing.
         private File workingDirectory = new File(".");
         
         /** Whether or not Mix is being run without an Internet connection. */
         private boolean offline;
+        
+        /** Whether or not we use siblings when we can instead of artifacts. */
+        private boolean siblings;
 
         /**
          * Set the project root directory.
@@ -116,6 +120,15 @@ public class MixCommand implements Commandable {
          */
         public boolean isOffline() {
             return offline;
+        }
+        
+        @Argument
+        public void addSiblings(boolean siblings) {
+            this.siblings = siblings;
+        }
+        
+        public boolean isSiblings() {
+            return siblings;
         }
     }
     
