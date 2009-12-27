@@ -45,6 +45,7 @@ public class MakeCommand implements Commandable {
         if (remaining.isEmpty()) {
             throw new MixError(MakeCommand.class, "no.targets");
         }
+        env.verbose("start", remaining);
         Project project = configuration.getProject();
         LinkedList<String> buildQueue = new LinkedList<String>();
         LinkedList<String> recipeQueue = new LinkedList<String>();
@@ -68,9 +69,12 @@ public class MakeCommand implements Commandable {
                 }
             }
             if (build) {
+                env.verbose("dirty", recipeName);
                 for (Executable executable : project.getRecipe(recipeName).getProgram()) {
                     executable.execute(env, mix, project, recipeName);
                 }
+            } else {
+                env.verbose("clean", recipeName);
             }
         }
     }
