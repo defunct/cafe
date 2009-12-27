@@ -223,7 +223,7 @@ public class JavaProject extends JavaSpecificsElement {
                     .recurse(true)
                     .end()
                 .task(Mkdirs.class)
-                    .directory(new File("target/distribution/" + "target/distribution/" + produces.getDirectoryPath()))
+                    .directory(new File("target/distribution/" + produces.getDirectoryPath()))
                     .end()
                 .task(Dependencies.class)
                     .recipe("javac")

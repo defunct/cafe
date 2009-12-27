@@ -1,8 +1,12 @@
 package com.goodworkalan.mix;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
 
+import com.goodworkalan.comfort.io.Files;
+import com.goodworkalan.go.go.CommandPart;
+import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Include;
 import com.goodworkalan.go.go.PathPart;
 import com.goodworkalan.go.go.ResolutionPart;
@@ -56,5 +60,19 @@ public class ArtifactDependency implements Dependency {
      */
     public Collection<String> getRecipes(Project project) {
         return Collections.emptyList();
+    }
+    
+    public void build(MixCommand.Arguments mix, Environment env) {
+        if (mix.isSiblings()) {
+            File sibling = new File(mix.getWorkingDirectory().getParentFile(), include.getArtifact().getName());
+            if (sibling.isDirectory()) {
+                File source = new File(sibling, Files.file("src", "mix", "java"));
+                if (source.isDirectory()) {
+                    CommandPart part = env.part.getParent().remove("working-directory").argument("working-directory", sibling.getAbsolutePath()).extend(env.part.getCommand());
+                    env.debug(ArtifactDependency.class, "fork", part.getCommandLine());
+                    env.executor.fork(part, env.io);
+                }
+            }
+        }
     }
 }

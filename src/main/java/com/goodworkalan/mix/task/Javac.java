@@ -109,6 +109,7 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
                                 find.include("**/*.java");
                             }
                             File directory = mix.relativize(entry.getDirectory());
+                            env.debug(Javac.class, "sources", directory);
                             for (String fileName : find.find(directory)) {
                                 arguments.add(new File(directory, fileName).toString());
                             }
@@ -118,6 +119,7 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
                             compilerClass = Class.forName("com.sun.tools.javac.Main");
                         } catch (ClassNotFoundException e) {
                         }
+                        env.debug(Javac.class, "arguments", arguments);
                         if ((fork != null && fork) || compilerClass == null) {
                             arguments.add(0, "javac");
                             

@@ -2,6 +2,7 @@ package com.goodworkalan.mix;
 
 import java.util.Collection;
 
+import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Include;
 import com.goodworkalan.go.go.PathPart;
 
@@ -38,4 +39,6 @@ public interface Dependency {
      * @return A collection of the immediate artifact dependencies.
      */
     public Collection<String> getRecipes(Project project);
+    
+    public void build(MixCommand.Arguments mix, Environment env);
 }

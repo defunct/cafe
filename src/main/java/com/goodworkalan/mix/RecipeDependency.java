@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Include;
 import com.goodworkalan.go.go.PathPart;
 
@@ -55,8 +56,11 @@ public class RecipeDependency implements Dependency {
         }
         return artifacts;
     }
-
+    
     public Collection<String> getRecipes(Project project) {
         return Collections.singleton(name);
+    }
+
+    public void build(MixCommand.Arguments mix, Environment env) {
     }
 }

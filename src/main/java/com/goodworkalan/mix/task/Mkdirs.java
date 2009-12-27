@@ -29,13 +29,17 @@ public class Mkdirs {
     public RecipeElement end() {
         recipeElement.addExecutable(new Executable() {
             public void execute(Environment env, MixCommand.Arguments mix, Project project, String recipeName) {
+                env.verbose(Mkdirs.class, "start", directories);
                 for (File directory : directories) {
                     directory = mix.relativize(directory);
                     if (directory.exists()) {
                         if (!directory.isDirectory()) {
                             throw new MixError(Mkdirs.class, "file.exists", directory);
                         }
-                    } else if (!directory.mkdirs()) {
+                        env.debug(Mkdirs.class, "exists", directory);
+                    } else if (directory.mkdirs()) {
+                        env.debug(Mkdirs.class, "create", directory);
+                    } else {
                         throw new MixException(Mkdirs.class, "failure", directory);
                     }
                 }

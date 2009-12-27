@@ -62,6 +62,9 @@ public class MakeCommand implements Commandable {
         }
         for (String recipeName : new LinkedHashSet<String>(buildQueue)) {
             Recipe recipe = project.getRecipe(recipeName);
+            for (Dependency dependency : recipe.getDependencies()) {
+                dependency.build(mix, env);
+            }
             boolean build = recipe.getRebuilds().isEmpty();
             if (!build) {
                 for (Iterator<Rebuild> rebuilds = recipe.getRebuilds().iterator(); !build && rebuilds.hasNext();) {

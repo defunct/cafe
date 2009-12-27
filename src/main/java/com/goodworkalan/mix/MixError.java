@@ -37,6 +37,23 @@ public class MixError extends RuntimeException {
     }
 
     /**
+     * Create a mix error with the given error code.
+     * 
+     * @param context
+     *            The error context.
+     * @param code
+     *            The error code.
+     * @param cause
+     *            The cause.
+     */
+    public MixError(Class<?> context, String code, Throwable cause, Object...arguments) {
+        super(null, cause);
+        this.context = context;
+        this.code = code;
+        this.arguments = arguments;
+    }
+
+    /**
      * Returns the detail message string of this error.
      * 
      * @return The detail message string of this error.

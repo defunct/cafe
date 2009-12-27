@@ -1,6 +1,7 @@
 package com.goodworkalan.mix;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -77,7 +78,7 @@ public class MixCommand implements Commandable {
         
         /** Whether or not we use siblings when we can instead of artifacts. */
         private boolean siblings;
-
+        
         /**
          * Set the project root directory.
          * 
@@ -95,7 +96,11 @@ public class MixCommand implements Commandable {
          * @return The project root directory.
          */
         public File getWorkingDirectory() {
-            return workingDirectory;
+            try {
+                return workingDirectory.getCanonicalFile();
+            } catch (IOException e) {
+                throw new MixError(MixCommand.class, "working.directory", workingDirectory);
+            }
         }
 
         /**
@@ -140,7 +145,7 @@ public class MixCommand implements Commandable {
      * The output from running the mix task.
      */
     public final static class Configuration implements Output {
-        /** The project defintion. */
+        /** The project definition. */
         private final Project project;
 
         /**
@@ -169,9 +174,9 @@ public class MixCommand implements Commandable {
     private Configuration configuration;
     
     /**
-     * The mix comamnd arguments.
+     * The mix command arguments.
      */
-    private Arguments arguments = new Arguments();
+    private Arguments mix = new Arguments();
 
     /**
      * Set the mix command arguments.
@@ -179,20 +184,21 @@ public class MixCommand implements Commandable {
      * @param arguments
      *            The mix command arguments.
      */
-    public void setArguments(Arguments arguments) {
-        this.arguments = arguments;
+    public void setMix(Arguments arguments) {
+        this.mix = arguments;
     }
     
     public void execute(Environment env) {
+        env.debug("start");
         // Need to run the compiler out of the context (one more reason
         // why compilers are not pluggable) of the compiler command.
         Builder builder = new Builder();
         if (project) {
-            File output = new File("target/mix-classes");
+            File output = new File(mix.getWorkingDirectory(), "target/mix-classes");
             FindList sources = new FindList();
-            sources.addDirectory(new File("src/mix/java"));
+            sources.addDirectory(new File(mix.getWorkingDirectory(), "src/mix/java"));
             sources.isFile();
-            sources.addDirectory(new File("src/mix/resources"));
+            sources.addDirectory(new File(mix.getWorkingDirectory(), "src/mix/resources"));
             sources.isFile();
             FindList outputs = new FindList();
             outputs.addDirectory(output);
@@ -204,20 +210,21 @@ public class MixCommand implements Commandable {
                 if (!output.mkdirs()) {
                     throw new MixError(MixCommand.class, "output.mkdirs", output);
                 }
-                File sourceDirectory = new File(arguments.getWorkingDirectory(), "src/mix/java");
+                File sourceDirectory = new File(mix.getWorkingDirectory(), "src/mix/java");
+                env.debug("javac", sourceDirectory, output);
                 if (sourceDirectory.isDirectory()) {
                     Builder hiddenBuilder = new Builder();
                     hiddenBuilder
                         .recipe("javac")
                             .task(Javac.class)
                                 .artifact(new Artifact("com.goodworkalan/mix/0.1"))
-                                .source(sourceDirectory).end()
-                                .output(output)
+                                .source(sourceDirectory.getAbsoluteFile()).end()
+                                .output(output.getAbsoluteFile())
                                 .end()
                              .end();
-                    Project project = hiddenBuilder.createProject(arguments.getWorkingDirectory(), env.executor, env.part);
+                    Project project = hiddenBuilder.createProject(mix.getWorkingDirectory(), env.executor, env.part);
                     for (Executable executable : project.getRecipe("javac").getProgram()) {
-                        executable.execute(env, arguments, project, "javac");
+                        executable.execute(env, mix, project, "javac");
                     }
                 }
                 // FIXME Do resources too.
@@ -258,7 +265,7 @@ public class MixCommand implements Commandable {
                 Thread.currentThread().setContextClassLoader(currentClassLoader);
             }
         }
-        configuration = new Configuration(builder.createProject(arguments.getWorkingDirectory(), env.executor, env.part));
+        configuration = new Configuration(builder.createProject(mix.getWorkingDirectory(), env.executor, env.part));
     }
     
     public Configuration getConfiguration() {
