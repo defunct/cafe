@@ -18,6 +18,6 @@ public class MixTest {
     @Test
     public void execute() {
         CommandInterpreter ci = new CommandInterpreter(new ErrorCatcher(), Collections.<File>emptyList());
-        ci.execute(new File("."), "mix", "--working-directory=src/test/project", "make", "distribution");
+        ci.execute("mix", "--working-directory=src/test/project", "make", "distribution");
     }
 }

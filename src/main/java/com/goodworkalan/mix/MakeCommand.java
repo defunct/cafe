@@ -19,11 +19,18 @@ import com.goodworkalan.mix.builder.Rebuild;
  */
 @Command(parent = MixCommand.class)
 public class MakeCommand implements Commandable {
+    /** The mix arguments. */
+    public MixCommand.Arguments mix;
+    
     /** The mix configuration. */
     private MixCommand.Configuration configuration;
     
     public void setConfiguration(MixCommand.Configuration configuration) {
         this.configuration = configuration;
+    }
+    
+    public void setMix(MixCommand.Arguments mix) {
+        this.mix = mix;
     }
 
     /**
@@ -62,7 +69,7 @@ public class MakeCommand implements Commandable {
             }
             if (build) {
                 for (Executable executable : project.getRecipe(recipeName).getProgram()) {
-                    executable.execute(env, project, recipeName);
+                    executable.execute(env, mix, project, recipeName);
                 }
             }
         }

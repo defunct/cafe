@@ -12,6 +12,7 @@ import java.util.zip.ZipOutputStream;
 import com.goodworkalan.comfort.io.Find;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.mix.FindList;
+import com.goodworkalan.mix.MixCommand;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
@@ -111,12 +112,12 @@ public class Zip {
     
     public RecipeElement end() {
         recipeElement.addExecutable(new Executable() {
-            public void execute(Environment env, Project project, String recipeName) {
+            public void execute(Environment env, MixCommand.Arguments mix, Project project, String recipeName) {
                 try {
-                    out = new ZipOutputStream(new FileOutputStream(env.io.relativize(output)));
+                    out = new ZipOutputStream(new FileOutputStream(mix.relativize(output)));
                     out.setLevel(level);
                     for (FindList.Entry entry : findList) {
-                        addFind(entry.getFind(), env.io.relativize(entry.getDirectory()));
+                        addFind(entry.getFind(), mix.relativize(entry.getDirectory()));
                     }
                     addAdditionalEntries(env, project, recipeName);
                     out.close();

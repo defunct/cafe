@@ -4,6 +4,7 @@ import java.io.File;
 
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.go.go.Environment;
+import com.goodworkalan.mix.MixCommand;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
@@ -51,13 +52,14 @@ public class Delete {
 
     public RecipeElement end() {
         recipeElement.addExecutable(new Executable() {
-            public void execute(Environment env, Project project, String recipeName) {
+            public void execute(Environment env, MixCommand.Arguments mix, Project project, String recipeName) {
+                File outgoing = mix.relativize(file);
                 if (!recurse) {
-                    if (file.exists() && !file.delete()) {
-                        throw new MixError(Delete.class, "failure", file);
+                    if (outgoing.exists() && !outgoing.delete()) {
+                        throw new MixError(Delete.class, "failure", outgoing);
                     }
-                } else if (!Files.delete(file)) {
-                    throw new MixError(Delete.class, "failure", file);
+                } else if (!Files.delete(outgoing)) {
+                    throw new MixError(Delete.class, "failure", outgoing);
                 }
             }
         });

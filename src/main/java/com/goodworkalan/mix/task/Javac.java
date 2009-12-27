@@ -17,6 +17,7 @@ import com.goodworkalan.go.go.PathPart;
 import com.goodworkalan.go.go.ResolutionPart;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.FindList;
+import com.goodworkalan.mix.MixCommand;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.MixException;
 import com.goodworkalan.mix.Project;
@@ -46,14 +47,14 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
     private final List<Artifact> artifacts = new ArrayList<Artifact>();
     
     private FindList findList = new FindList();
-
+    
     public Javac(RecipeElement recipeElement) {
         super(recipeElement, new SelfServer<Javac>(), null);
         ending = new JavacEnd() {
             public void end(JavacConfiguration configuration) {
                 configure(configuration);
                 parent.addExecutable(new Executable() {
-                    public void execute(Environment env, Project project, String recipeName) {
+                    public void execute(Environment env, MixCommand.Arguments mix, Project project, String recipeName) {
                         List<String> arguments = new ArrayList<String>();
                         if (!warnings) {
                             arguments.add("-nowarn");
@@ -82,7 +83,7 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
                         if (output == null) {
                             throw new MixError(Javac.class, "output");
                         }
-                        File workingOutput = env.io.relativize(output);
+                        File workingOutput = mix.relativize(output);
                         if (!(workingOutput.isDirectory() || workingOutput.mkdirs())) {
                             throw new MixException(Javac.class, "mkdirs", workingOutput);
                         }
@@ -107,7 +108,7 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
                             if (!find.hasFilters()) {
                                 find.include("**/*.java");
                             }
-                            File directory = env.io.relativize(entry.getDirectory());
+                            File directory = mix.relativize(entry.getDirectory());
                             for (String fileName : find.find(directory)) {
                                 arguments.add(new File(directory, fileName).toString());
                             }

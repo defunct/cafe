@@ -13,6 +13,7 @@ import com.goodworkalan.go.go.Artifact;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Include;
 import com.goodworkalan.mix.Dependency;
+import com.goodworkalan.mix.MixCommand;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
@@ -55,7 +56,7 @@ public class Dependencies {
 
     public RecipeElement end() {
         recipeElement.addExecutable(new Executable() {
-            public void execute(Environment env, Project project, String recipeName) {
+            public void execute(Environment env, MixCommand.Arguments arguments, Project project, String recipeName) {
                 LinkedHashMap<List<String>, Include> dependencies = new LinkedHashMap<List<String>, Include>();
                 if (recipe != null) {
                     for (Dependency dependency : project.getRecipe(recipe).getDependencies()) {

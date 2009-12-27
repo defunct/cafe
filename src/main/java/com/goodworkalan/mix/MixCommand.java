@@ -126,6 +126,14 @@ public class MixCommand implements Commandable {
         public boolean isSiblings() {
             return siblings;
         }
+        
+        
+        public File relativize(File file) {
+            if (!file.isAbsolute()) {
+                return new File(workingDirectory, file.getPath());
+            }
+            return file;
+        }
     }
     
     /**
@@ -209,7 +217,7 @@ public class MixCommand implements Commandable {
                              .end();
                     Project project = hiddenBuilder.createProject(arguments.getWorkingDirectory(), env.executor, env.part);
                     for (Executable executable : project.getRecipe("javac").getProgram()) {
-                        executable.execute(env, project, "javac");
+                        executable.execute(env, arguments, project, "javac");
                     }
                 }
                 // FIXME Do resources too.

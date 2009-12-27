@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.goodworkalan.go.go.Environment;
+import com.goodworkalan.mix.MixCommand;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.MixException;
 import com.goodworkalan.mix.Project;
@@ -27,8 +28,9 @@ public class Mkdirs {
     
     public RecipeElement end() {
         recipeElement.addExecutable(new Executable() {
-            public void execute(Environment env, Project project, String recipeName) {
+            public void execute(Environment env, MixCommand.Arguments mix, Project project, String recipeName) {
                 for (File directory : directories) {
+                    directory = mix.relativize(directory);
                     if (directory.exists()) {
                         if (!directory.isDirectory()) {
                             throw new MixError(Mkdirs.class, "file.exists", directory);

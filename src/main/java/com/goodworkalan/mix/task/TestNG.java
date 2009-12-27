@@ -20,6 +20,7 @@ import com.goodworkalan.go.go.PathPart;
 import com.goodworkalan.go.go.ResolutionPart;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.FindList;
+import com.goodworkalan.mix.MixCommand;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
@@ -70,10 +71,8 @@ public class TestNG {
 
     public RecipeElement end() {
         recipeElement.addExecutable(new Executable() {
-            public void execute(Environment env, Project project, String recipeName) {
-                System.out.println("START");
+            public void execute(Environment env, MixCommand.Arguments mix, Project project, String recipeName) {
                 TestNGCommand.Arguments additional = env.executor.getArguments(TestNGCommand.Arguments.class);
-                System.out.println("END");
 
                 for (Map.Entry<String, String> entry : additional.defines.entrySet()) {
                     define(entry.getKey(), entry.getValue());

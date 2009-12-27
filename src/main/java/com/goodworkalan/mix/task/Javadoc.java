@@ -20,6 +20,7 @@ import com.goodworkalan.go.go.PathPart;
 import com.goodworkalan.go.go.ResolutionPart;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.FindList;
+import com.goodworkalan.mix.MixCommand;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
 import com.goodworkalan.mix.builder.RecipeElement;
@@ -52,11 +53,11 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
             public void end(JavadocConfiguration configuration) {
                 configure(configuration);
                 parent.addExecutable(new Executable() {
-                    public void execute(Environment env, Project project, String recipeName) {
+                    public void execute(Environment env, MixCommand.Arguments mix, Project project, String recipeName) {
                         List<String> arguments = new ArrayList<String>();
                         
                         arguments.add("-d");
-                        arguments.add(env.io.relativize(output).getPath());
+                        arguments.add(mix.relativize(output).getPath());
                         
                         if (visibility != null) {
                             arguments.add("-" + visibility);
@@ -74,7 +75,7 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
                             if (!find.hasFilters()) {
                                 find.include("**/*.java");
                             }
-                            File directory = env.io.relativize(entry.getDirectory());
+                            File directory = mix.relativize(entry.getDirectory());
                             for (String fileName : find.find(directory)) {
                                 arguments.add(new File(directory, fileName).toString());
                             }
@@ -85,12 +86,12 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
                             arguments.add(entry.getKey().toASCIIString());
                             File packages = entry.getValue();
                             if (!packages.isAbsolute()) {
-                                packages = new File(env.io.dir, packages.getPath());
+                                packages = new File(mix.getWorkingDirectory(), packages.getPath());
                             }
                             arguments.add(packages.getAbsoluteFile().toURI().toString());
                         }
                         if (packageLists != null) {
-                            File workingPackageLists = env.io.relativize(packageLists);
+                            File workingPackageLists = mix.relativize(packageLists);
                             if (workingPackageLists.isDirectory()) {
                                 for (File file : workingPackageLists.listFiles()) {
                                     if (file.isDirectory() && file.canRead()) {
