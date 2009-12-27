@@ -65,7 +65,10 @@ public class MixException extends RuntimeException {
     public String getMessage() {
         ResourceBundle bundle = ResourceBundle.getBundle(context.getPackage().getName() + ".exceptions");
         String className = context.getCanonicalName();
-        className = className.substring(0, className.lastIndexOf('.'));
+        int index = className.lastIndexOf('.');
+        if (index > -1) {
+            className = className.substring(index + 1);
+        }
         String key = className + "/" + code;
         try {
             return String.format(bundle.getString(key), arguments);
