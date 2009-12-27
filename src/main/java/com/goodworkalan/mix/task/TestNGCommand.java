@@ -28,7 +28,7 @@ public class TestNGCommand implements Commandable {
         public void addDefine(String define) {
             String[] pair = define.split(":");
             if (pair.length != 2) {
-                throw new MixError(0);
+                throw new MixError(TestNGCommand.class, "invalid.define", define);
             }
             defines.put(pair[0], pair[1]);
         }

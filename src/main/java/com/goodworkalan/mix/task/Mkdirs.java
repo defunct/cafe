@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.goodworkalan.go.go.Environment;
+import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.MixException;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
@@ -30,10 +31,10 @@ public class Mkdirs {
                 for (File directory : directories) {
                     if (directory.exists()) {
                         if (!directory.isDirectory()) {
-                            throw new MixException(0);
+                            throw new MixError(Mkdirs.class, "file.exists", directory);
                         }
                     } else if (!directory.mkdirs()) {
-                        throw new MixException(0);
+                        throw new MixException(Mkdirs.class, "failure", directory);
                     }
                 }
             }

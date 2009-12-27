@@ -12,7 +12,7 @@ import java.util.zip.ZipOutputStream;
 import com.goodworkalan.comfort.io.Find;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.mix.FindList;
-import com.goodworkalan.mix.MixException;
+import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
 import com.goodworkalan.mix.builder.RecipeElement;
@@ -74,7 +74,7 @@ public class Zip {
     protected void addFile(File source, String entryName) throws IOException {
         entryName = entryName.replace(File.separator, "/");
         if (seen.contains(entryName)) {
-            throw new MixException(0);
+            throw new MixError(Zip.class, "seen", entryName, output);
         }
         seen.add(entryName);
         byte[] buffer = this.buffer;
@@ -121,7 +121,7 @@ public class Zip {
                     addAdditionalEntries(env, project, recipeName);
                     out.close();
                 } catch (IOException e) {
-                    throw new MixException(0, e);
+                    throw new MixError(Zip.class, "failure", e, output);
                 }
             }
         });

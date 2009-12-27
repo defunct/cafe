@@ -5,7 +5,7 @@ import java.io.File;
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.mix.FindList;
-import com.goodworkalan.mix.MixException;
+import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
 import com.goodworkalan.mix.builder.RecipeElement;
@@ -55,18 +55,18 @@ public class Copy {
                     File sourceDirectory = entry.getDirectory();
                     if (sourceDirectory.isDirectory()) {
                         if (!outputDirectory.isDirectory() && !outputDirectory.mkdirs()) {
-                            throw new MixException(0);
+                            throw new MixError(Copy.class, "mkdirs", outputDirectory);
                         }
                         for (String file : entry.getFind().find(sourceDirectory)) {
                             File source = new File(sourceDirectory, file);
                             File destination = new File(outputDirectory, file);
                             if (source.isDirectory()) {
                                 if (!destination.isDirectory() && !destination.mkdirs()) {
-                                    throw new MixException(0);
+                                    throw new MixError(Copy.class, "mkdirs", destination);
                                 }
                             } else {
                                 if (!destination.getParentFile().isDirectory() && !destination.getParentFile().mkdirs()) {
-                                    throw new MixException(0);
+                                    throw new MixError(Copy.class, "mkdirs", destination);
                                 }
                                 Files.copy(source, destination);
                             }

@@ -141,8 +141,9 @@ public class TestNG {
                 
                 spawn.getProcessBuilder().command().addAll(arguments);
                 
-                if (spawn.execute() != 0) {
-                    throw new MixError(0);
+                int exit = spawn.execute();
+                if (exit != 0) {
+                    throw new MixError(TestNG.class, "failure", exit);
                 }
             }
         });

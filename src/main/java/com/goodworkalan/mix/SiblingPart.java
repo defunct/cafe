@@ -7,6 +7,7 @@ import java.util.Collection;
 
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.go.go.Artifact;
+import com.goodworkalan.go.go.GoException;
 import com.goodworkalan.go.go.Include;
 import com.goodworkalan.go.go.Library;
 import com.goodworkalan.go.go.PathPart;
@@ -35,8 +36,8 @@ public class SiblingPart implements PathPart {
                     Library siblingLibrary = new Library(distribution);
                     try {
                         return resolution.expand(siblingLibrary, expand);      
-                    } catch (MixException e) {
-                        if (e.getCode() != MixException.UNRESOLVED_ARTIFACT) {
+                    } catch (GoException e) {
+                        if (e.getCode() != GoException.UNRESOLVED_ARTIFACT) {
                             throw e;
                         }
                     }

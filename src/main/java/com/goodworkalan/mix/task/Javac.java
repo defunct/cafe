@@ -17,6 +17,7 @@ import com.goodworkalan.go.go.PathPart;
 import com.goodworkalan.go.go.ResolutionPart;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.FindList;
+import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.MixException;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
@@ -79,11 +80,11 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
                             arguments.add(target);
                         }
                         if (output == null) {
-                            throw new MixException(0);
+                            throw new MixError(Javac.class, "output");
                         }
                         File workingOutput = env.io.relativize(output);
                         if (!(workingOutput.isDirectory() || workingOutput.mkdirs())) {
-                            throw new MixException(0);
+                            throw new MixException(Javac.class, "mkdirs", workingOutput);
                         }
                         arguments.add("-d");
                         arguments.add(workingOutput.getPath());
@@ -131,9 +132,12 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
                             try {
                                 Object compiler = reflectiveFactory.getConstructor(compilerClass).newInstance();
                                 Method method = reflectiveFactory.getMethod(compilerClass, "compile", new String [0].getClass());
-                                method.invoke(compiler, new Object[] { arguments.toArray(new String[arguments.size()]) });
+                                int errorCode = (Integer) method.invoke(compiler, new Object[] { arguments.toArray(new String[arguments.size()]) });
+                                if (errorCode != 0) {
+                                    throw new MixError(Javac.class, "failure", errorCode);
+                                }
                             } catch (ReflectiveException e) {
-                                throw new MixException(0, e);
+                                throw new MixException(Javac.class, "invoke", e);
                             }
                         }
                     }

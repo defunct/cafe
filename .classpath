@@ -24,7 +24,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/comfort-io"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/cassandra"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/notice"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

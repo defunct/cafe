@@ -54,10 +54,10 @@ public class Delete {
             public void execute(Environment env, Project project, String recipeName) {
                 if (!recurse) {
                     if (file.exists() && !file.delete()) {
-                        throw new MixError(0);
+                        throw new MixError(Delete.class, "failure", file);
                     }
                 } else if (!Files.delete(file)) {
-                    throw new MixError(0);
+                    throw new MixError(Delete.class, "failure", file);
                 }
             }
         });

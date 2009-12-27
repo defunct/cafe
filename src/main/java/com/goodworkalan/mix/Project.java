@@ -67,7 +67,7 @@ public class Project {
     public List<ArtifactSource> getArtifactSources(String pattern) {
         String[] parts = pattern.split("/");
         if (parts.length > 3) {
-            throw new MixException(0);
+            throw new MixException(Project.class, "bad.artifact.pattern", pattern);
         }
         List<String> fromKey = Arrays.asList(pattern);
         if (fromKey.size() != 1) {

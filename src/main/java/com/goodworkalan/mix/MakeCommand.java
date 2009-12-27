@@ -36,7 +36,7 @@ public class MakeCommand implements Commandable {
     public void execute(Environment env) {
         List<String> remaining = env.part.getRemaining();
         if (remaining.isEmpty()) {
-            throw new MixException(0);
+            throw new MixError(MakeCommand.class, "no.targets");
         }
         Project project = configuration.getProject();
         LinkedList<String> buildQueue = new LinkedList<String>();

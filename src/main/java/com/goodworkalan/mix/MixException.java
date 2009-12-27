@@ -1,16 +1,76 @@
 package com.goodworkalan.mix;
 
-import com.goodworkalan.go.go.GoException;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
-public class MixException extends GoException {
+/**
+ * An exception raised by the Mix application.
+ * 
+ * @author Alan Gutierrez
+ */
+public class MixException extends RuntimeException {
     /** Serial version id. */
     private static final long serialVersionUID = 1L;
+   
+    /** The error context. */
+    private final Class<?> context;
+    
+    /** The error code. */
+    private final String code;
+    
+    /** The detail message format arguments. */
+    private final Object[] arguments;
 
-    public MixException(int code) {
-        super(code);
+    /**
+     * Create a mix exception with the given error code and message format
+     * arguments.
+     * 
+     * @param context
+     *            The error context.
+     * @param code
+     *            The error code.
+     * @param arguments
+     *            The format arguments.
+     */
+    public MixException(Class<?> context, String code, Object...arguments) {
+        this(context, code, null, arguments);
     }
 
-    public MixException(int code, Throwable cause) {
-        super(code, cause);
+    /**
+     * Create a mix exception with the given error code, cause and message
+     * format arguments.
+     * 
+     * @param context
+     *            The error context.
+     * @param code
+     *            The error code.
+     * @param cause
+     *            The cause.
+     * @param arguments
+     *            The format arguments.
+     */
+    public MixException(Class<?> context, String code, Throwable cause, Object...arguments) {
+        super(null, cause);
+        this.context = context;
+        this.code = code;
+        this.arguments = arguments;
+    }
+
+    /**
+     * Returns the detail message string of this error.
+     * 
+     * @return The detail message string of this error.
+     */
+    @Override
+    public String getMessage() {
+        ResourceBundle bundle = ResourceBundle.getBundle(context.getPackage().getName() + ".exceptions");
+        String className = context.getCanonicalName();
+        className = className.substring(0, className.lastIndexOf('.'));
+        String key = className + "/" + code;
+        try {
+            return String.format(bundle.getString(key), arguments);
+        } catch (MissingResourceException e) {
+            return key;
+        }
     }
 }

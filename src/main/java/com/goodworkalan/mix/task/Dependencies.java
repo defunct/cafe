@@ -13,7 +13,7 @@ import com.goodworkalan.go.go.Artifact;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Include;
 import com.goodworkalan.mix.Dependency;
-import com.goodworkalan.mix.MixException;
+import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
 import com.goodworkalan.mix.builder.RecipeElement;
@@ -76,7 +76,7 @@ public class Dependencies {
                     }
                 }
                 if (!output.getParentFile().isDirectory() && !output.getParentFile().mkdirs()) {
-                    throw new MixException(0);
+                    throw new MixError(Dependencies.class, "mkdirs", output.getParentFile());
                 }
                 try {
                     PrintWriter writer = new PrintWriter(new FileWriter(output));
@@ -87,7 +87,7 @@ public class Dependencies {
                     }
                     writer.close();
                 } catch (IOException e) {
-                    throw new MixException(0, e);
+                    throw new MixError(Dependencies.class, "write", e, output);
                 }
             }
         });

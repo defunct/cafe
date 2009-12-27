@@ -31,7 +31,7 @@ public class InstallCommand implements Commandable {
     public void execute(Environment env) {
         if (libraryDirectory == null) {
             if (System.getProperty("user.home") == null) {
-                throw new MixException(0);
+                throw new MixException(InstallCommand.class, "no.user.home");
             }
             File home = new File(System.getProperty("user.home"));
             libraryDirectory = new File(home, ".m2/repository");
@@ -58,7 +58,7 @@ public class InstallCommand implements Commandable {
                 File destination = new File(outputDirectory, fileName);
                 File parent = destination.getParentFile();
                 if (!(parent.isDirectory() || parent.mkdirs())) {
-                    throw new MixException(0);
+                    throw new MixException(InstallCommand.class, "mkdirs", parent, libraryDirectory);
                 }
                 Files.copy(new File(sourceDirectory, fileName), destination);
             }

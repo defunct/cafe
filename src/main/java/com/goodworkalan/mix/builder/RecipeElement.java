@@ -87,7 +87,7 @@ public class RecipeElement {
         try {
             return reflectiveFactory.getConstructor(taskClass, RecipeElement.class).newInstance(this);
         } catch (ReflectiveException e) {
-            throw new MixException(0, e);
+            throw new MixException(RecipeElement.class, "cannot.create.task", e, taskClass.getCanonicalName());
         }
     }
 

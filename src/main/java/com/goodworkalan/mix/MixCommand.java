@@ -1,12 +1,9 @@
 package com.goodworkalan.mix;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Properties;
 
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.comfort.io.Find;
@@ -73,7 +70,6 @@ public class MixCommand implements Commandable {
          * The project root directory, defaults to the current working
          * directory.
          */
-        // FIXME Outgoing.
         private File workingDirectory = new File(".");
         
         /** Whether or not Mix is being run without an Internet connection. */
@@ -184,46 +180,23 @@ public class MixCommand implements Commandable {
         // why compilers are not pluggable) of the compiler command.
         Builder builder = new Builder();
         if (project) {
-            Properties properties = new Properties();
-            File propertiesFile = new File(arguments.getWorkingDirectory(), "mix.properties");
-            if (propertiesFile.exists()) {
-                try {
-                    properties.load(new FileInputStream(propertiesFile));
-                } catch (IOException e) {
-                    throw new MixException(0, e);
-                }
-            }
-            String outputDirectoryName = properties.getProperty("output", "target/mix-classes");
-            File outputDirectory = new File(outputDirectoryName);
-            if (!outputDirectory.isAbsolute()) {
-                outputDirectory = new File(arguments.getWorkingDirectory(), outputDirectoryName);
-            }
-            String sourceDirectoryName = properties.getProperty("source", "src/mix/java");
-            if (new File(sourceDirectoryName).isAbsolute()) {
-                throw new MixException(0);
-            }
+            File output = new File("target/mix-classes");
             FindList sources = new FindList();
-            sources.addDirectory(new File(sourceDirectoryName));
+            sources.addDirectory(new File("src/mix/java"));
             sources.isFile();
-            String resourceDirectoryName = properties.getProperty("resources", "src/mix/resources");
-            if (new File(sourceDirectoryName).isAbsolute()) {
-                throw new MixException(0);
-            }
-            sources.addDirectory(new File(resourceDirectoryName));
+            sources.addDirectory(new File("src/mix/resources"));
             sources.isFile();
             FindList outputs = new FindList();
-            outputs.addDirectory(outputDirectory);
+            outputs.addDirectory(output);
             outputs.isFile();
             if (new Rebuild(sources, outputs).isDirty()) {
-                System.out.println("Building mix.");
-                if (outputDirectory.exists()) {
-                    Files.delete(outputDirectory);
+                if (output.exists()) {
+                    Files.delete(output);
                 }
-                if (!outputDirectory.mkdirs()) {
-                    throw new MixException(0);
+                if (!output.mkdirs()) {
+                    throw new MixError(MixCommand.class, "output.mkdirs", output);
                 }
-                // FIXME Do a dependency check instead.
-                File sourceDirectory = new File(arguments.getWorkingDirectory(), sourceDirectoryName);
+                File sourceDirectory = new File(arguments.getWorkingDirectory(), "src/mix/java");
                 if (sourceDirectory.isDirectory()) {
                     Builder hiddenBuilder = new Builder();
                     hiddenBuilder
@@ -231,7 +204,7 @@ public class MixCommand implements Commandable {
                             .task(Javac.class)
                                 .artifact(new Artifact("com.goodworkalan/mix/0.1"))
                                 .source(sourceDirectory).end()
-                                .output(outputDirectory)
+                                .output(output)
                                 .end()
                              .end();
                     Project project = hiddenBuilder.createProject(arguments.getWorkingDirectory(), env.executor, env.part);
@@ -240,43 +213,41 @@ public class MixCommand implements Commandable {
                     }
                 }
                 // FIXME Do resources too.
-            } else if (!outputDirectory.isDirectory()) {
-                throw new MixException(0);
+            } else if (!output.isDirectory()) {
+                throw new MixException(MixCommand.class, "output.not.directory", output);
             }
-            if (outputDirectory.exists()) {
-                ClassLoader currentClassLoader = Thread.currentThread().getContextClassLoader();
+            ClassLoader currentClassLoader = Thread.currentThread().getContextClassLoader();
+            try {
+                ClassLoader classLoader;
                 try {
-                    ClassLoader classLoader;
-                    try {
-                        classLoader = new URLClassLoader(new URL[] { outputDirectory.getAbsoluteFile().toURI().toURL() }, currentClassLoader);
-                    } catch (MalformedURLException e) {
-                        throw new MixException(0, e);
-                    }
-                    Thread.currentThread().setContextClassLoader(classLoader);
-                    for (String className : new Find().include("**/*.class").find(outputDirectory)) {
-                        className = className.replace("/", ".");
-                        className = className.replace("\\", ".");
-                        className = className.substring(0, className.length() - ".class".length());
-                        Class<?> foundClass;
-                        try {
-                            foundClass = classLoader.loadClass(className);
-                        } catch (ClassNotFoundException e) {
-                            // It is to be expected.
-                            continue;
-                        }
-                        if (ProjectModule.class.isAssignableFrom(foundClass)) {
-                            ProjectModule projectModule;
-                            try {
-                                projectModule = (ProjectModule) reflectiveFactory.getConstructor(foundClass).newInstance();
-                            } catch (ReflectiveException e) {
-                                throw new MixException(0, e);
-                            }
-                            projectModule.build(builder);
-                        }
-                    }
-                } finally {
-                    Thread.currentThread().setContextClassLoader(currentClassLoader);
+                    classLoader = new URLClassLoader(new URL[] { output.getAbsoluteFile().toURI().toURL() }, currentClassLoader);
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(e);
                 }
+                Thread.currentThread().setContextClassLoader(classLoader);
+                for (String className : new Find().include("**/*.class").find(output)) {
+                    className = className.replace("/", ".");
+                    className = className.replace("\\", ".");
+                    className = className.substring(0, className.length() - ".class".length());
+                    Class<?> foundClass;
+                    try {
+                        foundClass = classLoader.loadClass(className);
+                    } catch (ClassNotFoundException e) {
+                        // It is to be expected.
+                        continue;
+                    }
+                    if (ProjectModule.class.isAssignableFrom(foundClass)) {
+                        ProjectModule projectModule;
+                        try {
+                            projectModule = (ProjectModule) reflectiveFactory.getConstructor(foundClass).newInstance();
+                        } catch (ReflectiveException e) {
+                            throw new MixException(MixCommand.class, "project.module", e);
+                        }
+                        projectModule.build(builder);
+                    }
+                }
+            } finally {
+                Thread.currentThread().setContextClassLoader(currentClassLoader);
             }
         }
         configuration = new Configuration(builder.createProject(arguments.getWorkingDirectory(), env.executor, env.part));

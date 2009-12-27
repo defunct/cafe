@@ -53,7 +53,7 @@ public class Builder {
         try {
             return reflectiveFactory.getConstructor(cookbookClass, Builder.class).newInstance(this);
         } catch (ReflectiveException e) {
-            throw new MixException(0, e);
+            throw new MixException(Builder.class, "create.cookbook", e, cookbookClass.getCanonicalName());
         }
     }
     

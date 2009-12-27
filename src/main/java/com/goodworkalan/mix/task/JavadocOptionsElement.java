@@ -51,7 +51,7 @@ public class JavadocOptionsElement<P, S> {
     
     public S visibility(String visibility) {
         if ("|public|protected|package|private|".indexOf("|" + visibility + "|") == -1) {
-            throw new MixError(0);
+            throw new MixError(JavadocOptionsElement.class, "invalid.visibility", visibility);
         }
         this.visibility = visibility;
         return self.getSelf();

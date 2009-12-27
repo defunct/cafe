@@ -11,7 +11,7 @@ import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.Library;
 import com.goodworkalan.go.go.PathPart;
 import com.goodworkalan.mix.Dependency;
-import com.goodworkalan.mix.MixException;
+import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.Recipe;
 import com.goodworkalan.mix.builder.RecipeElement;
@@ -55,7 +55,7 @@ public class War extends Zip {
                 try {
                     new ZipFile(file);
                 } catch (IOException e) {
-                    throw new MixException(0, e);
+                    throw new MixError(War.class, "invalid.jar", e, file);
                 }
                 addFile(file, "WEB-INF/lib/" + file.getName());
             }

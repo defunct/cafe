@@ -5,7 +5,7 @@ import java.io.File;
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.mix.FindList;
-import com.goodworkalan.mix.MixException;
+import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
 import com.goodworkalan.mix.builder.RecipeElement;
@@ -36,7 +36,7 @@ public class Prune {
                     for (String fileName : entry.getFind().find(entry.getDirectory())) {
                         File source = new File(entry.getDirectory(), fileName);
                         if (!Files.delete(source)) {
-                            throw new MixException(0);
+                            throw new MixError(Prune.class, "failure", source);
                         }
                     }
                 }
