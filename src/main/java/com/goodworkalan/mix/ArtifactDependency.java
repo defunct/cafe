@@ -17,7 +17,7 @@ import com.goodworkalan.go.go.ResolutionPart;
  * @author Alan Gutierrez
  */
 public class ArtifactDependency implements Dependency {
-    /** he artifact and its exclusions. */
+    /** The artifact and its exclusions. */
     private final Include include;
 
     /**
