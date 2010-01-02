@@ -30,9 +30,6 @@ public class MixCommand implements Commandable {
     /** Use to create project modules. */
     private final ReflectiveFactory reflectiveFactory;
     
-    /** If true, attempt to load a project. */
-    private boolean project = true;
-    
     /**
      * Create a mix task.
      */
@@ -49,16 +46,6 @@ public class MixCommand implements Commandable {
      */
     MixCommand(ReflectiveFactory reflectiveFactory) {
         this.reflectiveFactory = reflectiveFactory;
-    }
-    
-    /**
-     * Set whether not a project should be loaded.
-     * 
-     * @param project If true a project should be loaded.
-     */
-    @Argument
-    public void addProject(boolean project) {
-        this.project = project;
     }
     
     /**
@@ -193,77 +180,76 @@ public class MixCommand implements Commandable {
         // Need to run the compiler out of the context (one more reason
         // why compilers are not pluggable) of the compiler command.
         Builder builder = new Builder();
-        if (project) {
-            File output = new File(mix.getWorkingDirectory(), "target/mix-classes");
-            FindList sources = new FindList();
-            sources.addDirectory(new File(mix.getWorkingDirectory(), "src/mix/java"));
-            sources.isFile();
-            sources.addDirectory(new File(mix.getWorkingDirectory(), "src/mix/resources"));
-            sources.isFile();
-            FindList outputs = new FindList();
-            outputs.addDirectory(output);
-            outputs.isFile();
-            if (new Rebuild(sources, outputs).isDirty()) {
-                if (output.exists()) {
-                    Files.delete(output);
-                }
-                if (!output.mkdirs()) {
-                    throw new MixError(MixCommand.class, "output.mkdirs", output);
-                }
-                File sourceDirectory = new File(mix.getWorkingDirectory(), "src/mix/java");
-                env.debug("javac", sourceDirectory, output);
-                if (sourceDirectory.isDirectory()) {
-                    Builder hiddenBuilder = new Builder();
-                    hiddenBuilder
-                        .recipe("javac")
-                            .task(Javac.class)
-                                .artifact(new Artifact("com.goodworkalan/mix/0.1"))
-                                .source(sourceDirectory.getAbsoluteFile()).end()
-                                .output(output.getAbsoluteFile())
-                                .end()
-                             .end();
-                    Project project = hiddenBuilder.createProject(mix.getWorkingDirectory(), env.executor, env.part);
-                    for (Executable executable : project.getRecipe("javac").getProgram()) {
-                        executable.execute(env, mix, project, "javac");
-                    }
-                }
-                // FIXME Do resources too.
-            } else if (!output.isDirectory()) {
-                throw new MixException(MixCommand.class, "output.not.directory", output);
+        File output = new File(mix.getWorkingDirectory(), "target/mix-classes");
+        FindList sources = new FindList();
+        sources.addDirectory(new File(mix.getWorkingDirectory(), "src/mix/java"));
+        sources.isFile();
+        sources.addDirectory(new File(mix.getWorkingDirectory(), "src/mix/resources"));
+        sources.isFile();
+        FindList outputs = new FindList();
+        outputs.addDirectory(output);
+        outputs.isFile();
+        if (new Rebuild(sources, outputs).isDirty()) {
+            if (output.exists()) {
+                Files.delete(output);
             }
-            ClassLoader currentClassLoader = Thread.currentThread().getContextClassLoader();
+            if (!output.mkdirs()) {
+                throw new MixError(MixCommand.class, "output.mkdirs", output);
+            }
+            File sourceDirectory = new File(mix.getWorkingDirectory(), "src/mix/java");
+            env.debug("javac", sourceDirectory, output);
+            if (sourceDirectory.isDirectory()) {
+                Builder hiddenBuilder = new Builder();
+                hiddenBuilder
+                    .recipe("javac")
+                        .task(Javac.class)
+                            .artifact(new Artifact("com.goodworkalan/mix/0.1.2"))
+                            .source(sourceDirectory.getAbsoluteFile()).end()
+                            .output(output.getAbsoluteFile())
+                            .end()
+                         .end();
+                Project project = hiddenBuilder.createProject(mix.getWorkingDirectory(), env.executor, env.part);
+                for (Executable executable : project.getRecipe("javac").getProgram()) {
+                    executable.execute(env, mix, project, "javac");
+                }
+            }
+            // FIXME Do resources too.
+        } else if (!output.isDirectory()) {
+            throw new MixException(MixCommand.class, "output.not.directory", output);
+        }
+        ClassLoader currentClassLoader = Thread.currentThread().getContextClassLoader();
+        try {
+            ClassLoader classLoader;
             try {
-                ClassLoader classLoader;
-                try {
-                    classLoader = new URLClassLoader(new URL[] { output.getAbsoluteFile().toURI().toURL() }, currentClassLoader);
-                } catch (MalformedURLException e) {
-                    throw new RuntimeException(e);
-                }
-                Thread.currentThread().setContextClassLoader(classLoader);
-                for (String className : new Find().include("**/*.class").find(output)) {
-                    className = className.replace("/", ".");
-                    className = className.replace("\\", ".");
-                    className = className.substring(0, className.length() - ".class".length());
-                    Class<?> foundClass;
-                    try {
-                        foundClass = classLoader.loadClass(className);
-                    } catch (ClassNotFoundException e) {
-                        // It is to be expected.
-                        continue;
-                    }
-                    if (ProjectModule.class.isAssignableFrom(foundClass)) {
-                        ProjectModule projectModule;
-                        try {
-                            projectModule = (ProjectModule) reflectiveFactory.getConstructor(foundClass).newInstance();
-                        } catch (ReflectiveException e) {
-                            throw new MixException(MixCommand.class, "project.module", e);
-                        }
-                        projectModule.build(builder);
-                    }
-                }
-            } finally {
-                Thread.currentThread().setContextClassLoader(currentClassLoader);
+                classLoader = new URLClassLoader(new URL[] { output.getAbsoluteFile().toURI().toURL() }, currentClassLoader);
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
             }
+            Thread.currentThread().setContextClassLoader(classLoader);
+            for (String className : new Find().include("**/*.class").find(output)) {
+                className = className.replace("/", ".");
+                className = className.replace("\\", ".");
+                className = className.substring(0, className.length() - ".class".length());
+                Class<?> foundClass;
+                try {
+                    foundClass = classLoader.loadClass(className);
+                } catch (ClassNotFoundException e) {
+                    // It is to be expected.
+                    continue;
+                }
+                if (ProjectModule.class.isAssignableFrom(foundClass)) {
+                    ProjectModule projectModule;
+                    try {
+                        projectModule = (ProjectModule) reflectiveFactory.getConstructor(foundClass).newInstance();
+                    } catch (ReflectiveException e) {
+                        throw new MixException(MixCommand.class, "project.module", e);
+                    }
+                    projectModule.build(builder);
+                }
+            }
+        } finally {
+            // FIXME Keep current class loader.
+            Thread.currentThread().setContextClassLoader(currentClassLoader);
         }
         configuration = new Configuration(builder.createProject(mix.getWorkingDirectory(), env.executor, env.part));
     }
