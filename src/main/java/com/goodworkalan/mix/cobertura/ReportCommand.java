@@ -116,10 +116,8 @@ public class ReportCommand implements Commandable {
         Spawn<Redirect, Redirect> spawn;
         spawn = Spawn.spawn(new Redirect(env.io.out), new Redirect(env.io.err));
 
-        spawn.getProcessBuilder().command().addAll(arguments);
-
-        if (spawn.execute() != 0) {
-            throw new MixError(0);
+        if (spawn.execute(arguments).getCode() != 0) {
+            throw new MixError(ReportCommand.class, "fork");
         }
     }
 }
