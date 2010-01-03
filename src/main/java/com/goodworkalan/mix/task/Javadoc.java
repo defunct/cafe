@@ -136,11 +136,11 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
                             ProcessBuilder newProcess = new ProcessBuilder();
                             newProcess.command().addAll(arguments);
                             
-                            Spawn<Redirect, Redirect> spawn;
-                            spawn = Spawn.spawn(new Redirect(env.io.out), new Redirect(env.io.err));
+                            Spawn<Redirect, Redirect> spawn = Spawn.spawn(new Redirect(env.io.out), new Redirect(env.io.err));
                             
-                            spawn.getProcessBuilder().command().addAll(arguments);
-                            spawn.execute();
+                            if (spawn.execute(arguments).isSuccess()) {
+                                throw new RuntimeException();
+                            }
                         } else {
                             try {
                                 Method method = reflectiveFactory.getMethod(compilerClass, "execute", new String [0].getClass());

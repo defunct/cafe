@@ -126,11 +126,11 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
                             ProcessBuilder newProcess = new ProcessBuilder();
                             newProcess.command().addAll(arguments);
                             
-                            Spawn<Redirect, Redirect> spawn;
-                            spawn = Spawn.spawn(new Redirect(env.io.out), new Redirect(env.io.err));
+                            Spawn<Redirect, Redirect> spawn = Spawn.spawn(new Redirect(env.io.out), new Redirect(env.io.err));
                             
-                            spawn.getProcessBuilder().command().addAll(arguments);
-                            spawn.execute();
+                            if (!spawn.execute(arguments).isSuccess()) {
+                                throw new MixException(Javac.class, "invoke");
+                            }
                         } else {
                             try {
                                 Object compiler = reflectiveFactory.getConstructor(compilerClass).newInstance();

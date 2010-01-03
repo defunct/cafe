@@ -138,9 +138,7 @@ public class TestNG {
                 Spawn<Redirect, Redirect> spawn;
                 spawn = Spawn.spawn(new Redirect(env.io.out), new Redirect(env.io.err));
                 
-                spawn.getProcessBuilder().command().addAll(arguments);
-                
-                int exit = spawn.execute();
+                int exit = spawn.execute(arguments).getCode();
                 if (exit != 0) {
                     throw new MixError(TestNG.class, "failure", exit);
                 }
