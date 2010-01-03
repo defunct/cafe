@@ -2,11 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry excluding="**/*.java" kind="src" path="src/main/resources"/>
-	<classpathentry kind="var" path="M2_REPO/com/goodworkalan/cassandra/0.7/cassandra-0.7.jar" sourcepath="M2_REPO/com/goodworkalan/cassandra/0.7/cassandra-0.7-sources.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:file:/Users/alan/.m2/repository/com/goodworkalan/cassandra/0.7/cassandra-0.7-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="var" path="M2_REPO/org/freemarker/freemarker/2.3.13/freemarker-2.3.13.jar" sourcepath="M2_REPO/org/freemarker/freemarker/2.3.13/freemarker-2.3.13-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/goodworkalan/glob/0.1/glob-0.1.jar" sourcepath="M2_REPO/com/goodworkalan/glob/0.1/glob-0.1-sources.jar">
 		<attributes>
@@ -34,5 +29,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/go-go"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/mix"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/cassandra"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

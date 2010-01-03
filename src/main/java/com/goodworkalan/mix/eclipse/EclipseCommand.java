@@ -59,22 +59,23 @@ public class EclipseCommand implements Commandable {
     public void execute(Environment env) {
         File file = new File(mixArguments.getWorkingDirectory(), ".classpath");
         if (!file.exists()) {
-            throw new MixError(0);
+            throw new MixError(EclipseCommand.class, "classpath.missing", file);
         }
 
         DocumentBuilder db;
         try {
             db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         } catch (ParserConfigurationException e) {
-            throw new MixError(0);
+            // Yeah, well, we never change the default configuration, so WTF?
+            throw new RuntimeException(e);
         }
         Document doc;
         try {
             doc = db.parse(file);
         } catch (SAXException e) {
-            throw new MixException(0, e);
+            throw new MixError(EclipseCommand.class, "classpath.parse", file, e.getMessage());
         } catch (IOException e) {
-            throw new MixException(0, e);
+            throw new MixError(EclipseCommand.class, "classpath.io", file, e.getMessage());
         }
 
         
@@ -118,7 +119,7 @@ public class EclipseCommand implements Commandable {
         for (Artifact artifact : artifacts) {
             LibraryEntry libraryEntry = library.getEntry(artifact);
             if (libraryEntry == null) {
-                throw new MixError(0);
+                throw new MixError(EclipseCommand.class, "artifact.missing", artifact);
             }
             if (!variables.containsKey(libraryEntry.getDirectory())) {
                 variables.put(libraryEntry.getDirectory(), "REPO_" + count);
@@ -136,7 +137,7 @@ public class EclipseCommand implements Commandable {
             File directory = libraryEntry.getDirectory();
             File jar = new File(directory, artifact.getPath("jar"));
             if (!jar.exists()) {
-                throw new MixError(0);
+                throw new MixError(EclipseCommand.class, "jar.missing", artifact);
             }
             String variable = variables.get(directory);
             Element part = doc.createElement("classpathentry");
@@ -181,9 +182,9 @@ public class EclipseCommand implements Commandable {
             Result result = new StreamResult(new FileWriter(file));
             xformer.transform(source, result);
         } catch (TransformerException e) {
-            throw new MixException(0, e);
+            throw new MixException(EclipseCommand.class, "classpath.pretty", e, file, e.getMessageAndLocation());
         } catch (IOException e) {
-            throw new MixException(0, e);
+            throw new MixException(EclipseCommand.class, "classpath.write", e, file, e.getMessage());
         }
     }
 }
