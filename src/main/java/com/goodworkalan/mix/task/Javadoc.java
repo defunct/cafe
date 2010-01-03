@@ -138,7 +138,7 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
                             
                             Spawn<Redirect, Redirect> spawn = Spawn.spawn(new Redirect(env.io.out), new Redirect(env.io.err));
                             
-                            if (spawn.execute(arguments).isSuccess()) {
+                            if (!spawn.execute(arguments).isSuccess()) {
                                 throw new RuntimeException();
                             }
                         } else {
