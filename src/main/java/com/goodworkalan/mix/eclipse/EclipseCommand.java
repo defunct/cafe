@@ -57,6 +57,8 @@ public class EclipseCommand implements Commandable {
     }
     
     public void execute(Environment env) {
+        env.verbose("start", env.part.getCommand().get(0), mixArguments.getWorkingDirectory());
+
         File file = new File(mixArguments.getWorkingDirectory(), ".classpath");
         if (!file.exists()) {
             throw new MixError(EclipseCommand.class, "classpath.missing", file);
@@ -83,6 +85,7 @@ public class EclipseCommand implements Commandable {
         int i = 0, stop = nodeList.getLength();
         while (i < stop) {
             Element element = (Element) nodeList.item(i);
+            env.debug("part", i, stop, element.getAttribute("kind")); 
             if (element.getAttribute("kind").equals("var")) {
                 element.getParentNode().removeChild(element);
                 stop--;
@@ -133,6 +136,7 @@ public class EclipseCommand implements Commandable {
         Element entry = doc.createElement("classpathentry");
         entry.setAttribute("kind", "var");
         for (Artifact artifact : artifacts) {
+            env.debug("add", artifact);
             LibraryEntry libraryEntry = library.getEntry(artifact);
             File directory = libraryEntry.getDirectory();
             File jar = new File(directory, artifact.getPath("jar"));

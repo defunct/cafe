@@ -13,7 +13,7 @@ public class MixEclipseProject extends ProjectModule {
                 .produces(new Artifact("com.goodworkalan/mix-eclipse/0.1"))
                 .main()
                     .depends()
-                        .artifact(new Artifact("com.goodworkalan/mix/0.1"))
+                        .artifact(new Artifact("com.goodworkalan/mix/0.1.2"))
                         .end()
                     .end()    
                 .end()
