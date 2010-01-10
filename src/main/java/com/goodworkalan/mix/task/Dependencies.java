@@ -56,7 +56,7 @@ public class Dependencies {
 
     public RecipeElement end() {
         recipeElement.addExecutable(new Executable() {
-            public void execute(Environment env, MixCommand.Arguments arguments, Project project, String recipeName) {
+            public void execute(Environment env, MixCommand.Arguments mix, Project project, String recipeName) {
                 LinkedHashMap<List<String>, Include> dependencies = new LinkedHashMap<List<String>, Include>();
                 if (recipe != null) {
                     for (Dependency dependency : project.getRecipe(recipe).getDependencies()) {
@@ -76,11 +76,12 @@ public class Dependencies {
                         }
                     }
                 }
-                if (!output.getParentFile().isDirectory() && !output.getParentFile().mkdirs()) {
-                    throw new MixError(Dependencies.class, "mkdirs", output.getParentFile());
+                File relativized = mix.relativize(output);
+                if (!relativized.getParentFile().isDirectory() && !relativized.getParentFile().mkdirs()) {
+                    throw new MixError(Dependencies.class, "mkdirs", relativized.getParentFile());
                 }
                 try {
-                    PrintWriter writer = new PrintWriter(new FileWriter(output));
+                    PrintWriter writer = new PrintWriter(new FileWriter(relativized));
                     for (Include include : dependencies.values()) {
                         for (String line : include.getArtifactFileLines()) {
                             writer.println(line);
@@ -88,7 +89,7 @@ public class Dependencies {
                     }
                     writer.close();
                 } catch (IOException e) {
-                    throw new MixError(Dependencies.class, "write", e, output);
+                    throw new MixError(Dependencies.class, "write", e, relativized);
                 }
             }
         });
