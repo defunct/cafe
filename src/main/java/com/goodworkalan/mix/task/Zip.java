@@ -116,7 +116,7 @@ public class Zip {
                 env.verbose(Zip.class, "start", output);
                 File absoluteOutput = mix.relativize(output);
                 try {
-                    out = new ZipOutputStream(new FileOutputStream(mix.relativize(absoluteOutput)));
+                    out = new ZipOutputStream(new FileOutputStream(absoluteOutput));
                     out.setLevel(level);
                     for (FindList.Entry entry : findList) {
                         addFind(entry.getFind(), mix.relativize(entry.getDirectory()));
