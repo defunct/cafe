@@ -33,6 +33,9 @@ public class ReportCommand implements Commandable {
 
     /** The output directory for instrumented classes. */
     private File outputDirectory;
+    
+    /** The report format, either xml or html. */
+    private String format = "html";
 
     /** The generic Cobertura task arguments. */
     private CoberturaCommand.Arguments coberturaArguments;
@@ -61,6 +64,17 @@ public class ReportCommand implements Commandable {
     @Argument
     public void addOutputDirectory(File outputDirectory) {
         this.outputDirectory = outputDirectory;
+    }
+
+    /**
+     * Set the report format, either xml or html.
+     * 
+     * @param format
+     *            The report format.
+     */
+    @Argument
+    public void addFormat(String format) {
+        this.format = format;
     }
     
     /**
@@ -92,6 +106,9 @@ public class ReportCommand implements Commandable {
         
         arguments.add("--destination");
         arguments.add(outputDirectory.toString());
+        
+        arguments.add("--format");
+        arguments.add(format);
         
         if (dataFile != null) {
             arguments.add("--datafile");

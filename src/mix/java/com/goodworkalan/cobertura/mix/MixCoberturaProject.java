@@ -13,7 +13,7 @@ public class MixCoberturaProject extends ProjectModule {
                 .produces(new Artifact("com.goodworkalan/mix-cobertura/0.1"))
                 .main()
                     .depends()
-                        .artifact(new Artifact("com.goodworkalan/mix/0.1"))
+                        .artifact(new Artifact("com.goodworkalan/mix/0.1.2"))
                         .artifact(new Artifact("com.goodworkalan/comfort-io/0.1.1"))
                         .artifact(new Artifact("com.goodworkalan/spawn/0.1.1"))
                         .end()
