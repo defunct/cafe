@@ -68,7 +68,7 @@ public class MakeCommand implements Commandable {
             boolean build = recipe.getRebuilds().isEmpty();
             if (!build) {
                 for (Iterator<Rebuild> rebuilds = recipe.getRebuilds().iterator(); !build && rebuilds.hasNext();) {
-                    build = rebuilds.next().isDirty();
+                    build = rebuilds.next().isDirty(mix);
                 }
             }
             if (build) {

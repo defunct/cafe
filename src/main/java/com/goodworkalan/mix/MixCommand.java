@@ -189,7 +189,7 @@ public class MixCommand implements Commandable {
         FindList outputs = new FindList();
         outputs.addDirectory(output);
         outputs.isFile();
-        if (new Rebuild(sources, outputs).isDirty()) {
+        if (new Rebuild(sources, outputs).isDirty(mix)) {
             if (output.exists()) {
                 Files.delete(output);
             }

@@ -4,6 +4,7 @@ import java.io.File;
 
 import com.goodworkalan.comfort.io.Find;
 import com.goodworkalan.mix.FindList;
+import com.goodworkalan.mix.MixCommand;
 
 /**
  * Test whether a set of source files is newer than a set of output files. The
@@ -39,12 +40,13 @@ public class Rebuild {
      * 
      * @return True if a rebuild is required.
      */
-    public boolean isDirty() {
+    public boolean isDirty(MixCommand.Arguments mix) {
         long newest = 0L;
         for (FindList.Entry entry : sources) {
             Find find = entry.getFind();
-            for (String fileName : find.find(entry.getDirectory())) {
-                File source = new File(entry.getDirectory(), fileName);
+            File directory = mix.relativize(entry.getDirectory());
+            for (String fileName : find.find(directory)) {
+                File source = new File(directory, fileName);
                 if (source.lastModified() > newest) {
                     newest = source.lastModified();
                 }
@@ -56,9 +58,10 @@ public class Rebuild {
         int count = 0;
         for (FindList.Entry entry : outputs) {
             Find find = entry.getFind();
-            for (String fileName : find.find(entry.getDirectory())) {
+            File directory = mix.relativize(entry.getDirectory());
+            for (String fileName : find.find(directory)) {
                 count++;
-                File output = new File(entry.getDirectory(), fileName);
+                File output = new File(directory, fileName);
                 if (output.lastModified() < newest) {
                     return true;
                 }
