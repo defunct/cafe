@@ -1,2 +1,3 @@
 com.goodworkalan.mix.cobertura.InstrumentCommand
 com.goodworkalan.mix.cobertura.ReportCommand
+com.goodworkalan.mix.cobertura.CoberturaCommand
