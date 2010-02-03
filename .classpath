@@ -6,7 +6,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/go-go"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/mix"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/cassandra"/>
 	<classpathentry kind="var" path="M2_REPO/org/testng/testng/5.10/testng-5.10-jdk15.jar" sourcepath="M2_REPO/org/testng/testng/5.10/testng-5.10-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/goodworkalan/mix/0.1.2/mix-0.1.2.jar" sourcepath="M2_REPO/com/goodworkalan/mix/0.1.2/mix-0.1.2-sources.jar">
 		<attributes>
