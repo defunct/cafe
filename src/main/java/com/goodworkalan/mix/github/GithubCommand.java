@@ -101,16 +101,17 @@ public class GithubCommand implements Commandable {
      *            The execution environment.
      */
     public void execute(Environment env) {
+        Spawn<Slurp, Slurp> spawn = Spawn.spawn();
         Exit<Slurp, Slurp> exit;
         if (login == null) {
-            exit = Spawn.spawn().execute("git", "config", "github.user");
+            exit = spawn.execute("git", "config", "github.user");
             if (!exit.isSuccess()) {
                 throw new GitHubError(GithubCommand.class, "no.login");
             }
             addLogin(exit.getStdOut().getLines().get(0));
         }
         if (token == null) {
-            exit = Spawn.spawn().execute("git", "config", "github.token");
+            exit = spawn.execute("git", "config", "github.token");
             if (!exit.isSuccess()) {
                 throw new GitHubError(GithubCommand.class, "no.token");
             }
