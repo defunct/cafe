@@ -26,7 +26,7 @@ import com.goodworkalan.mix.builder.RecipeElement;
 import com.goodworkalan.reflective.Method;
 import com.goodworkalan.reflective.ReflectiveException;
 import com.goodworkalan.reflective.ReflectiveFactory;
-import com.goodworkalan.spawn.Redirect;
+import com.goodworkalan.spawn.Exit;
 import com.goodworkalan.spawn.Spawn;
 
 /**
@@ -126,9 +126,9 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
                             ProcessBuilder newProcess = new ProcessBuilder();
                             newProcess.command().addAll(arguments);
                             
-                            Spawn<Redirect, Redirect> spawn = Spawn.spawn(new Redirect(env.io.out), new Redirect(env.io.err));
+                            Exit exit = new Spawn().$(arguments).out(env.io.out).err(env.io.err).run();
                             
-                            if (!spawn.execute(arguments).isSuccess()) {
+                            if (!exit.isSuccess()) {
                                 throw new MixException(Javac.class, "invoke");
                             }
                         } else {

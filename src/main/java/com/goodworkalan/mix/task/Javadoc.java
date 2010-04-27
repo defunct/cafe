@@ -26,7 +26,7 @@ import com.goodworkalan.mix.builder.Executable;
 import com.goodworkalan.mix.builder.RecipeElement;
 import com.goodworkalan.reflective.Method;
 import com.goodworkalan.reflective.ReflectiveFactory;
-import com.goodworkalan.spawn.Redirect;
+import com.goodworkalan.spawn.Exit;
 import com.goodworkalan.spawn.Spawn;
 
 public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
@@ -136,9 +136,9 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
                             ProcessBuilder newProcess = new ProcessBuilder();
                             newProcess.command().addAll(arguments);
                             
-                            Spawn<Redirect, Redirect> spawn = Spawn.spawn(new Redirect(env.io.out), new Redirect(env.io.err));
+                            Exit exit = new Spawn().$(arguments).out(env.io.out).err(env.io.err).run();
                             
-                            if (!spawn.execute(arguments).isSuccess()) {
+                            if (!exit.isSuccess()) {
                                 throw new RuntimeException();
                             }
                         } else {

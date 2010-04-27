@@ -25,7 +25,7 @@ import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
 import com.goodworkalan.mix.builder.RecipeElement;
-import com.goodworkalan.spawn.Redirect;
+import com.goodworkalan.spawn.Exit;
 import com.goodworkalan.spawn.Spawn;
 
 public class TestNG {
@@ -135,11 +135,9 @@ public class TestNG {
                 ProcessBuilder newProcess = new ProcessBuilder();
                 newProcess.command().addAll(arguments);
                 
-                Spawn<Redirect, Redirect> spawn;
-                spawn = Spawn.spawn(new Redirect(env.io.out), new Redirect(env.io.err));
+                Exit exit = new Spawn().$(arguments).out(env.io.out).err(env.io.err).run();
                 
-                int exit = spawn.execute(arguments).getCode();
-                if (exit != 0) {
+                if (exit.code != 0) {
                     throw new MixError(TestNG.class, "failure", exit);
                 }
             }
