@@ -9,31 +9,18 @@ import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
 
 /** FIXME Create a list of only artifacts, eh, why? */
-@Command(parent=GithubCommand.class)
+@Command(parent = GitHubCommand.class)
 public class DownloadsCommand implements Commandable {
-    private GithubCommand.Config github;
-    
-    private String project;
-    
-    private boolean nameOnly;
-
     @Argument
-    public void addProject(String project) {
-        this.project = project;
-    }
+    public String project;
     
     @Argument
-    public void addNameOnly(boolean nameOnly) {
-        this.nameOnly = nameOnly;
-    }
-
-    public void setGithub(GithubCommand.Config github) {
-        this.github = github;
-    }
+    public boolean nameOnly;
 
     public void execute(Environment env) {
+        GitHubConfig github = env.get(GitHubConfig.class, 1);
         try {
-            GitHubDownloads downloads = new GitHubDownloads(github.getLogin(), github.getToken());
+            GitHubDownloads downloads = new GitHubDownloads(github.login, github.token);
             for (Download download : downloads.getDownloads(project)) {
                 env.io.out.println(nameOnly ? download.getFileName() : download.getUrl());
             }

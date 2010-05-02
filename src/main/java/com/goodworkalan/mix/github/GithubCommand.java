@@ -1,98 +1,27 @@
 package com.goodworkalan.mix.github;
 
 import com.goodworkalan.go.go.Argument;
+import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
-import com.goodworkalan.go.go.Output;
+import com.goodworkalan.mix.MixCommand;
 import com.goodworkalan.spawn.Exit;
-import com.goodworkalan.spawn.Slurp;
 import com.goodworkalan.spawn.Spawn;
 
 /**
- * The GitHub command in the command heirarchy.
+ * The GitHub command in the command hierarchy.
  * 
  * @author Alan Gutierrez
  */
-public class GithubCommand implements Commandable {
-    /**
-     * The common configuration for all GitHub commands. 
-     */
-    public static class Config implements Output {
-        /** The GitHub login. */
-        private final String login;
-
-        /** The GitHub API token. */
-        private final String token;
-
-        /**
-         * Create a configuration with the given GitHub login and API token.
-         * 
-         * @param login
-         *            The GitHub login.
-         * @param token
-         *            The GitHub API token.
-         */
-        public Config(String login, String token) {
-            this.login = login;
-            this.token = token;
-        }
-
-        /**
-         * Get the GitHub login.
-         * 
-         * @return The GitHub login.
-         */
-        public String getLogin() {
-            return login;
-        }
-        /**
-         * Get the GitHub API token.
-         * 
-         * @return The GitHub API token.
-         */
-        public String getToken() {
-            return token;
-        }
-    }
-
+@Command(parent = MixCommand.class, name = "github")
+public class GitHubCommand implements Commandable {
     /** The GitHub login. */
-    private String login;
+    @Argument
+    public String login;
     
     /** The GitHub API token. */
-    private String token;
-    
-    /** The configuration. */
-    private Config config;
-    
-    /**
-     * Set the GitHub login.
-     * 
-     * @param login
-     *            The GitHub login.
-     */
     @Argument
-    public void addLogin(String login) {
-        this.login = login;
-    }
-
-    /**
-     * Set the GitHub API token.
-     * 
-     * @param token The GitHub API token.
-     */
-    @Argument
-    public void addToken(String token) {
-        this.token = token;
-    }
-
-    /**
-     * Get the configuration.
-     * 
-     * @return The configuration.
-     */
-    public Config getConfig() {
-        return config;
-    }
+    public String token;
 
     /**
      * Determine the login and API token if it has not been explicitly set.
@@ -101,22 +30,22 @@ public class GithubCommand implements Commandable {
      *            The execution environment.
      */
     public void execute(Environment env) {
-        Spawn<Slurp, Slurp> spawn = Spawn.spawn();
-        Exit<Slurp, Slurp> exit;
+        Spawn spawn = new Spawn();
+        Exit exit;
         if (login == null) {
-            exit = spawn.execute("git", "config", "github.user");
+            exit = spawn.$$("git", "config", "github.user");
             if (!exit.isSuccess()) {
-                throw new GitHubError(GithubCommand.class, "no.login");
+                throw new GitHubError(GitHubCommand.class, "no.login");
             }
-            addLogin(exit.getStdOut().getLines().get(0));
+            login = exit.out.get(0);
         }
         if (token == null) {
-            exit = spawn.execute("git", "config", "github.token");
+            exit = spawn.$$("git", "config", "github.token");
             if (!exit.isSuccess()) {
-                throw new GitHubError(GithubCommand.class, "no.token");
+                throw new GitHubError(GitHubCommand.class, "no.token");
             }
-            addToken(exit.getStdOut().getLines().get(0));
+            token = exit.out.get(0);
         }
-        config = new Config(login, token);
+        env.output(new GitHubConfig(login, token));
     }
 }

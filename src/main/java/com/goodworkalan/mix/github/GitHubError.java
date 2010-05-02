@@ -3,7 +3,9 @@ package com.goodworkalan.mix.github;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-public class GitHubError extends RuntimeException {
+import com.goodworkalan.go.go.Erroneous;
+
+public class GitHubError extends RuntimeException implements Erroneous {
     /** Serial version id. */
     private static final long serialVersionUID = 1L;
 
@@ -45,6 +47,10 @@ public class GitHubError extends RuntimeException {
         this.context = context;
         this.code = code;
         this.arguments = arguments;
+    }
+    
+    public int getExitCode() {
+        return 1;
     }
 
     /**
