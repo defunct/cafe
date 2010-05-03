@@ -1,6 +1,5 @@
 package com.goodworkalan.mix.mix;
 
-import com.goodworkalan.go.go.Artifact;
 import com.goodworkalan.mix.ProjectModule;
 import com.goodworkalan.mix.builder.Builder;
 import com.goodworkalan.mix.builder.JavaProject;
@@ -10,17 +9,17 @@ public class MixProject extends ProjectModule {
     public void build(Builder builder) {
         builder
             .cookbook(JavaProject.class)
-                .produces(new Artifact("com.goodworkalan/mix/0.1.2"))
+                .produces("com.github.bigeasy.mix/mix/0.1.3")
                 .main()
                     .depends()
-                        .artifact(new Artifact("com.goodworkalan/spawn/0.1.1"))
-                        .artifact(new Artifact("com.goodworkalan/go-go/0.1.3"))
-                        .artifact(new Artifact("com.goodworkalan/comfort-io/0.1.1"))
+                        .include("com.github.bigeasy.spawn/spawn/0.1.1")
+                        .include("com.github.bigeasy.go-go/go-go/0.1.4")
+                        .include("com.github.bigeasy.comfort-io/comfort-io/0.1.1")
                         .end()
                     .end()
                 .test()
                     .depends()
-                        .artifact(new Artifact("org.testng/testng/5.10/jdk15"))
+                        .include("org.testng/testng-jdk15/5.10")
                         .end()
                     .end()
                 .end()

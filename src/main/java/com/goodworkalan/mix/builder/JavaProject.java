@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.goodworkalan.go.go.Artifact;
+import com.goodworkalan.go.go.library.Artifact;
 import com.goodworkalan.mix.task.Copy;
 import com.goodworkalan.mix.task.Delete;
 import com.goodworkalan.mix.task.Dependencies;
@@ -35,8 +35,8 @@ public class JavaProject extends JavaSpecificsElement {
         super(builder);
     }
     
-    public JavaProject produces(Artifact artifact) {
-        this.produces = artifact;
+    public JavaProject produces(String artifact) {
+        this.produces = new Artifact(artifact);
         return this;
     }
     

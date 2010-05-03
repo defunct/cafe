@@ -6,42 +6,39 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.goodworkalan.go.go.Arguable;
 import com.goodworkalan.go.go.Argument;
-import com.goodworkalan.go.go.Artifact;
 import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
-import com.goodworkalan.mix.MixError;
+import com.goodworkalan.go.go.library.Artifact;
 import com.goodworkalan.mix.MixCommand;
+import com.goodworkalan.mix.MixError;
 
 @Command(name = "test-ng", hidden = true, parent = MixCommand.class)
 public class TestNGCommand implements Commandable {
-    public final static class Arguments implements Arguable {
-        public final Map<String, String> defines = new LinkedHashMap<String, String>();
-        
-        public final List<File> classes = new ArrayList<File>();
-        
-        public final List<Artifact> artifacts = new ArrayList<Artifact>();
-        
-        @Argument
-        public void addDefine(String define) {
-            String[] pair = define.split(":");
-            if (pair.length != 2) {
-                throw new MixError(TestNGCommand.class, "invalid.define", define);
-            }
-            defines.put(pair[0], pair[1]);
+    public final Map<String, String> defines = new LinkedHashMap<String, String>();
+    
+    public final List<File> classes = new ArrayList<File>();
+    
+    public final List<Artifact> artifacts = new ArrayList<Artifact>();
+    
+    @Argument
+    public void addDefine(String define) {
+        String[] pair = define.split(":");
+        if (pair.length != 2) {
+            throw new MixError(TestNGCommand.class, "invalid.define", define);
         }
-        
-        @Argument
-        public void addClasses(File file) {
-            classes.add(file);
-        }
-        
-        @Argument
-        public void addArtifact(Artifact artifact) {
-            artifacts.add(artifact);
-        }
+        defines.put(pair[0], pair[1]);
+    }
+    
+    @Argument
+    public void addClasses(File file) {
+        classes.add(file);
+    }
+    
+    @Argument
+    public void addArtifact(Artifact artifact) {
+        artifacts.add(artifact);
     }
 
     /**
@@ -51,5 +48,6 @@ public class TestNGCommand implements Commandable {
      *            The execution environment.
      */
     public void execute(Environment env) {
+        env.output(this);
     }
 }

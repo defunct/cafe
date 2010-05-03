@@ -9,11 +9,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
-import com.goodworkalan.go.go.Artifact;
 import com.goodworkalan.go.go.Environment;
-import com.goodworkalan.go.go.Include;
+import com.goodworkalan.go.go.library.Include;
 import com.goodworkalan.mix.Dependency;
-import com.goodworkalan.mix.MixCommand;
+import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
@@ -56,7 +55,7 @@ public class Dependencies {
 
     public RecipeElement end() {
         recipeElement.addExecutable(new Executable() {
-            public void execute(Environment env, MixCommand.Arguments mix, Project project, String recipeName) {
+            public void execute(Environment env, Mix mix, Project project, String recipeName) {
                 LinkedHashMap<List<String>, Include> dependencies = new LinkedHashMap<List<String>, Include>();
                 if (recipe != null) {
                     for (Dependency dependency : project.getRecipe(recipe).getDependencies()) {
@@ -66,11 +65,10 @@ public class Dependencies {
                             if (existing == null) {
                                 dependencies.put(key, include);
                             } else {
-                                boolean optional = include.isOptional() && existing.isOptional();
-                                Set<Artifact> excludes = new HashSet<Artifact>();
+                                Set<List<String>> excludes = new HashSet<List<String>>();
                                 excludes.addAll(existing.getExcludes());
                                 excludes.addAll(include.getExcludes());
-                                dependencies.put(key, new Include(optional, existing.getArtifact(), excludes));
+                                dependencies.put(key, new Include(existing.getArtifact(), excludes));
                             }
                             dependencies.put(include.getArtifact().getKey().subList(0, 2), include);
                         }
@@ -83,9 +81,7 @@ public class Dependencies {
                 try {
                     PrintWriter writer = new PrintWriter(new FileWriter(relativized));
                     for (Include include : dependencies.values()) {
-                        for (String line : include.getArtifactFileLines()) {
-                            writer.println(line);
-                        }
+                        writer.println(include.getArtifactFileLine());
                     }
                     writer.close();
                 } catch (IOException e) {

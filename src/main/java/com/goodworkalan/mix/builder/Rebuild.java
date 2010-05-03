@@ -4,7 +4,7 @@ import java.io.File;
 
 import com.goodworkalan.comfort.io.Find;
 import com.goodworkalan.mix.FindList;
-import com.goodworkalan.mix.MixCommand;
+import com.goodworkalan.mix.Mix;
 
 /**
  * Test whether a set of source files is newer than a set of output files. The
@@ -40,7 +40,7 @@ public class Rebuild {
      * 
      * @return True if a rebuild is required.
      */
-    public boolean isDirty(MixCommand.Arguments mix) {
+    public boolean isDirty(Mix mix) {
         long newest = 0L;
         for (FindList.Entry entry : sources) {
             Find find = entry.getFind();

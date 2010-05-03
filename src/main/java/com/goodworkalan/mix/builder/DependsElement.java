@@ -1,12 +1,10 @@
 package com.goodworkalan.mix.builder;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import com.goodworkalan.go.go.Artifact;
-import com.goodworkalan.go.go.Include;
+import com.goodworkalan.go.go.library.Include;
 import com.goodworkalan.mix.ArtifactDependency;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.RecipeDependency;
@@ -51,12 +49,11 @@ public class DependsElement<P> {
      * @return This depends language element to continue specifying
      *         dependencies.
      */
-    public DependsElement<P> artifact(Include...includes) {
-        for (Include include : includes) {
-            List<String> key = include.getArtifact().getKey().subList(0, 2);
-            if (!dependencies.containsKey(key)) {
-                dependencies.put(key, new ArtifactDependency(include));
-            }
+    public DependsElement<P> include(String artifact, String...excludes) {
+        Include include = new Include(artifact, excludes);
+        List<String> key = include.getArtifact().getUnversionedKey();
+        if (!dependencies.containsKey(key)) {
+            dependencies.put(key, new ArtifactDependency(include));
         }
         return this;
     }
@@ -64,22 +61,6 @@ public class DependsElement<P> {
     public DependsElement<P> dependencies(Map<List<String>, Dependency> dependencies) {
         this.dependencies.putAll(dependencies);
         return this;
-    }
-
-    /**
-     * Add artifacts while also specifying excludes.
-     * 
-     * @param includes
-     *            An artifacts to include.
-     * @return This depends language element to continue specifying
-     *         dependencies.
-     */
-    public DependsElement<P> artifact(Collection<Include> includes) {
-        return artifact(includes.toArray(new Include[includes.size()]));
-    }
-
-    public DependsElement<P> artifact(Artifact artifact) {
-        return artifact(new Include(artifact));
     }
     
     public P end() {

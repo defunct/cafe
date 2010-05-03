@@ -6,7 +6,6 @@ import java.util.Collections;
 import org.testng.annotations.Test;
 
 import com.goodworkalan.comfort.io.Files;
-import com.goodworkalan.go.go.CommandInterpreter;
 import com.goodworkalan.go.go.Go;
 
 /**
@@ -20,7 +19,6 @@ public class MixTest {
     public void execute() {
         File home = new File(System.getProperty("user.home"));
         File directory = Files.file(home, ".m2", "repository");
-        CommandInterpreter ci = Go.interpreter(Collections.singletonList(directory));
-        ci.execute("mix", "--working-directory=src/test/project", "make", "distribution");
+        Go.main(Collections.singletonList(directory), "mix", "--working-directory=src/test/project", "make", "distribution");
     }
 }

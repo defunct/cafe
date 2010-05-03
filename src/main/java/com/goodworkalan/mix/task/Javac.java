@@ -4,20 +4,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.comfort.io.Find;
-import com.goodworkalan.go.go.Artifact;
 import com.goodworkalan.go.go.Environment;
-import com.goodworkalan.go.go.Library;
-import com.goodworkalan.go.go.PathPart;
-import com.goodworkalan.go.go.ResolutionPart;
+import com.goodworkalan.go.go.library.Artifact;
+import com.goodworkalan.go.go.library.PathPart;
+import com.goodworkalan.go.go.library.PathParts;
+import com.goodworkalan.go.go.library.ResolutionPart;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.FindList;
-import com.goodworkalan.mix.MixCommand;
+import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.MixException;
 import com.goodworkalan.mix.Project;
@@ -54,7 +53,7 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
             public void end(JavacConfiguration configuration) {
                 configure(configuration);
                 parent.addExecutable(new Executable() {
-                    public void execute(Environment env, MixCommand.Arguments mix, Project project, String recipeName) {
+                    public void execute(Environment env, Mix mix, Project project, String recipeName) {
                         List<String> arguments = new ArrayList<String>();
                         if (!warnings) {
                             arguments.add("-nowarn");
@@ -96,9 +95,7 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
                         for (Dependency dependency : project.getRecipe(recipeName).getDependencies()) {
                             parts.addAll(dependency.getPathParts(project));
                         }
-                        Set<File> classpath = new LinkedHashSet<File>();
-                        Library library = env.part.getCommandInterpreter().getLibrary();
-                        classpath.addAll(library.resolve(parts).getFiles());
+                        Set<File> classpath = PathParts.fileSet(env.library.resolve(parts));
                         if (!classpath.isEmpty()) {
                             arguments.add("-cp");
                             arguments.add(Files.path(classpath));
@@ -150,8 +147,15 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
         self.setSelf(this);
     }
     
-    public Javac artifact(Artifact artifact) {
-        artifacts.add(artifact);
+    /**
+     * Add an artifact to the Javac compilation classpath.
+     * 
+     * @param artifact
+     *            The artifact.
+     * @return This Javac builder to continue construction.
+     */
+    public Javac artifact(String artifact) {
+        artifacts.add(new Artifact(artifact));
         return this;
     }
 
@@ -160,7 +164,7 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
     }
     
     public Javac output(File output) {
-        this.output = output;
+        this.output = output.getAbsoluteFile();
         return this;
     }
 

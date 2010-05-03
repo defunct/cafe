@@ -2,7 +2,7 @@ package com.goodworkalan.mix;
 
 import java.io.File;
 
-import com.goodworkalan.go.go.Artifact;
+import com.goodworkalan.go.go.library.Artifact;
 
 /**
  * A structure that contains the source recipe and output directory for an

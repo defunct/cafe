@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import com.goodworkalan.go.go.Artifact;
+import com.goodworkalan.go.go.library.Artifact;
 
 /**
  * An element in the domain-specific project specification language that

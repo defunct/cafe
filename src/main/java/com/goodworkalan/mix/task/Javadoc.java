@@ -5,7 +5,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,14 +12,14 @@ import java.util.Set;
 import com.goodworkalan.comfort.io.ComfortIOException;
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.comfort.io.Find;
-import com.goodworkalan.go.go.Artifact;
 import com.goodworkalan.go.go.Environment;
-import com.goodworkalan.go.go.Library;
-import com.goodworkalan.go.go.PathPart;
-import com.goodworkalan.go.go.ResolutionPart;
+import com.goodworkalan.go.go.library.Artifact;
+import com.goodworkalan.go.go.library.PathPart;
+import com.goodworkalan.go.go.library.PathParts;
+import com.goodworkalan.go.go.library.ResolutionPart;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.FindList;
-import com.goodworkalan.mix.MixCommand;
+import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
 import com.goodworkalan.mix.builder.RecipeElement;
@@ -53,7 +52,7 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
             public void end(JavadocConfiguration configuration) {
                 configure(configuration);
                 parent.addExecutable(new Executable() {
-                    public void execute(Environment env, MixCommand.Arguments mix, Project project, String recipeName) {
+                    public void execute(Environment env, Mix mix, Project project, String recipeName) {
                         List<String> arguments = new ArrayList<String>();
                         
                         arguments.add("-d");
@@ -118,9 +117,7 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
 //                                arguments.add(link.toASCIIString());
 //                            }
 //                        }
-                        Set<File> classpath = new LinkedHashSet<File>();
-                        Library library = env.part.getCommandInterpreter().getLibrary();
-                        classpath.addAll(library.resolve(parts).getFiles());
+                        Set<File> classpath = PathParts.fileSet(env.library.resolve(parts));
                         if (!classpath.isEmpty()) {
                             arguments.add("-classpath");
                             arguments.add(Files.path(classpath));

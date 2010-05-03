@@ -4,7 +4,7 @@ import java.io.File;
 
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.go.go.Environment;
-import com.goodworkalan.mix.MixCommand;
+import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
@@ -52,7 +52,7 @@ public class Delete {
 
     public RecipeElement end() {
         recipeElement.addExecutable(new Executable() {
-            public void execute(Environment env, MixCommand.Arguments mix, Project project, String recipeName) {
+            public void execute(Environment env, Mix mix, Project project, String recipeName) {
                 File outgoing = mix.relativize(file);
                 if (!recurse) {
                     if (outgoing.exists() && !outgoing.delete()) {

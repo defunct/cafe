@@ -7,22 +7,22 @@ import java.util.List;
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.comfort.io.Find;
 import com.goodworkalan.go.go.Argument;
-import com.goodworkalan.go.go.Artifact;
 import com.goodworkalan.go.go.Command;
-import com.goodworkalan.go.go.CommandPart;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
+import com.goodworkalan.go.go.library.Artifact;
 
 @Command(parent = MixCommand.class)
 public class InstallCommand implements Commandable {
+    /** The directory of the library in which to install. */
     private File libraryDirectory;
-    
-    private MixCommand.Configuration configuration;
-    
-    public void setConfiguration(MixCommand.Configuration configuration) {
-        this.configuration = configuration;
-    }
-    
+
+    /**
+     * Add the directory of the library in which to install.
+     * 
+     * @param libraryDirectory
+     *            The library directory.
+     */
     @Argument
     public void addLibraryDirectory(File libraryDirectory) {
         this.libraryDirectory = libraryDirectory;
@@ -37,18 +37,17 @@ public class InstallCommand implements Commandable {
             libraryDirectory = new File(home, ".m2/repository");
         }
 
-        Project project = configuration.getProject();
-        CommandPart mix = env.part.getParent();
+        Project project = env.get(Project.class, 0);
         List<ArtifactSource> artifactSources = new ArrayList<ArtifactSource>();
-        if (env.part.getRemaining().isEmpty()) {
+        if (env.remaining.isEmpty()) {
             artifactSources = project.getArtifactSources();
         } else {
-            for (String argument : env.part.getRemaining()) {
+            for (String argument : env.remaining) {
                 artifactSources.addAll(project.getArtifactSources(argument));
             }
         }
         for (ArtifactSource source : artifactSources) {
-            env.executor.execute(mix.extend("make", source.getRecipe()), env.io);
+            env.executor.run(env.io, "mix", env.arguments.get(0), "make", source.getRecipe()); 
             Artifact artifact = source.getArtifact();
             Find find = new Find();
             find.include(artifact.getName() + "-" + artifact.getVersion() + "*.*");

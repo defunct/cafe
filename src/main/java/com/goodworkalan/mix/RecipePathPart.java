@@ -1,18 +1,14 @@
 package com.goodworkalan.mix;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-import com.goodworkalan.go.go.Artifact;
-import com.goodworkalan.go.go.DirectoryPart;
-import com.goodworkalan.go.go.Library;
-import com.goodworkalan.go.go.PathPart;
+import com.goodworkalan.go.go.library.DirectoryPart;
+import com.goodworkalan.go.go.library.ExpandingPathPart;
+import com.goodworkalan.go.go.library.Library;
+import com.goodworkalan.go.go.library.PathPart;
 
-public class RecipePathPart implements PathPart {
+public class RecipePathPart extends ExpandingPathPart {
     private final Project project;
     
     private final String recipeName;
@@ -22,31 +18,17 @@ public class RecipePathPart implements PathPart {
         this.recipeName = recipeName;
     }
     
-    public Collection<PathPart> expand(Library library, Collection<PathPart> expand) {
+    public void expand(Library library, Collection<PathPart> expanded, Collection<PathPart> expand) {
         Recipe recipe = project.getRecipe(recipeName);
         for (Dependency dependency : recipe.getDependencies()) {
             expand.addAll(dependency.getPathParts(project));
         }
-        List<PathPart> parts = new ArrayList<PathPart>();
         for (File classes : recipe.getClasses()) {
-            parts.add(new DirectoryPart(classes));
+            expanded.add(new DirectoryPart(classes.getAbsoluteFile()));
         }
-        return parts;
-    }
-
-    public Artifact getArtifact() {
-        throw new UnsupportedOperationException();
-    }
-
-    public File getFile() {
-        throw new UnsupportedOperationException();
     }
 
     public Object getUnversionedKey() {
         return project.getRecipe(recipeName);
-    }
-
-    public URL getURL() throws MalformedURLException {
-        throw new UnsupportedOperationException();
     }
 }

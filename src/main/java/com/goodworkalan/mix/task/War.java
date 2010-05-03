@@ -8,8 +8,8 @@ import java.util.zip.ZipFile;
 
 import com.goodworkalan.comfort.io.Find;
 import com.goodworkalan.go.go.Environment;
-import com.goodworkalan.go.go.Library;
-import com.goodworkalan.go.go.PathPart;
+import com.goodworkalan.go.go.library.PathPart;
+import com.goodworkalan.go.go.library.PathParts;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
@@ -47,8 +47,7 @@ public class War extends Zip {
         for (Dependency dependency : recipe.getDependencies()) {
             parts.addAll(dependency.getPathParts(project));
         }
-        Library library = env.part.getCommandInterpreter().getLibrary();
-        for (File file : library.resolve(parts).getFiles()) {
+        for (File file : PathParts.fileSet(env.library.resolve(parts))) {
             if (file.isDirectory()) {
                 addFind(new Find(), file, "WEB-INF/classes");
             } else {

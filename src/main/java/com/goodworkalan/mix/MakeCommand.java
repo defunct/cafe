@@ -19,20 +19,6 @@ import com.goodworkalan.mix.builder.Rebuild;
  */
 @Command(parent = MixCommand.class)
 public class MakeCommand implements Commandable {
-    /** The mix arguments. */
-    public MixCommand.Arguments mix;
-    
-    /** The mix configuration. */
-    private MixCommand.Configuration configuration;
-    
-    public void setConfiguration(MixCommand.Configuration configuration) {
-        this.configuration = configuration;
-    }
-    
-    public void setMix(MixCommand.Arguments mix) {
-        this.mix = mix;
-    }
-
     /**
      * Execute the make, building the single recipe given in the command line
      * arguments.
@@ -41,12 +27,13 @@ public class MakeCommand implements Commandable {
      *            The execution environment.
      */
     public void execute(Environment env) {
-        List<String> remaining = env.part.getRemaining();
+        Mix mix = env.get(Mix.class, 0);
+        List<String> remaining = env.remaining;
         if (remaining.isEmpty()) {
             throw new MixError(MakeCommand.class, "no.targets");
         }
         env.verbose("start", remaining);
-        Project project = configuration.getProject();
+        Project project = env.get(Project.class, 0);
         LinkedList<String> buildQueue = new LinkedList<String>();
         LinkedList<String> recipeQueue = new LinkedList<String>();
         recipeQueue.add(remaining.get(0));

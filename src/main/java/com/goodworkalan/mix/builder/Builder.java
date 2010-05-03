@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.goodworkalan.go.go.CommandPart;
-import com.goodworkalan.go.go.Executor;
 import com.goodworkalan.mix.ArtifactSource;
 import com.goodworkalan.mix.MixException;
 import com.goodworkalan.mix.Project;
@@ -45,7 +43,7 @@ public class Builder {
         return new RecipeElement(this, artifacts, recipes, name);
     }
 
-    public Project createProject(File workingDirectory, Executor executor, CommandPart mix) {
+    public Project createProject(File workingDirectory) {
         return new Project(workingDirectory, artifacts, recipes);
     }
     

@@ -3,8 +3,8 @@ package com.goodworkalan.mix;
 import java.util.Collection;
 
 import com.goodworkalan.go.go.Environment;
-import com.goodworkalan.go.go.Include;
-import com.goodworkalan.go.go.PathPart;
+import com.goodworkalan.go.go.library.Include;
+import com.goodworkalan.go.go.library.PathPart;
 
 /**
  * A project dependency.
@@ -40,5 +40,5 @@ public interface Dependency {
      */
     public Collection<String> getRecipes(Project project);
     
-    public void build(MixCommand.Arguments mix, Environment env);
+    public void build(Mix mix, Environment env);
 }

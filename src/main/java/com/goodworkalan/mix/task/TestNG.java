@@ -3,24 +3,22 @@ package com.goodworkalan.mix.task;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.comfort.io.Find;
-import com.goodworkalan.go.go.Artifact;
-import com.goodworkalan.go.go.DirectoryPart;
 import com.goodworkalan.go.go.Environment;
-import com.goodworkalan.go.go.Library;
-import com.goodworkalan.go.go.PathPart;
-import com.goodworkalan.go.go.ResolutionPart;
+import com.goodworkalan.go.go.library.Artifact;
+import com.goodworkalan.go.go.library.DirectoryPart;
+import com.goodworkalan.go.go.library.PathPart;
+import com.goodworkalan.go.go.library.PathParts;
+import com.goodworkalan.go.go.library.ResolutionPart;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.FindList;
-import com.goodworkalan.mix.MixCommand;
+import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
@@ -71,8 +69,8 @@ public class TestNG {
 
     public RecipeElement end() {
         recipeElement.addExecutable(new Executable() {
-            public void execute(Environment env, MixCommand.Arguments mix, Project project, String recipeName) {
-                TestNGCommand.Arguments additional = env.executor.getArguments(TestNGCommand.Arguments.class);
+            public void execute(Environment env, Mix mix, Project project, String recipeName) {
+                TestNGCommand additional = env.executor.run(TestNGCommand.class, env.io, "mix", env.arguments.get(0), "test-ng", env.arguments.get(1));
 
                 for (Map.Entry<String, String> entry : additional.defines.entrySet()) {
                     define(entry.getKey(), entry.getValue());
@@ -84,10 +82,9 @@ public class TestNG {
                 
                 List<String> arguments = new ArrayList<String>();
                 
-                Set<File> classpath = new LinkedHashSet<File>();
                 Collection<PathPart> parts = new ArrayList<PathPart>();
                 for (File directory : classes) {
-                    parts.add(new DirectoryPart(directory));
+                    parts.add(new DirectoryPart(directory.getAbsoluteFile()));
                 }
                 for (Artifact artifact : artifacts) {
                     parts.add(new ResolutionPart(artifact));
@@ -95,8 +92,7 @@ public class TestNG {
                 for (Dependency dependency : project.getRecipe(recipeName).getDependencies()) {
                     parts.addAll(dependency.getPathParts(project));
                 }
-                Library library = env.part.getCommandInterpreter().getLibrary();
-                classpath.addAll(library.resolve(parts, new HashSet<Object>()).getFiles());
+                Set<File> classpath = PathParts.fileSet(env.library.resolve(parts));
                 
                 List<String> testClasses = new ArrayList<String>();
                 for (FindList.Entry entry : findList) {
