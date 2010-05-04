@@ -86,7 +86,7 @@ public class MixCommand implements Commandable {
                 hiddenBuilder
                     .recipe("javac")
                         .task(Javac.class)
-                            .artifact("com.github.bigeasy.mix/mix/0.1.3")
+                            .artifact("com.github.bigeasy.mix/mix/0.1.3.5")
                             .source(sourceDirectory.getAbsoluteFile()).end()
                             .output(output.getAbsoluteFile())
                             .end()
