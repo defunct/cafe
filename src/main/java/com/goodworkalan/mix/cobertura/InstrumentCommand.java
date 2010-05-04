@@ -3,7 +3,6 @@ package com.goodworkalan.mix.cobertura;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -12,12 +11,13 @@ import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
-import com.goodworkalan.go.go.Library;
-import com.goodworkalan.go.go.PathPart;
-import com.goodworkalan.go.go.ResolutionPart;
+import com.goodworkalan.go.go.library.Artifact;
+import com.goodworkalan.go.go.library.PathPart;
+import com.goodworkalan.go.go.library.PathParts;
+import com.goodworkalan.go.go.library.ResolutionPart;
 import com.goodworkalan.mix.FindList;
 import com.goodworkalan.mix.MixError;
-import com.goodworkalan.spawn.Redirect;
+import com.goodworkalan.spawn.Exit;
 import com.goodworkalan.spawn.Spawn;
 
 /**
@@ -41,13 +41,6 @@ public class InstrumentCommand implements Commandable {
     
     /** The list regular expression to filter out certain lines. */
     private final List<String> ignores = new ArrayList<String>();
-
-    /** The generic Cobertrua task arguments. */
-    private CoberturaCommand.Arguments coberturaArguments;
-    
-    public void setArguments(CoberturaCommand.Arguments coberturaArguments) {
-        this.coberturaArguments = coberturaArguments;
-    }
 
     /**
      * Add a source directory that contains class files.
@@ -115,15 +108,14 @@ public class InstrumentCommand implements Commandable {
     }
 
     public void execute(Environment env) {
+        Artifact cobertura = env.get(Artifact.class, 1);
         List<String> arguments = new ArrayList<String>();
         
         arguments.add("java");
         
-        Set<File> classpath = new LinkedHashSet<File>();
         Collection<PathPart> parts = new ArrayList<PathPart>();
-        parts.add(new ResolutionPart(coberturaArguments.getCobertura()));
-        Library library = env.part.getCommandInterpreter().getLibrary();
-        classpath.addAll(library.resolve(parts).getFiles());
+        parts.add(new ResolutionPart(cobertura));
+        Set<File> classpath = PathParts.fileSet(env.library.resolve(parts));
         
         arguments.add("-classpath");
         arguments.add(Files.path(classpath));
@@ -153,10 +145,9 @@ public class InstrumentCommand implements Commandable {
         ProcessBuilder newProcess = new ProcessBuilder();
         newProcess.command().addAll(arguments);
         
-        Spawn<Redirect, Redirect> spawn;
-        spawn = Spawn.spawn(new Redirect(env.io.out), new Redirect(env.io.err));
+        Exit exit = new Spawn().$(arguments).out(env.io.out).err(env.io.err).run();
 
-        if (spawn.execute(arguments).getCode() != 0) {
+        if (exit.code != 0) {
             throw new MixError(InstrumentCommand.class, "fork");
         }
     }

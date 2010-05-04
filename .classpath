@@ -7,31 +7,8 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/mix"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/spawn"/>
 	<classpathentry kind="var" path="M2_REPO/org/testng/testng/5.10/testng-5.10.jar" sourcepath="M2_REPO/org/testng/testng/5.10/testng-5.10-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/goodworkalan/mix/0.1.2/mix-0.1.2.jar" sourcepath="M2_REPO/com/goodworkalan/mix/0.1.2/mix-0.1.2-sources.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:file:/Users/alan/.m2/repository/com/goodworkalan/mix/0.1.2/mix-0.1.2-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="var" path="M2_REPO/com/goodworkalan/comfort-io/0.1.1/comfort-io-0.1.1.jar" sourcepath="M2_REPO/com/goodworkalan/comfort-io/0.1.1/comfort-io-0.1.1-sources.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:file:/Users/alan/.m2/repository/com/goodworkalan/comfort-io/0.1.1/comfort-io-0.1.1-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="var" path="M2_REPO/com/goodworkalan/spawn/0.1.1/spawn-0.1.1.jar" sourcepath="M2_REPO/com/goodworkalan/spawn/0.1.1/spawn-0.1.1-sources.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:file:/Users/alan/.m2/repository/com/goodworkalan/spawn/0.1.1/spawn-0.1.1-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="var" path="M2_REPO/junit/junit/3.8.1/junit-3.8.1.jar" sourcepath="M2_REPO/junit/junit/3.8.1/junit-3.8.1-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/goodworkalan/go-go/0.1.3/go-go-0.1.3.jar" sourcepath="M2_REPO/com/goodworkalan/go-go/0.1.3/go-go-0.1.3-sources.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:file:/Users/alan/.m2/repository/com/goodworkalan/go-go/0.1.3/go-go-0.1.3-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="var" path="M2_REPO/com/goodworkalan/reflective/0.1/reflective-0.1.jar" sourcepath="M2_REPO/com/goodworkalan/reflective/0.1/reflective-0.1-sources.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:file:/Users/alan/.m2/repository/com/goodworkalan/reflective/0.1/reflective-0.1-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/reflective"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/comfort-io"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
