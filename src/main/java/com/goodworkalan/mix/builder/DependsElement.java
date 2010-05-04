@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.goodworkalan.go.go.library.Include;
-import com.goodworkalan.mix.ArtifactDependency;
 import com.goodworkalan.mix.Dependency;
-import com.goodworkalan.mix.RecipeDependency;
 
 /**
  * Specify the dependencies of a project.

@@ -2,7 +2,9 @@ package com.goodworkalan.mix;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.comfort.io.Find;
@@ -38,21 +40,30 @@ public class InstallCommand implements Commandable {
         }
 
         Project project = env.get(Project.class, 0);
-        List<ArtifactSource> artifactSources = new ArrayList<ArtifactSource>();
+        List<Production> productions = new ArrayList<Production>();
         if (env.remaining.isEmpty()) {
-            artifactSources = project.getArtifactSources();
+            productions = project.getProductions();
         } else {
+            Map<String, Production> byName = new HashMap<String, Production>();
+            for (Production production : project.getProductions()) {
+                byName.put(production.getArtifact().getName(), production);
+            }
             for (String argument : env.remaining) {
-                artifactSources.addAll(project.getArtifactSources(argument));
+                Production production = byName.get(argument);
+                if (production == null) {
+                    throw new MixError(InstallCommand.class, "noSuchArtifact", argument);
+                }
+                productions.add(production);
             }
         }
-        for (ArtifactSource source : artifactSources) {
-            env.executor.run(env.io, "mix", env.arguments.get(0), "make", source.getRecipe()); 
-            Artifact artifact = source.getArtifact();
+
+        for (Production production : productions) {
+            env.executor.run(env.io, "mix", env.arguments.get(0), "make", production.getRecipeName()); 
+            Artifact artifact = production.getArtifact();
             Find find = new Find();
             find.include(artifact.getName() + "-" + artifact.getVersion() + "*.*");
-            File sourceDirectory = new File(source.getDirectory(), source.getArtifact().getDirectoryPath());
-            File outputDirectory = new File(libraryDirectory, source.getArtifact().getDirectoryPath());
+            File sourceDirectory = new File(production.getDirectory(), production.getArtifact().getDirectoryPath());
+            File outputDirectory = new File(libraryDirectory, production.getArtifact().getDirectoryPath());
             for (String fileName : find.find(sourceDirectory)) {
                 File destination = new File(outputDirectory, fileName);
                 File parent = destination.getParentFile();

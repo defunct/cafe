@@ -1,4 +1,4 @@
-package com.goodworkalan.mix;
+package com.goodworkalan.mix.builder;
 
 import java.io.File;
 import java.util.Collection;
@@ -10,13 +10,16 @@ import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.library.Include;
 import com.goodworkalan.go.go.library.PathPart;
 import com.goodworkalan.go.go.library.ResolutionPart;
+import com.goodworkalan.mix.Dependency;
+import com.goodworkalan.mix.Mix;
+import com.goodworkalan.mix.Project;
 
 /**
  * A single artifact dependency.
  * 
  * @author Alan Gutierrez
  */
-public class ArtifactDependency implements Dependency {
+class ArtifactDependency implements Dependency {
     /** The artifact and its exclusions. */
     private final Include include;
 
@@ -58,7 +61,7 @@ public class ArtifactDependency implements Dependency {
      *            The project.
      * @return An empty list.
      */
-    public Collection<String> getRecipes(Project project) {
+    public Collection<String> getRecipeNames(Project project) {
         return Collections.emptyList();
     }
     

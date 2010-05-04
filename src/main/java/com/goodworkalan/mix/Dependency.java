@@ -38,7 +38,7 @@ public interface Dependency {
      *            The project.
      * @return A collection of the immediate artifact dependencies.
      */
-    public Collection<String> getRecipes(Project project);
+    public Collection<String> getRecipeNames(Project project);
     
     public void build(Mix mix, Environment env);
 }

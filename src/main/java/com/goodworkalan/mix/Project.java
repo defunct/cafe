@@ -20,7 +20,7 @@ public class Project {
     /** The map of recipes indexed by recipe name. */
     private final Map<String, Recipe> recipes;
 
-    private final SortedMap<List<String>, ArtifactSource> artifacts = new TreeMap<List<String>, ArtifactSource>(new StringListComparator());
+    private final SortedMap<List<String>, Production> artifacts = new TreeMap<List<String>, Production>(new StringListComparator());
 
     /**
      * Create a project.
@@ -32,7 +32,7 @@ public class Project {
      * @param artifacts
      *            A map of artifacts to their directories.
      */
-    public Project(File workingDirectory, Map<List<String>, ArtifactSource> artifacts, Map<String, Recipe> recipes) {
+    public Project(File workingDirectory, Map<List<String>, Production> artifacts, Map<String, Recipe> recipes) {
         this.workingDirectory = workingDirectory;
         this.recipes = recipes;
         this.artifacts.putAll(artifacts);
@@ -59,12 +59,18 @@ public class Project {
     public Recipe getRecipe(String recipeName) {
         return recipes.get(recipeName);
     }
-    
-    public List<ArtifactSource> getArtifactSources() {
-        return new ArrayList<ArtifactSource>(artifacts.values());
+
+    /**
+     * Get the list of artifacts produced by this projects, the recipe that
+     * produces them and the directory where they are emitted.
+     * 
+     * @return The list of productions.
+     */
+    public List<Production> getProductions() {
+        return new ArrayList<Production>(artifacts.values());
     }
     
-    public List<ArtifactSource> getArtifactSources(String pattern) {
+    public List<Production> getProductions(String pattern) {
         String[] parts = pattern.split("/");
         if (parts.length > 3) {
             throw new MixException(Project.class, "bad.artifact.pattern", pattern);
@@ -73,15 +79,15 @@ public class Project {
         if (fromKey.size() != 1) {
             fromKey.add(0, fromKey.remove(1));
         }
-        List<ArtifactSource> sources = new ArrayList<ArtifactSource>();
-        for (Map.Entry<List<String>, ArtifactSource> entry : artifacts.tailMap(fromKey).entrySet()) {
+        List<Production> productions = new ArrayList<Production>();
+        for (Map.Entry<List<String>, Production> entry : artifacts.tailMap(fromKey).entrySet()) {
             for (int i = 0, stop = fromKey.size(); i < stop; i++) {
                 if (!fromKey.get(i).equals(entry.getKey().get(i))) {
-                    return sources;
+                    return productions;
                 }
             }
-            sources.add(entry.getValue());
+            productions.add(entry.getValue());
         }
-        return sources;
+        return productions;
     }
 }

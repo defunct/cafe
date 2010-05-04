@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.goodworkalan.go.go.Environment;
+import com.goodworkalan.go.go.library.Exclude;
 import com.goodworkalan.go.go.library.Include;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.Mix;
@@ -65,7 +66,7 @@ public class Dependencies {
                             if (existing == null) {
                                 dependencies.put(key, include);
                             } else {
-                                Set<List<String>> excludes = new HashSet<List<String>>();
+                                Set<Exclude> excludes = new HashSet<Exclude>();
                                 excludes.addAll(existing.getExcludes());
                                 excludes.addAll(include.getExcludes());
                                 dependencies.put(key, new Include(existing.getArtifact(), excludes));

@@ -15,9 +15,9 @@ public class ProducesElement {
 
     private final Set<File> classes;
     
-    private final Map<List<String>, ArtifactSource> artifacts;
+    private final Map<List<String>, Production> artifacts;
     
-    public ProducesElement(RecipeElement recipeElement, String recipe, Set<File> classes, Map<List<String>, ArtifactSource> artifacts) {
+    public ProducesElement(RecipeElement recipeElement, String recipe, Set<File> classes, Map<List<String>, Production> artifacts) {
         this.recipeElement = recipeElement;
         this.recipe = recipe;
         this.classes = classes;

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.goodworkalan.mix.ArtifactSource;
+import com.goodworkalan.mix.Production;
 import com.goodworkalan.mix.MixException;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.Recipe;
@@ -22,7 +22,7 @@ public class Builder {
     
     private final Map<String, Recipe> recipes = new HashMap<String, Recipe>();
     
-    private final Map<List<String>, ArtifactSource> artifacts = new HashMap<List<String>, ArtifactSource>();
+    private final Map<List<String>, Production> artifacts = new HashMap<List<String>, Production>();
 
     public Builder() {
         this(new ReflectiveFactory());

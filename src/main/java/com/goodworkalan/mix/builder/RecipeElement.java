@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.goodworkalan.mix.ArtifactSource;
+import com.goodworkalan.mix.Production;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.MixException;
 import com.goodworkalan.mix.ProducesElement;
@@ -32,11 +32,11 @@ public class RecipeElement {
     
     private final Set<File> classes = new LinkedHashSet<File>();
     
-    private final Map<List<String>, ArtifactSource> artifacts; 
+    private final Map<List<String>, Production> artifacts; 
     
     private final List<Rebuild> rebuilds = new ArrayList<Rebuild>();
     
-    public RecipeElement(Builder builder, Map<List<String>, ArtifactSource> artifacts, Map<String, Recipe> recipes, String name) {
+    public RecipeElement(Builder builder, Map<List<String>, Production> artifacts, Map<String, Recipe> recipes, String name) {
         this.builder = builder;
         this.recipes = recipes;
         this.artifacts = artifacts;

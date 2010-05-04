@@ -9,12 +9,12 @@ public class MixProject extends ProjectModule {
     public void build(Builder builder) {
         builder
             .cookbook(JavaProject.class)
-                .produces("com.github.bigeasy.mix/mix/0.1.3")
+                .produces("com.github.bigeasy.mix/mix/0.1.3.3")
                 .main()
                     .depends()
-                        .include("com.github.bigeasy.spawn/spawn/0.1.1")
-                        .include("com.github.bigeasy.go-go/go-go/0.1.4")
-                        .include("com.github.bigeasy.comfort-io/comfort-io/0.1.1")
+                        .include("com.github.bigeasy.spawn/spawn/0.+1.1")
+                        .include("com.github.bigeasy.go-go/go-go/0.+1.4")
+                        .include("com.github.bigeasy.comfort-io/comfort-io/0.+1.1")
                         .end()
                     .end()
                 .test()

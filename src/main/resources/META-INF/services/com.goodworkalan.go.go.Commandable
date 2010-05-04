@@ -1,4 +1,7 @@
 com.goodworkalan.mix.MixCommand
 com.goodworkalan.mix.MakeCommand
 com.goodworkalan.mix.InstallCommand
+com.goodworkalan.mix.DependenciesCommand
+com.goodworkalan.mix.ProducesCommand
+com.goodworkalan.mix.ExecuteCommand
 com.goodworkalan.mix.task.TestNGCommand

@@ -1,4 +1,4 @@
-package com.goodworkalan.mix;
+package com.goodworkalan.mix.builder;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,6 +7,11 @@ import java.util.Collections;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.library.Include;
 import com.goodworkalan.go.go.library.PathPart;
+import com.goodworkalan.mix.Dependency;
+import com.goodworkalan.mix.Mix;
+import com.goodworkalan.mix.Project;
+import com.goodworkalan.mix.Recipe;
+import com.goodworkalan.mix.RecipePathPart;
 
 // FIXME OutputDepdenency and RecipeDependency
 /**
@@ -15,7 +20,7 @@ import com.goodworkalan.go.go.library.PathPart;
  * 
  * @author Alan Gutierrez
  */
-public class RecipeDependency implements Dependency {
+class RecipeDependency implements Dependency {
     /** The recipe name. */
     private final String name;
 
@@ -49,15 +54,15 @@ public class RecipeDependency implements Dependency {
      *            The project.
      */
     public Collection<Include> getIncludes(Project project) {
-        Collection<Include> artifacts = new ArrayList<Include>();
+        Collection<Include> include = new ArrayList<Include>();
         Recipe recipe = project.getRecipe(name);
         for (Dependency dependency : recipe.getDependencies()) {
-            artifacts.addAll(dependency.getIncludes(project));
+            include.addAll(dependency.getIncludes(project));
         }
-        return artifacts;
+        return include;
     }
     
-    public Collection<String> getRecipes(Project project) {
+    public Collection<String> getRecipeNames(Project project) {
         return Collections.singleton(name);
     }
 

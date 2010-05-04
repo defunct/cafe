@@ -23,7 +23,7 @@ public class ArtifactElement {
      * The project map of artifact keys to artifact details for all the
      * artifacts produced by the project.
      */
-    private final Map<List<String>, ArtifactSource> artifacts;
+    private final Map<List<String>, Production> artifacts;
 
     /** The artifact. */
     private final Artifact artifact; 
@@ -45,7 +45,7 @@ public class ArtifactElement {
      * @param version
      *            The artifact version.
      */
-    ArtifactElement(ProducesElement produces, String recipe, Map<List<String>, ArtifactSource> artifacts, Artifact artifact) {
+    ArtifactElement(ProducesElement produces, String recipe, Map<List<String>, Production> artifacts, Artifact artifact) {
         this.produces = produces;
         this.recipe = recipe;
         this.artifacts = artifacts;
@@ -61,7 +61,7 @@ public class ArtifactElement {
      * @return The parent language element.
      */
     public ProducesElement in(File directory) {
-        artifacts.put(artifact.getKey(), new ArtifactSource(artifact, recipe, directory));
+        artifacts.put(artifact.getKey(), new Production(artifact, recipe, directory));
         return produces;
     }
 }

@@ -2,8 +2,11 @@ package com.goodworkalan.mix;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
 
 import com.goodworkalan.go.go.library.DirectoryPart;
+import com.goodworkalan.go.go.library.Exclude;
 import com.goodworkalan.go.go.library.ExpandingPathPart;
 import com.goodworkalan.go.go.library.Library;
 import com.goodworkalan.go.go.library.PathPart;
@@ -30,5 +33,9 @@ public class RecipePathPart extends ExpandingPathPart {
 
     public Object getUnversionedKey() {
         return project.getRecipe(recipeName);
+    }
+    
+    public Set<Exclude> getExcludes() {
+        return Collections.<Exclude>emptySet();
     }
 }
