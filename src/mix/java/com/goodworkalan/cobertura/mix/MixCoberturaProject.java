@@ -19,7 +19,7 @@ public class MixCoberturaProject extends ProjectModule {
                     .end()
                 .test()
                     .depends()
-                        .include("org.testng/testng-jdk/5.10")
+                        .include("org.testng/testng-jdk15/5.10")
                         .end()
                     .end()
                 .end()
