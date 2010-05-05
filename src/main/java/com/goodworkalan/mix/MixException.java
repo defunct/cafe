@@ -1,25 +1,22 @@
 package com.goodworkalan.mix;
 
-import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
+import com.goodworkalan.danger.ContextualDanger;
 
 /**
  * An exception raised by the Mix application.
  * 
  * @author Alan Gutierrez
  */
-public class MixException extends RuntimeException {
+public class MixException extends ContextualDanger {
     /** Serial version id. */
     private static final long serialVersionUID = 1L;
    
-    /** The error context. */
-    private final Class<?> context;
-    
-    /** The error code. */
-    private final String code;
-    
-    /** The detail message format arguments. */
-    private final Object[] arguments;
+    /** The cache of resource bundles for the parent exception class. */
+    private final static ConcurrentMap<String, ResourceBundle> BUNDLE = new ConcurrentHashMap<String, ResourceBundle>();
 
     /**
      * Create a mix exception with the given error code and message format
@@ -50,30 +47,6 @@ public class MixException extends RuntimeException {
      *            The format arguments.
      */
     public MixException(Class<?> context, String code, Throwable cause, Object...arguments) {
-        super(null, cause);
-        this.context = context;
-        this.code = code;
-        this.arguments = arguments;
-    }
-
-    /**
-     * Returns the detail message string of this error.
-     * 
-     * @return The detail message string of this error.
-     */
-    @Override
-    public String getMessage() {
-        ResourceBundle bundle = ResourceBundle.getBundle(context.getPackage().getName() + ".exceptions");
-        String className = context.getCanonicalName();
-        int index = className.lastIndexOf('.');
-        if (index > -1) {
-            className = className.substring(index + 1);
-        }
-        String key = className + "/" + code;
-        try {
-            return String.format(bundle.getString(key), arguments);
-        } catch (MissingResourceException e) {
-            return key;
-        }
+        super(BUNDLE, context, code, cause, arguments);
     }
 }
