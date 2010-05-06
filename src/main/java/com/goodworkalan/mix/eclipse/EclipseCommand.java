@@ -27,15 +27,15 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.goodworkalan.go.go.Artifact;
 import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
-import com.goodworkalan.go.go.Library;
-import com.goodworkalan.go.go.LibraryEntry;
-import com.goodworkalan.go.go.LibraryPath;
-import com.goodworkalan.go.go.PathPart;
+import com.goodworkalan.go.go.library.Artifact;
+import com.goodworkalan.go.go.library.ArtifactPart;
+import com.goodworkalan.go.go.library.PathPart;
+import com.goodworkalan.go.go.library.PathParts;
 import com.goodworkalan.mix.Dependency;
+import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixCommand;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.MixException;
@@ -44,22 +44,11 @@ import com.goodworkalan.mix.Recipe;
 
 @Command(parent = MixCommand.class)
 public class EclipseCommand implements Commandable {
-    private MixCommand.Configuration mixConfiguration;
-    
-    private MixCommand.Arguments mixArguments;
-    
-    public void setMixConfiguration(MixCommand.Configuration mixConfiguration) {
-        this.mixConfiguration = mixConfiguration;
-    }
-    
-    public void setMixArguments(MixCommand.Arguments mixArguments) {
-        this.mixArguments = mixArguments;
-    }
-    
     public void execute(Environment env) {
-        env.verbose("start", env.part.getCommand().get(0), mixArguments.getWorkingDirectory());
+        Mix mix = env.get(Mix.class, 0);
+        env.verbose("start", env.commands, mix.getWorkingDirectory());
 
-        File file = new File(mixArguments.getWorkingDirectory(), ".classpath");
+        File file = new File(mix.getWorkingDirectory(), ".classpath");
         if (!file.exists()) {
             throw new MixError(EclipseCommand.class, "classpath.missing", file);
         }
@@ -94,7 +83,7 @@ public class EclipseCommand implements Commandable {
             }
         }
         
-        Project project = mixConfiguration.getProject();
+        Project project = env.get(Project.class, 0);
         
         List<PathPart> parts = new ArrayList<PathPart>();
         for (Recipe recipe : project.getRecipes()) {
@@ -103,9 +92,7 @@ public class EclipseCommand implements Commandable {
             }
         }
         
-        Library library = env.part.getCommandInterpreter().getLibrary();
-        LibraryPath path = library.resolve(parts);
-        List<Artifact> artifacts = path.getArtifacts();
+        List<Artifact> artifacts = PathParts.artifactsList(env.library.resolve(parts));
         
         Map<File, String> variables = new HashMap<File, String>();
         if (System.getProperty("user.home") != null) {
@@ -120,12 +107,12 @@ public class EclipseCommand implements Commandable {
         
         int count = 1;
         for (Artifact artifact : artifacts) {
-            LibraryEntry libraryEntry = library.getEntry(artifact);
-            if (libraryEntry == null) {
+            ArtifactPart artifactPart = env.library.getArtifactPart(artifact);
+            if (artifactPart == null) {
                 throw new MixError(EclipseCommand.class, "artifact.missing", artifact);
             }
-            if (!variables.containsKey(libraryEntry.getDirectory())) {
-                variables.put(libraryEntry.getDirectory(), "REPO_" + count);
+            if (!variables.containsKey(artifactPart.getLibraryDirectory())) {
+                variables.put(artifactPart.getLibraryDirectory(), "REPO_" + count);
                 count++;
             }
         }
@@ -137,8 +124,8 @@ public class EclipseCommand implements Commandable {
         entry.setAttribute("kind", "var");
         for (Artifact artifact : artifacts) {
             env.debug("add", artifact);
-            LibraryEntry libraryEntry = library.getEntry(artifact);
-            File directory = libraryEntry.getDirectory();
+            ArtifactPart artifactPart = env.library.getArtifactPart(artifact);
+            File directory = artifactPart.getLibraryDirectory();
             File jar = new File(directory, artifact.getPath("jar"));
             if (!jar.exists()) {
                 throw new MixError(EclipseCommand.class, "jar.missing", artifact);
