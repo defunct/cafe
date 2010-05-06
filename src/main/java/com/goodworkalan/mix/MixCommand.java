@@ -2,17 +2,20 @@ package com.goodworkalan.mix;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.library.DirectoryPart;
+import com.goodworkalan.ilk.Ilk;
 import com.goodworkalan.mix.builder.Builder;
 import com.goodworkalan.mix.builder.Executable;
 import com.goodworkalan.mix.builder.Rebuild;
 import com.goodworkalan.mix.task.Javac;
-import com.goodworkalan.reflective.ReflectiveFactory;
 
 /**
  * Root command for Mix.
@@ -59,6 +62,7 @@ public class MixCommand implements Commandable {
         } catch (IOException e) {
             throw new MixError(MixCommand.class, "working.directory", workingDirectory);
         }
+        env.output(new Ilk<Set<List<String>>>(){}, new HashSet<List<String>>());
         env.output(mix);
         env.debug("start");
         // Need to run the compiler out of the context (one more reason
@@ -100,7 +104,7 @@ public class MixCommand implements Commandable {
         } else if (!output.isDirectory()) {
             throw new MixException(MixCommand.class, "output.not.directory", output);
         }
-        env.invokeAfter(new ProjectCommand(new ReflectiveFactory(), mix.getWorkingDirectory(), output));
         env.extendClassPath(new DirectoryPart(output.getAbsoluteFile()));
+        env.invokeAfter(ProjectCommand.class);
     }
 }

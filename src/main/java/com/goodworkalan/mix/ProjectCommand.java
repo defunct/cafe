@@ -2,6 +2,7 @@ package com.goodworkalan.mix;
 
 import java.io.File;
 
+import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.comfort.io.Find;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
@@ -10,16 +11,14 @@ import com.goodworkalan.reflective.ReflectiveException;
 import com.goodworkalan.reflective.ReflectiveFactory;
 
 public class ProjectCommand implements Commandable {
-    private final File workingDirectory;
-    
     private final ReflectiveFactory reflective;
     
-    private final File output;
-
-    public ProjectCommand(ReflectiveFactory reflective, File workingDirectory, File output) {
+    public ProjectCommand(ReflectiveFactory reflective) {
         this.reflective = reflective;
-        this.workingDirectory = workingDirectory;
-        this.output = output;
+    }
+    
+    public ProjectCommand() {
+        this(new ReflectiveFactory());
     }
 
     /**
@@ -30,6 +29,8 @@ public class ProjectCommand implements Commandable {
      *            The environment.
      */
     public void execute(Environment env) {
+        Mix mix = env.get(Mix.class, 0);
+        File output = Files.file(mix.getWorkingDirectory(), "target", "mix-classes");
         Builder builder = new Builder();
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         for (String className : new Find().include("**/*.class").find(output)) {
@@ -53,6 +54,7 @@ public class ProjectCommand implements Commandable {
                 projectModule.build(builder);
             }
         }
-        env.output(builder.createProject(workingDirectory));
+        env.output(builder.createProject(mix.getWorkingDirectory()));
+        env.invokeAfter(SiblingsCommand.class);
     }
 }

@@ -1,8 +1,11 @@
 package com.goodworkalan.mix;
 
+import java.util.List;
+
 import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
+import com.goodworkalan.ilk.Ilk;
 
 /**
  * Lists the artifacts produced by a project.
@@ -22,5 +25,6 @@ public class ProducesCommand implements Commandable {
         for (Production production : project.getProductions()) {
             env.io.out.println(production.getArtifact());
         }
+        env.output(new Ilk<List<Production>>() {}, project.getProductions());
     }
 }

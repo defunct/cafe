@@ -164,7 +164,7 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
     }
     
     public Javac output(File output) {
-        this.output = output.getAbsoluteFile();
+        this.output = output;
         return this;
     }
 

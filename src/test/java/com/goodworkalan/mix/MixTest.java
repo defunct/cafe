@@ -22,6 +22,14 @@ public class MixTest {
         File directory = file(home, ".m2", "repository");
         Go.execute(Collections.singletonList(directory), "mix", "--working-directory=src/test/project", "make", "distribution");
     }
+    
+    /** Test the welcome message. */
+    @Test
+    public void foo() {
+        File home = new File(System.getProperty("user.home"));
+        File directory = file(home, ".m2", "repository");
+        Go.execute(Collections.singletonList(directory), "mix", "--working-directory=.", "--siblings", "make", "distribution");
+    }
 
     /** Test the welcome message. */
     @Test

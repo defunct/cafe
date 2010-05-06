@@ -1,15 +1,19 @@
 package com.goodworkalan.mix;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.library.Artifact;
+import com.goodworkalan.go.go.library.Include;
 import com.goodworkalan.go.go.library.PathPart;
+import com.goodworkalan.ilk.Ilk;
 
 @Command(parent = MixCommand.class)
 public class DependenciesCommand implements Commandable {
@@ -19,21 +23,24 @@ public class DependenciesCommand implements Commandable {
         for (Production production : project.getProductions()) {
             byRecipeName.put(production.getRecipeName(), production);
         }
-        Map<Object, PathPart> includes = new LinkedHashMap<Object, PathPart>();
+        Map<Object, PathPart> depenendcies = new LinkedHashMap<Object, PathPart>();
         for (Production production : project.getProductions()) {
             Recipe recipe = project.getRecipe(production.getRecipeName());
             for (Dependency dependency : recipe.getDependencies()) {
                 Collection<PathPart> unexpanded = dependency.getPathParts(project);
-                for (PathPart expanded : env.library.resolve(unexpanded, includes.keySet())) {
-                    includes.put(expanded.getUnversionedKey(), expanded);
+                for (PathPart expanded : env.library.resolve(unexpanded, depenendcies.keySet())) {
+                    depenendcies.put(expanded.getUnversionedKey(), expanded);
                 }
             }
         }
-        for (PathPart pathPart : includes.values()) {
+        List<Include> includes = new ArrayList<Include>();
+        for (PathPart pathPart : depenendcies.values()) {
             Artifact artifact = pathPart.getArtifact();
             if (artifact != null) {
+                includes.add(new Include(artifact, pathPart.getExcludes()));
                 env.io.out.println(artifact.getArtifactsFileLine(pathPart.getExcludes()));
             }
         }
+        env.output(new Ilk<List<Include>>() {}, includes);
     }
 }

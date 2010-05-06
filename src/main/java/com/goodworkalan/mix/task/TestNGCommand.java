@@ -14,7 +14,7 @@ import com.goodworkalan.go.go.library.Artifact;
 import com.goodworkalan.mix.MixCommand;
 import com.goodworkalan.mix.MixError;
 
-@Command(name = "test-ng", hidden = true, parent = MixCommand.class)
+@Command(name = "test-ng", parent = MixCommand.class)
 public class TestNGCommand implements Commandable {
     public final Map<String, String> defines = new LinkedHashMap<String, String>();
     

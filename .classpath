@@ -14,11 +14,6 @@
 			<attribute name="javadoc_location" value="jar:file:/Users/alan/.m2/repository/com/goodworkalan/spawn/0.1.1/spawn-0.1.1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="var" path="M2_REPO/com/goodworkalan/go-go/0.1.3/go-go-0.1.3.jar" sourcepath="M2_REPO/com/goodworkalan/go-go/0.1.3/go-go-0.1.3-sources.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:file:/Users/alan/.m2/repository/com/goodworkalan/go-go/0.1.3/go-go-0.1.3-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="var" path="M2_REPO/com/goodworkalan/comfort-io/0.1.1/comfort-io-0.1.1.jar" sourcepath="M2_REPO/com/goodworkalan/comfort-io/0.1.1/comfort-io-0.1.1-sources.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:file:/Users/alan/.m2/repository/com/goodworkalan/comfort-io/0.1.1/comfort-io-0.1.1-javadoc.jar!/"/>
@@ -31,5 +26,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/danger"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ilk"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
