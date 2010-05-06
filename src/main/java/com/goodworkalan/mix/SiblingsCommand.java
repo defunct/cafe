@@ -59,7 +59,7 @@ public class SiblingsCommand implements Commandable {
                     mixArguments.replaceArgument("mix:working-directory", sibling.getAbsolutePath());
                     List<Production> productions = env.executor.run(new Ilk<List<Production>>() {}, InputOutput.nulls(), "mix", mixArguments, "produces");
                     for (Production production : productions) {
-                        if (production.getArtifact().equals(artifact)) {
+                        if (production.getArtifact().getUnversionedKey().equals(artifact.getUnversionedKey())) {
                             directories.add(sibling);
                             find(env, sibling, seen, directories);
                         }
