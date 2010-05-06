@@ -1,3 +1,4 @@
 com.goodworkalan.mix.github.DownloadsCommand
 com.goodworkalan.mix.github.GitHubCommand
 com.goodworkalan.mix.github.UploadCommand
+com.goodworkalan.mix.github.PurgeCommand

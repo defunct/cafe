@@ -19,6 +19,6 @@ public class GitHubTest {
     public void upload() {
         File home = new File(System.getProperty("user.home"));
         File directory = Files.file(home, ".m2", "repository");
-        Go.main(Collections.singletonList(directory), "mix", "github", "upload", "--replace");
+        Go.execute(Collections.singletonList(directory), "mix", "github", "upload", "--replace");
     }
 }

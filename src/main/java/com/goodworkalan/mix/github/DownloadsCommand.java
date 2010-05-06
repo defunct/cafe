@@ -1,8 +1,8 @@
 package com.goodworkalan.mix.github;
 
-import com.goodworkalan.github.downloads.Download;
-import com.goodworkalan.github.downloads.GitHubDownloadException;
-import com.goodworkalan.github.downloads.GitHubDownloads;
+import com.goodworkalan.github4j.downloads.Download;
+import com.goodworkalan.github4j.downloads.GitHubDownloadException;
+import com.goodworkalan.github4j.downloads.GitHubDownloads;
 import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Commandable;
@@ -20,8 +20,7 @@ public class DownloadsCommand implements Commandable {
     public void execute(Environment env) {
         GitHubConfig github = env.get(GitHubConfig.class, 1);
         try {
-            GitHubDownloads downloads = new GitHubDownloads(github.login, github.token);
-            for (Download download : downloads.getDownloads(project)) {
+            for (Download download : GitHubDownloads.getDownloads(github.login, project)) {
                 env.io.out.println(nameOnly ? download.getFileName() : download.getUrl());
             }
         } catch (GitHubDownloadException e) {
