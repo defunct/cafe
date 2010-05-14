@@ -16,6 +16,7 @@ import com.goodworkalan.go.go.library.PathParts;
 import com.goodworkalan.go.go.library.ResolutionPart;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.FindList;
+import com.goodworkalan.mix.Make;
 import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.MixException;
@@ -52,8 +53,8 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
         ending = new JavacEnd() {
             public void end(JavacConfiguration configuration) {
                 configure(configuration);
-                parent.addExecutable(new Executable() {
-                    public void execute(Environment env, Mix mix, Project project, String recipeName) {
+                parent.executable(new Executable() {
+                    public void execute(Environment env) {
                         List<String> arguments = new ArrayList<String>();
                         if (!warnings) {
                             arguments.add("-nowarn");
@@ -82,6 +83,7 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
                         if (output == null) {
                             throw new MixError(Javac.class, "output");
                         }
+                        Mix mix = env.get(Mix.class, 0);
                         File workingOutput = mix.relativize(output);
                         if (!(workingOutput.isDirectory() || workingOutput.mkdirs())) {
                             throw new MixException(Javac.class, "mkdirs", workingOutput);
@@ -92,7 +94,9 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
                         for (Artifact artifact : artifacts) {
                             parts.add(new ResolutionPart(artifact));
                         }
-                        for (Dependency dependency : project.getRecipe(recipeName).getDependencies()) {
+                        Project project = env.get(Project.class, 0);
+                        Make make = env.get(Make.class, 1);
+                        for (Dependency dependency : project.getRecipe(make.recipeName).getDependencies()) {
                             parts.addAll(dependency.getPathParts(project));
                         }
                         Set<File> classpath = PathParts.fileSet(env.library.resolve(parts));

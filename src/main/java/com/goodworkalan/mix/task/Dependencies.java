@@ -55,8 +55,9 @@ public class Dependencies {
     }
 
     public RecipeElement end() {
-        recipeElement.addExecutable(new Executable() {
-            public void execute(Environment env, Mix mix, Project project, String recipeName) {
+        recipeElement.executable(new Executable() {
+            public void execute(Environment env) {
+                Project project = env.get(Project.class, 0);
                 LinkedHashMap<List<String>, Include> dependencies = new LinkedHashMap<List<String>, Include>();
                 if (recipe != null) {
                     for (Dependency dependency : project.getRecipe(recipe).getDependencies()) {
@@ -75,6 +76,7 @@ public class Dependencies {
                         }
                     }
                 }
+                Mix mix = env.get(Mix.class, 0);
                 File relativized = mix.relativize(output);
                 if (!relativized.getParentFile().isDirectory() && !relativized.getParentFile().mkdirs()) {
                     throw new MixError(Dependencies.class, "mkdirs", relativized.getParentFile());

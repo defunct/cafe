@@ -39,6 +39,18 @@ public class JavaProject extends JavaSpecificsElement {
         this.produces = new Artifact(artifact);
         return this;
     }
+
+    /**
+     * Create a project dependency builder to specify the projects production
+     * and development dependencies. This is a shorthand for projects that
+     * customize nothing about the default project and only specify their
+     * dependencies.
+     * 
+     * @return A project dependency builder.
+     */
+    public ProjectDependencyBuilder depends() {
+        return new ProjectDependencyBuilder(this, mainDependencies, testDependencies);
+    }
     
     public JavacOptionsElement<JavaProject, JavacOptionsElement<JavaProject, ?>> javac() {
         return JavacOptionsElement.<JavaProject>newJavacOptionsElement(this, new JavacEnd() {

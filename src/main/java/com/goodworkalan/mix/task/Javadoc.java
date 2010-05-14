@@ -19,6 +19,7 @@ import com.goodworkalan.go.go.library.PathParts;
 import com.goodworkalan.go.go.library.ResolutionPart;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.FindList;
+import com.goodworkalan.mix.Make;
 import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
@@ -51,8 +52,10 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
         this.ending = new JavadocEnd() {
             public void end(JavadocConfiguration configuration) {
                 configure(configuration);
-                parent.addExecutable(new Executable() {
-                    public void execute(Environment env, Mix mix, Project project, String recipeName) {
+                parent.executable(new Executable() {
+                    public void execute(Environment env) {
+                        Mix mix = env.get(Mix.class, 0);
+                        Project project = env.get(Project.class, 0);
                         List<String> arguments = new ArrayList<String>();
                         
                         arguments.add("-d");
@@ -66,7 +69,8 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
                         for (Artifact artifact : artifacts) {
                             parts.add(new ResolutionPart(artifact));
                         }
-                        for (Dependency dependency : project.getRecipe(recipeName).getDependencies()) {
+                        Make make = env.get(Make.class, 1);
+                        for (Dependency dependency : project.getRecipe(make.recipeName).getDependencies()) {
                             parts.addAll(dependency.getPathParts(project));
                         }
                         for (FindList.Entry entry : findList) {

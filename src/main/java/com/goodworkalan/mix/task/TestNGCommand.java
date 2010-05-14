@@ -48,6 +48,6 @@ public class TestNGCommand implements Commandable {
      *            The execution environment.
      */
     public void execute(Environment env) {
-        env.output(this);
+        env.output(TestNGCommand.class, this);
     }
 }

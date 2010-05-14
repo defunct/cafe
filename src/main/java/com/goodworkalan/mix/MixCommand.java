@@ -8,12 +8,12 @@ import java.util.Set;
 
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.go.go.Argument;
+import com.goodworkalan.go.go.ArgumentList;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.library.DirectoryPart;
 import com.goodworkalan.ilk.Ilk;
 import com.goodworkalan.mix.builder.Builder;
-import com.goodworkalan.mix.builder.Executable;
 import com.goodworkalan.mix.builder.Rebuild;
 import com.goodworkalan.mix.task.Javac;
 
@@ -40,6 +40,9 @@ public class MixCommand implements Commandable {
 
     @Argument
     public boolean siblings;
+    
+    @Argument
+    public boolean bootstrap;
 
     /**
      * The project root directory, defaults to the current working
@@ -63,7 +66,7 @@ public class MixCommand implements Commandable {
             throw new MixError(MixCommand.class, "working.directory", workingDirectory);
         }
         env.output(new Ilk<Set<List<String>>>(){}, new HashSet<List<String>>());
-        env.output(mix);
+        env.output(Mix.class, mix);
         env.debug("start");
         // Need to run the compiler out of the context (one more reason
         // why compilers are not pluggable) of the compiler command.
@@ -76,13 +79,14 @@ public class MixCommand implements Commandable {
         FindList outputs = new FindList();
         outputs.addDirectory(output);
         outputs.isFile();
-        if (new Rebuild(sources, outputs).isDirty(mix)) {
+        if (bootstrap) {
             if (output.exists()) {
                 Files.delete(output);
             }
             if (!output.mkdirs()) {
                 throw new MixError(MixCommand.class, "output.mkdirs", output);
             }
+            // FIXME Do resources too.
             File sourceDirectory = new File(mix.getWorkingDirectory(), "src/mix/java");
             env.debug("javac", sourceDirectory, output);
             if (sourceDirectory.isDirectory()) {
@@ -95,16 +99,20 @@ public class MixCommand implements Commandable {
                             .output(output.getAbsoluteFile())
                             .end()
                          .end();
-                Project project = hiddenBuilder.createProject(mix.getWorkingDirectory());
-                for (Executable executable : project.getRecipe("javac").getProgram()) {
-                    executable.execute(env, mix, project, "javac");
-                }
+                env.output(Project.class, hiddenBuilder.createProject(mix.getWorkingDirectory()));
             }
-            // FIXME Do resources too.
-        } else if (!output.isDirectory()) {
-            throw new MixException(MixCommand.class, "output.not.directory", output);
+        } else {
+            if (new Rebuild(sources, outputs).isDirty(mix)) {
+                ArgumentList mixArguments = new ArgumentList(env.arguments.get(0));
+                mixArguments.removeArgument("mix:siblings");
+                mixArguments.addArgument("mix:bootstrap", "true");
+                env.executor.run(env.io, "mix", mixArguments, "make", "javac");
+            }
+            if (!output.isDirectory()) {
+                throw new MixException(MixCommand.class, "output.not.directory", output);
+            }
+            env.extendClassPath(new DirectoryPart(output.getAbsoluteFile()));
+            env.invokeAfter(ProjectCommand.class);
         }
-        env.extendClassPath(new DirectoryPart(output.getAbsoluteFile()));
-        env.invokeAfter(ProjectCommand.class);
     }
 }

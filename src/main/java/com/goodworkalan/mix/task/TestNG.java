@@ -18,7 +18,7 @@ import com.goodworkalan.go.go.library.PathParts;
 import com.goodworkalan.go.go.library.ResolutionPart;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.FindList;
-import com.goodworkalan.mix.Mix;
+import com.goodworkalan.mix.Make;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
@@ -68,8 +68,8 @@ public class TestNG {
     }
 
     public RecipeElement end() {
-        recipeElement.addExecutable(new Executable() {
-            public void execute(Environment env, Mix mix, Project project, String recipeName) {
+        recipeElement.executable(new Executable() {
+            public void execute(Environment env) {
                 TestNGCommand additional = env.executor.run(TestNGCommand.class, env.io, "mix", env.arguments.get(0), "test-ng", env.arguments.get(1));
 
                 for (Map.Entry<String, String> entry : additional.defines.entrySet()) {
@@ -89,7 +89,9 @@ public class TestNG {
                 for (Artifact artifact : artifacts) {
                     parts.add(new ResolutionPart(artifact));
                 }
-                for (Dependency dependency : project.getRecipe(recipeName).getDependencies()) {
+                Project project = env.get(Project.class, 0);
+                Make make = env.get(Make.class, 1);
+                for (Dependency dependency : project.getRecipe(make.recipeName).getDependencies()) {
                     parts.addAll(dependency.getPathParts(project));
                 }
                 Set<File> classpath = PathParts.fileSet(env.library.resolve(parts));

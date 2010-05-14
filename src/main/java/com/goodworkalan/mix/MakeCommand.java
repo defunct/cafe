@@ -3,7 +3,6 @@ package com.goodworkalan.mix;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
-import java.util.List;
 
 import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Commandable;
@@ -27,27 +26,30 @@ public class MakeCommand implements Commandable {
      *            The execution environment.
      */
     public void execute(Environment env) {
-        Mix mix = env.get(Mix.class, 0);
-        List<String> remaining = env.remaining;
-        if (remaining.isEmpty()) {
+        if (env.remaining.isEmpty()) {
             throw new MixError(MakeCommand.class, "no.targets");
         }
-        env.verbose("start", remaining);
         Project project = env.get(Project.class, 0);
+        Mix mix = env.get(Mix.class, 0);
         LinkedList<String> buildQueue = new LinkedList<String>();
-        LinkedList<String> recipeQueue = new LinkedList<String>();
-        recipeQueue.add(remaining.get(0));
-        while (!recipeQueue.isEmpty()) {
-            String name = recipeQueue.removeFirst();
-            Recipe recipe = project.getRecipe(name);
-            for (Dependency dependency : recipe.getDependencies()) {
-                for (String recipeName : dependency.getRecipeNames(project)) {
-                    recipeQueue.addLast(recipeName);
+        for (String superRecipeName : env.remaining) {
+            env.verbose("start", superRecipeName);
+            LinkedList<String> recipeQueue = new LinkedList<String>();
+            recipeQueue.add(superRecipeName);
+            while (!recipeQueue.isEmpty()) {
+                String name = recipeQueue.removeFirst();
+                Recipe recipe = project.getRecipe(name);
+                for (Dependency dependency : recipe.getDependencies()) {
+                    for (String recipeName : dependency.getRecipeNames(project)) {
+                        recipeQueue.addLast(recipeName);
+                    }
                 }
+                buildQueue.addFirst(name);
             }
-            buildQueue.addFirst(name);
         }
         for (String recipeName : new LinkedHashSet<String>(buildQueue)) {
+            Make make = new Make(recipeName);
+            env.output(Make.class, make);
             Recipe recipe = project.getRecipe(recipeName);
             for (Dependency dependency : recipe.getDependencies()) {
                 dependency.build(mix, env);
@@ -61,7 +63,7 @@ public class MakeCommand implements Commandable {
             if (build) {
                 env.verbose("dirty", recipeName);
                 for (Executable executable : project.getRecipe(recipeName).getProgram()) {
-                    executable.execute(env, mix, project, recipeName);
+                    executable.execute(env);
                 }
             } else {
                 env.verbose("clean", recipeName);

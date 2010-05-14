@@ -54,7 +54,7 @@ public class ProjectCommand implements Commandable {
                 projectModule.build(builder);
             }
         }
-        env.output(builder.createProject(mix.getWorkingDirectory()));
+        env.output(Project.class, builder.createProject(mix.getWorkingDirectory()));
         env.invokeAfter(SiblingsCommand.class);
     }
 }
