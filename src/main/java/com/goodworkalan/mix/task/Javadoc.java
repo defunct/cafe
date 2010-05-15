@@ -35,8 +35,6 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
     
     private boolean fork;
     
-    private String visibility;
-    
     private File output;
     
     /** The directory where package lists for offline linking are kept. */
@@ -49,6 +47,7 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
     
     public Javadoc(RecipeElement recipeElement) {
         super(recipeElement, new SelfServer<Javadoc>(), null);
+        self.setSelf(this);
         this.ending = new JavadocEnd() {
             public void end(JavadocConfiguration configuration) {
                 configure(configuration);
@@ -131,6 +130,7 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
                             compilerClass = Class.forName("com.sun.tools.javadoc.Main");
                         } catch (ClassNotFoundException e) {
                         }
+                        env.debug(Javadoc.class, "arguments", arguments);
                         if (fork || compilerClass == null) {
                             arguments.add(0, "javadoc");
                             

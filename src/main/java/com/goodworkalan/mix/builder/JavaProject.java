@@ -181,6 +181,7 @@ public class JavaProject extends JavaSpecificsElement {
                     .directory(new File("target/devdocs"))
                     .end()
                 .task(Javadoc.class)
+                    .visibility("private")
                     .configure(devdocConfigurations)
                     .packageLists(new File("src/mix/package-lists"))
                     .source(new File("src/main/java")).end()
