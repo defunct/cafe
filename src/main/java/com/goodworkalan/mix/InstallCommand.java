@@ -57,12 +57,14 @@ public class InstallCommand implements Commandable {
             }
         }
 
+        Mix mix = env.get(Mix.class, 0);
         for (Production production : productions) {
             env.executor.run(env.io, "mix", env.arguments.get(0), "make", production.getRecipeName()); 
             Artifact artifact = production.getArtifact();
             Find find = new Find();
             find.include(artifact.getName() + "-" + artifact.getVersion() + "*.*");
-            File sourceDirectory = new File(production.getDirectory(), production.getArtifact().getDirectoryPath());
+            File targetDirectory = new File(mix.workingDirectory, production.getDirectory().getPath());
+            File sourceDirectory = new File(targetDirectory, production.getArtifact().getDirectoryPath());
             File outputDirectory = new File(libraryDirectory, production.getArtifact().getDirectoryPath());
             for (String fileName : find.find(sourceDirectory)) {
                 File destination = new File(outputDirectory, fileName);
