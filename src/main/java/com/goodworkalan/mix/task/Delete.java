@@ -58,7 +58,7 @@ public class Delete {
                     if (outgoing.exists() && !outgoing.delete()) {
                         throw new MixError(Delete.class, "failure", outgoing);
                     }
-                } else if (!Files.delete(outgoing)) {
+                } else if (!Files.unlink(outgoing)) {
                     throw new MixError(Delete.class, "failure", outgoing);
                 }
             }

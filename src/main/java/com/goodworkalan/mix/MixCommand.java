@@ -43,6 +43,9 @@ public class MixCommand implements Commandable {
     
     @Argument
     public boolean bootstrap;
+    
+    @Argument
+    public String projectModule;
 
     /**
      * The project root directory, defaults to the current working
@@ -71,17 +74,9 @@ public class MixCommand implements Commandable {
         // Need to run the compiler out of the context (one more reason
         // why compilers are not pluggable) of the compiler command.
         File output = new File(mix.getWorkingDirectory(), "target/mix-classes");
-        FindList sources = new FindList();
-        sources.addDirectory(new File(mix.getWorkingDirectory(), "src/mix/java"));
-        sources.isFile();
-        sources.addDirectory(new File(mix.getWorkingDirectory(), "src/mix/resources"));
-        sources.isFile();
-        FindList outputs = new FindList();
-        outputs.addDirectory(output);
-        outputs.isFile();
         if (bootstrap) {
             if (output.exists()) {
-                Files.delete(output);
+                Files.unlink(output);
             }
             if (!output.mkdirs()) {
                 throw new MixError(MixCommand.class, "output.mkdirs", output);
@@ -101,7 +96,17 @@ public class MixCommand implements Commandable {
                          .end();
                 env.output(Project.class, hiddenBuilder.createProject(mix.getWorkingDirectory()));
             }
+        } else if (projectModule != null) {
+            env.invokeAfter(ProjectCommand.class);
         } else {
+            FindList sources = new FindList();
+            sources.addDirectory(new File(mix.getWorkingDirectory(), "src/mix/java"));
+            sources.isFile();
+            sources.addDirectory(new File(mix.getWorkingDirectory(), "src/mix/resources"));
+            sources.isFile();
+            FindList outputs = new FindList();
+            outputs.addDirectory(output);
+            outputs.isFile();
             if (new Rebuild(sources, outputs).isDirty(mix)) {
                 ArgumentList mixArguments = new ArgumentList(env.arguments.get(0));
                 mixArguments.removeArgument("mix:siblings");

@@ -37,7 +37,7 @@ public class Prune {
                     File directory = mix.relativize(entry.getDirectory());
                     for (String fileName : entry.getFind().find(directory)) {
                         File source = new File(directory, fileName);
-                        if (!Files.delete(source)) {
+                        if (!Files.unlink(source)) {
                             throw new MixError(Prune.class, "failure", source);
                         }
                     }

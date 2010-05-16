@@ -19,8 +19,8 @@ public class Mix {
     
     /** Whether or not we use siblings when we can instead of artifacts. */
     public final boolean siblings;
-
-    /**
+    
+        /**
      * 
      * @param workingDirectory
      *            The working directory.
