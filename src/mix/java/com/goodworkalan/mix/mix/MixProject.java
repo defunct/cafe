@@ -4,8 +4,7 @@ import com.goodworkalan.mix.ProjectModule;
 import com.goodworkalan.mix.builder.Builder;
 import com.goodworkalan.mix.builder.JavaProject;
 
-public class MixProject extends ProjectModule {
-    @Override
+public class MixProject implements ProjectModule {
     public void build(Builder builder) {
         builder
             .cookbook(JavaProject.class)
