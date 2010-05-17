@@ -34,8 +34,24 @@ public class SiblingsCommand implements Commandable {
                 env.debug("mix:sibling", sibling);
                 mixArguments.replaceArgument("mix:working-directory", sibling.getAbsolutePath());
                 List<String> commandLine = flatten("mix", mixArguments, env.getCommandLine(1), env.remaining);
+                StringBuilder display = new StringBuilder();
+                String separator = "";
+                for (String argument : commandLine) {
+                    display.append(separator).append(argument);
+                    separator = " ";
+                }
+                env.io.out.println(display);
                 env.executor.run(env.io, commandLine);
             }
+            mixArguments = new ArgumentList(env.arguments.get(0));
+            mixArguments.removeArgument("mix:siblings");
+            StringBuilder display = new StringBuilder();
+            String separator = "";
+            for (String argument : flatten("mix", mixArguments, env.getCommandLine(1), env.remaining)) {
+                display.append(separator).append(argument);
+                separator = " ";
+            }
+            env.io.out.println(display);
         }
     }
     
