@@ -58,6 +58,8 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
                         }
                         if (debug == null || debug) {
                             arguments.add("-g");
+                        } else {
+                            arguments.add("-g:none");
                         }
                         if (deprecation != null && deprecation) {
                             arguments.add("-deprecation");
