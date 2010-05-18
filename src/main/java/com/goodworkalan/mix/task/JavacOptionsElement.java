@@ -8,9 +8,6 @@ public class JavacOptionsElement<P, S> {
 
     protected Boolean debug;
     
-    /** Fork if true. */
-    protected Boolean fork;
-    
     protected String source;
     
     protected String target;
@@ -46,11 +43,6 @@ public class JavacOptionsElement<P, S> {
         return self.getSelf();
     }
     
-    public S fork(boolean fork) {
-        this.fork = fork;
-        return self.getSelf();
-    }
-    
     public S source(String source) {
         this.source = source;
         return self.getSelf();
@@ -76,9 +68,6 @@ public class JavacOptionsElement<P, S> {
             public void configure(Javac javac) {
                 if (debug != null) {
                     javac.debug(debug);
-                }
-                if (fork != null) {
-                    javac.fork(fork);
                 }
                 if (source != null) {
                     javac.source(source);

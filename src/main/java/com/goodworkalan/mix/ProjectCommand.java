@@ -8,18 +8,10 @@ import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.mix.builder.Builder;
-import com.goodworkalan.reflective.ReflectiveException;
-import com.goodworkalan.reflective.ReflectiveFactory;
+import com.goodworkalan.reflective.Reflection;
 
 public class ProjectCommand implements Commandable {
-    private final ReflectiveFactory reflective;
-    
-    public ProjectCommand(ReflectiveFactory reflective) {
-        this.reflective = reflective;
-    }
-    
     public ProjectCommand() {
-        this(new ReflectiveFactory());
     }
 
     @Argument
@@ -36,7 +28,7 @@ public class ProjectCommand implements Commandable {
             return;
         }
         if (ProjectModule.class.isAssignableFrom(loadedClass)) {
-            Class<? extends ProjectModule> projectModuleClass;
+            final Class<? extends ProjectModule> projectModuleClass;
             try {
                 projectModuleClass = loadedClass.asSubclass(ProjectModule.class);
             } catch (ClassCastException e) {
@@ -44,12 +36,11 @@ public class ProjectCommand implements Commandable {
                 }
                 return;
             }
-            ProjectModule projectModule;
-            try {
-                projectModule = reflective.newInstance(projectModuleClass);
-            } catch (ReflectiveException e) {
-                throw new MixException(MixCommand.class, "project.module", e);
-            }
+            ProjectModule projectModule = MixException.reflect(new Reflection<ProjectModule>() {
+                public ProjectModule reflect() throws InstantiationException, IllegalAccessException {
+                    return projectModuleClass.newInstance();
+                }
+            }, MixCommand.class, "project.module", projectModuleClass, MixCommand.class, "project.module", projectModuleClass);
             projectModule.build(builder);
         } else if (exceptional) {
             throw new MixError(MixCommand.class, "not.a.project.module", projectModuleClassName);

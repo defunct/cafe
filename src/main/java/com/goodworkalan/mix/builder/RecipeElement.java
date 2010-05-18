@@ -1,6 +1,7 @@
 package com.goodworkalan.mix.builder;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -8,18 +9,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.goodworkalan.mix.Production;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.MixException;
 import com.goodworkalan.mix.ProducesElement;
+import com.goodworkalan.mix.Production;
 import com.goodworkalan.mix.Recipe;
 import com.goodworkalan.mix.RecipeModule;
-import com.goodworkalan.reflective.ReflectiveException;
-import com.goodworkalan.reflective.ReflectiveFactory;
+import com.goodworkalan.reflective.Reflection;
 
 public class RecipeElement {
-    private final ReflectiveFactory reflectiveFactory = new ReflectiveFactory();
-
     private final Builder builder;
     
     private final String name;
@@ -129,12 +127,13 @@ public class RecipeElement {
      * @param taskClass
      * @return
      */
-    public <T> T task(Class<T> taskClass) {
-        try {
-            return reflectiveFactory.getConstructor(taskClass, RecipeElement.class).newInstance(this);
-        } catch (ReflectiveException e) {
-            throw new MixException(RecipeElement.class, "cannot.create.task", e, taskClass.getCanonicalName());
-        }
+    public <T> T task(final Class<T> taskClass) {
+        return MixException.reflect(new Reflection<T>() {
+            public T reflect() throws SecurityException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+                return taskClass.getConstructor(RecipeElement.class).newInstance(RecipeElement.this);
+            }
+        }, Builder.class, "cannot.create.task", taskClass);
+
     }
 
     /**

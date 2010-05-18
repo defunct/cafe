@@ -5,6 +5,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.goodworkalan.danger.ContextualDanger;
+import com.goodworkalan.reflective.Reflection;
+import com.goodworkalan.reflective.Reflective;
+import com.goodworkalan.reflective.ReflectiveException;
 
 /**
  * An exception raised by the Mix application.
@@ -48,5 +51,13 @@ public class MixException extends ContextualDanger {
      */
     public MixException(Class<?> context, String code, Throwable cause, Object...arguments) {
         super(BUNDLE, context, code, cause, arguments);
+    }
+    
+    public static <T> T reflect(Reflection<T> reflection, Class<?> contextClass, String messageKey, Object...arguments) {
+        try {
+            return new Reflective().reflect(reflection);
+        } catch (ReflectiveException e) {
+            throw new MixException(contextClass, messageKey, e, arguments);
+        }
     }
 }

@@ -1,16 +1,16 @@
 package com.goodworkalan.mix.builder;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.goodworkalan.mix.Production;
 import com.goodworkalan.mix.MixException;
+import com.goodworkalan.mix.Production;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.Recipe;
-import com.goodworkalan.reflective.ReflectiveException;
-import com.goodworkalan.reflective.ReflectiveFactory;
+import com.goodworkalan.reflective.Reflection;
 
 /**
  * Root of a domain specific language used to specify recipies.
@@ -18,18 +18,11 @@ import com.goodworkalan.reflective.ReflectiveFactory;
  * @author Alan Gutierrez
  */
 public class Builder {
-    private final ReflectiveFactory reflectiveFactory;
-    
     private final Map<String, Recipe> recipes = new HashMap<String, Recipe>();
     
     private final Map<List<String>, Production> artifacts = new HashMap<List<String>, Production>();
 
     public Builder() {
-        this(new ReflectiveFactory());
-    }
-
-    Builder(ReflectiveFactory reflectiveFactory) {
-        this.reflectiveFactory = reflectiveFactory;
     }
 
     /**
@@ -47,12 +40,12 @@ public class Builder {
         return new Project(workingDirectory, artifacts, recipes);
     }
     
-    public <T> T cookbook(Class<T> cookbookClass) {
-        try {
-            return reflectiveFactory.getConstructor(cookbookClass, Builder.class).newInstance(this);
-        } catch (ReflectiveException e) {
-            throw new MixException(Builder.class, "create.cookbook", e, cookbookClass.getCanonicalName());
-        }
+    public <T> T cookbook(final Class<T> cookbookClass) {
+        return MixException.reflect(new Reflection<T>() {
+            public T reflect() throws SecurityException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+                return cookbookClass.getConstructor(Builder.class).newInstance(Builder.this);
+            }
+        }, Builder.class, "create.cookbook",  cookbookClass.getCanonicalName());
     }
     
     public void end() {

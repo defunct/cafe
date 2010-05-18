@@ -23,9 +23,6 @@ import com.goodworkalan.mix.MixException;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
 import com.goodworkalan.mix.builder.RecipeElement;
-import com.goodworkalan.reflective.Method;
-import com.goodworkalan.reflective.ReflectiveException;
-import com.goodworkalan.reflective.ReflectiveFactory;
 import com.goodworkalan.spawn.Exit;
 import com.goodworkalan.spawn.Spawn;
 
@@ -35,9 +32,6 @@ import com.goodworkalan.spawn.Spawn;
  * @author Alan Gutierrez
  */
 public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
-    /** The reflective factory used to create the Javac task. */
-    private final ReflectiveFactory reflectiveFactory = new ReflectiveFactory();
-    
     /** Disable warnings if false. */
     private boolean warnings;
     
@@ -115,34 +109,16 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
                                 arguments.add(new File(directory, fileName).toString());
                             }
                         }
-                        Class<?> compilerClass = null;
-                        try {
-                            compilerClass = Class.forName("com.sun.tools.javac.Main");
-                        } catch (ClassNotFoundException e) {
-                        }
                         env.debug(Javac.class, "arguments", arguments);
-                        if ((fork != null && fork) || compilerClass == null) {
-                            arguments.add(0, "javac");
-                            
-                            ProcessBuilder newProcess = new ProcessBuilder();
-                            newProcess.command().addAll(arguments);
-                            
-                            Exit exit = new Spawn().$(arguments).out(env.io.out).err(env.io.err).run();
-                            
-                            if (!exit.isSuccess()) {
-                                throw new MixException(Javac.class, "invoke");
-                            }
-                        } else {
-                            try {
-                                Object compiler = reflectiveFactory.getConstructor(compilerClass).newInstance();
-                                Method method = reflectiveFactory.getMethod(compilerClass, "compile", new String [0].getClass());
-                                int errorCode = (Integer) method.invoke(compiler, new Object[] { arguments.toArray(new String[arguments.size()]) });
-                                if (errorCode != 0) {
-                                    throw new MixError(Javac.class, "failure", errorCode);
-                                }
-                            } catch (ReflectiveException e) {
-                                throw new MixException(Javac.class, "invoke", e);
-                            }
+                        arguments.add(0, "javac");
+                        
+                        ProcessBuilder newProcess = new ProcessBuilder();
+                        newProcess.command().addAll(arguments);
+                        
+                        Exit exit = new Spawn().$(arguments).out(env.io.out).err(env.io.err).run();
+                        
+                        if (!exit.isSuccess()) {
+                            throw new MixException(Javac.class, "invoke");
                         }
                     }
                 });
