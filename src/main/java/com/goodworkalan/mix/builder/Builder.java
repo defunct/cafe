@@ -1,7 +1,6 @@
 package com.goodworkalan.mix.builder;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +9,8 @@ import com.goodworkalan.mix.MixException;
 import com.goodworkalan.mix.Production;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.Recipe;
-import com.goodworkalan.reflective.Reflection;
+import com.goodworkalan.reflective.Reflective;
+import com.goodworkalan.reflective.ReflectiveException;
 
 /**
  * Root of a domain specific language used to specify recipies.
@@ -41,11 +41,15 @@ public class Builder {
     }
     
     public <T> T cookbook(final Class<T> cookbookClass) {
-        return MixException.reflect(new Reflection<T>() {
-            public T reflect() throws SecurityException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        try {
+            try {
                 return cookbookClass.getConstructor(Builder.class).newInstance(Builder.this);
+            } catch (Throwable e) {
+                throw new ReflectiveException(Reflective.encode(e), e);
             }
-        }, Builder.class, "create.cookbook",  cookbookClass.getCanonicalName());
+        } catch (ReflectiveException e) {
+            throw new MixException(Builder.class, "create.cookbook",  cookbookClass.getCanonicalName());
+        }
     }
     
     public void end() {

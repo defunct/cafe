@@ -1,7 +1,6 @@
 package com.goodworkalan.mix.builder;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -15,7 +14,8 @@ import com.goodworkalan.mix.ProducesElement;
 import com.goodworkalan.mix.Production;
 import com.goodworkalan.mix.Recipe;
 import com.goodworkalan.mix.RecipeModule;
-import com.goodworkalan.reflective.Reflection;
+import com.goodworkalan.reflective.Reflective;
+import com.goodworkalan.reflective.ReflectiveException;
 
 public class RecipeElement {
     private final Builder builder;
@@ -128,12 +128,15 @@ public class RecipeElement {
      * @return
      */
     public <T> T task(final Class<T> taskClass) {
-        return MixException.reflect(new Reflection<T>() {
-            public T reflect() throws SecurityException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        try {
+            try {
                 return taskClass.getConstructor(RecipeElement.class).newInstance(RecipeElement.this);
+            } catch (Throwable e) {
+                throw new ReflectiveException(Reflective.encode(e), e);
             }
-        }, Builder.class, "cannot.create.task", taskClass);
-
+        } catch (ReflectiveException e) {
+            throw new MixException(Builder.class, "cannot.create.task", taskClass);
+        }
     }
 
     /**

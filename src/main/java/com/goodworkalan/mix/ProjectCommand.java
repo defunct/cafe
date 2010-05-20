@@ -8,7 +8,8 @@ import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.mix.builder.Builder;
-import com.goodworkalan.reflective.Reflection;
+import com.goodworkalan.reflective.Reflective;
+import com.goodworkalan.reflective.ReflectiveException;
 
 public class ProjectCommand implements Commandable {
     public ProjectCommand() {
@@ -36,11 +37,16 @@ public class ProjectCommand implements Commandable {
                 }
                 return;
             }
-            ProjectModule projectModule = MixException.reflect(new Reflection<ProjectModule>() {
-                public ProjectModule reflect() throws InstantiationException, IllegalAccessException {
-                    return projectModuleClass.newInstance();
+            ProjectModule projectModule;
+            try {
+                try {
+                    projectModule = projectModuleClass.newInstance();
+                } catch (Throwable e) {
+                    throw new ReflectiveException(Reflective.encode(e), e);
                 }
-            }, MixCommand.class, "project.module", projectModuleClass, MixCommand.class, "project.module", projectModuleClass);
+            } catch (ReflectiveException e) {
+                throw new MixException(MixCommand.class, "project.module", projectModuleClass, MixCommand.class, "project.module", projectModuleClass);
+            }
             projectModule.build(builder);
         } else if (exceptional) {
             throw new MixError(MixCommand.class, "not.a.project.module", projectModuleClassName);
