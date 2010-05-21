@@ -46,6 +46,6 @@ public class GitHubCommand implements Commandable {
             }
             token = exit.out.get(0);
         }
-        env.output(new GitHubConfig(login, token));
+        env.output(GitHubConfig.class, new GitHubConfig(login, token));
     }
 }

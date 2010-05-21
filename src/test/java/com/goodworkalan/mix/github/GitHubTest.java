@@ -21,4 +21,12 @@ public class GitHubTest {
         File directory = Files.file(home, ".m2", "repository");
         Go.execute(Collections.singletonList(directory), "mix", "github", "upload", "--replace");
     }
+    
+    /** Upload. */
+    @Test
+    public void javadoc() {
+        File home = new File(System.getProperty("user.home"));
+        File directory = Files.file(home, ".m2", "repository");
+        Go.execute(Collections.singletonList(directory), "mix", "github", "javadoc");
+    }
 }
