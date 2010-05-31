@@ -88,20 +88,24 @@ public class Javadoc extends JavadocOptionsElement<RecipeElement, Javadoc> {
                         if (packageLists != null) {
                             File workingPackageLists = mix.relativize(packageLists);
                             if (workingPackageLists.isDirectory()) {
-                                for (File file : workingPackageLists.listFiles()) {
-                                    if (file.isDirectory() && file.canRead()) {
-                                        try {
-                                            for (String line : Files.slurp(new File(file, "url"))) {
-                                                line = line.trim();
-                                                if (line.length() != 0) {
-                                                    arguments.add("-linkoffline");
-                                                    arguments.add(line);
-                                                    arguments.add(file.getAbsoluteFile().toURI().toString());
-                                                    break;
+                                for (File group : workingPackageLists.listFiles()) {
+                                    if (group.isDirectory() && group.canRead()) {
+                                        for (File dir : group.listFiles()) {
+                                            if (dir.isDirectory() && dir.canRead()) {
+                                                try {
+                                                    for (String line : Files.slurp(new File(dir, "url"))) {
+                                                        line = line.trim();
+                                                        if (line.length() != 0) {
+                                                            arguments.add("-linkoffline");
+                                                            arguments.add(line);
+                                                            arguments.add(dir.getAbsoluteFile().toURI().toString());
+                                                            break;
+                                                        }
+                                                    }
+                                                } catch (ComfortIOException e) {
+                                                    // If we can't read the URL file, then it doesn't get linked.
                                                 }
                                             }
-                                        } catch (ComfortIOException e) {
-                                            // If we can't read the URL file, then it doesn't get linked.
                                         }
                                     }
                                 }

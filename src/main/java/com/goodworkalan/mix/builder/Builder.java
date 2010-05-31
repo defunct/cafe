@@ -48,7 +48,7 @@ public class Builder {
                 throw new ReflectiveException(Reflective.encode(e), e);
             }
         } catch (ReflectiveException e) {
-            throw new MixException(Builder.class, "create.cookbook",  cookbookClass.getCanonicalName());
+            throw new MixException(Builder.class, "create.cookbook", e, cookbookClass.getCanonicalName());
         }
     }
     

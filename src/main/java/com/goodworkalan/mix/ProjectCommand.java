@@ -45,7 +45,7 @@ public class ProjectCommand implements Commandable {
                     throw new ReflectiveException(Reflective.encode(e), e);
                 }
             } catch (ReflectiveException e) {
-                throw new MixException(MixCommand.class, "project.module", projectModuleClass, MixCommand.class, "project.module", projectModuleClass);
+                throw new MixException(MixCommand.class, "project.module", projectModuleClass, MixCommand.class, e, "project.module", projectModuleClass);
             }
             projectModule.build(builder);
         } else if (exceptional) {
