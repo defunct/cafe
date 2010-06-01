@@ -120,7 +120,7 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
                         Exit exit = new Spawn().$(arguments).out(env.io.out).err(env.io.err).run();
                         
                         if (!exit.isSuccess()) {
-                            throw new MixException(Javac.class, "invoke");
+                            throw new MixException(Javac.class, "invoke", mix.getWorkingDirectory(), arguments);
                         }
                     }
                 });
