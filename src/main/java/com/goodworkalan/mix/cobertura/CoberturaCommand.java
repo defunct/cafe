@@ -13,6 +13,6 @@ public class CoberturaCommand implements Commandable {
     public Artifact cobertura = new Artifact("net.sourceforge.cobertura/cobertura/1.9.4.1");
     
     public void execute(Environment env) {
-        env.output(cobertura);
+        env.output(Artifact.class, cobertura);
     }
 }
