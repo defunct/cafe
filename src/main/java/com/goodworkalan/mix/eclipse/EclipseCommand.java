@@ -27,6 +27,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
@@ -44,6 +45,9 @@ import com.goodworkalan.mix.Recipe;
 
 @Command(parent = MixCommand.class)
 public class EclipseCommand implements Commandable {
+    @Argument
+    public Boolean includeMix;
+
     public void execute(Environment env) {
         Mix mix = env.get(Mix.class, 0);
         env.verbose("start", env.commands, mix.getWorkingDirectory());
