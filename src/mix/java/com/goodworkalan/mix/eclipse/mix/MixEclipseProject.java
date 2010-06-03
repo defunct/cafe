@@ -20,10 +20,10 @@ public class MixEclipseProject implements ProjectModule {
         builder
             .cookbook(JavaProject.class)
                 .produces("com.github.bigeasy.mix/mix-eclipse/0.1.0.2")
-                .main()
-                    .depends()
-                        .include("com.github.bigeasy.mix/mix/0.+1.3.12")
-                        .end()
+                .depends()
+                    .production("com.github.bigeasy.mix/mix/0.+1.3.12")
+                    .production("com.github.bigeasy.comfort-xml/comfort-xml/0.+1")
+                    .production("com.github.bigeasy.comfort-io/comfort-io/0.+1")
                     .end()    
                 .end()
             .end();
