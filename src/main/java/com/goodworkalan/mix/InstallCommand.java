@@ -9,6 +9,7 @@ import java.util.Map;
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.comfort.io.Find;
 import com.goodworkalan.go.go.Argument;
+import com.goodworkalan.go.go.ArgumentList;
 import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
@@ -59,7 +60,9 @@ public class InstallCommand implements Commandable {
 
         Mix mix = env.get(Mix.class, 0);
         for (Production production : productions) {
-            env.executor.run(env.io, "mix", env.arguments.get(0), "make", production.getRecipeName()); 
+            ArgumentList mixArguments = new ArgumentList(env.arguments.get(0));
+            mixArguments.removeArgument("siblings");
+            env.executor.run(env.io, "mix", mixArguments, "make", production.getRecipeName()); 
             Artifact artifact = production.getArtifact();
             Find find = new Find();
             find.include(artifact.getName() + "-" + artifact.getVersion() + "*.*");
