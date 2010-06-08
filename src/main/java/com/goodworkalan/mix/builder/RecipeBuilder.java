@@ -54,8 +54,8 @@ public class RecipeBuilder {
      * @return A rebuild language element to specify rebuild if dirty source and
      *         output files.
      */
-    public RebuildBuilder rebuild() {
-        return new RebuildBuilder(this, rebuilds);
+    public RebuildClause rebuild() {
+        return new RebuildClause(this, rebuilds);
     }
     
     /**
