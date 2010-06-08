@@ -12,6 +12,7 @@ import java.util.Set;
 import com.goodworkalan.comfort.io.ComfortIOException;
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.comfort.io.Find;
+import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.library.Artifact;
 import com.goodworkalan.go.go.library.PathPart;
@@ -22,7 +23,6 @@ import com.goodworkalan.mix.FindList;
 import com.goodworkalan.mix.Make;
 import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.Project;
-import com.goodworkalan.mix.builder.Executable;
 import com.goodworkalan.mix.builder.RecipeStatement;
 import com.goodworkalan.spawn.Exit;
 import com.goodworkalan.spawn.Spawn;
@@ -44,7 +44,7 @@ public class Javadoc extends JavadocOptionsElement<RecipeStatement, Javadoc> {
         this.ending = new JavadocEnd() {
             public void end(JavadocConfiguration configuration) {
                 configure(configuration);
-                parent.executable(new Executable() {
+                parent.executable(new Commandable() {
                     public void execute(Environment env) {
                         Mix mix = env.get(Mix.class, 0);
                         Project project = env.get(Project.class, 0);

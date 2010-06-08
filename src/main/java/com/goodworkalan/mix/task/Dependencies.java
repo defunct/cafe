@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
+import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.library.Exclude;
 import com.goodworkalan.go.go.library.Include;
@@ -16,7 +17,6 @@ import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
-import com.goodworkalan.mix.builder.Executable;
 import com.goodworkalan.mix.builder.RecipeStatement;
 
 public class Dependencies {
@@ -55,7 +55,7 @@ public class Dependencies {
     }
 
     public RecipeStatement end() {
-        recipeElement.executable(new Executable() {
+        recipeElement.executable(new Commandable() {
             public void execute(Environment env) {
                 Project project = env.get(Project.class, 0);
                 LinkedHashMap<List<String>, Include> dependencies = new LinkedHashMap<List<String>, Include>();

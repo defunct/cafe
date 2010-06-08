@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.MixException;
 import com.goodworkalan.mix.ProducesElement;
@@ -25,7 +26,7 @@ public class RecipeStatement {
     
     private final Map<String, Recipe> recipes;
     
-    private final List<Executable> program = new ArrayList<Executable>();
+    private final List<Commandable> program = new ArrayList<Commandable>();
     
     private final Map<List<String>, Dependency> dependencies = new LinkedHashMap<List<String>, Dependency>();
     
@@ -66,7 +67,7 @@ public class RecipeStatement {
      *            The executable to add.
      * @return This recipe builder to continue building the recipe.
      */
-    public RecipeStatement executable(Executable executable) {
+    public RecipeStatement executable(Commandable executable) {
         program.add(executable);
         return this;
     }

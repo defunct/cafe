@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.goodworkalan.mix.builder.Executable;
+import com.goodworkalan.go.go.Commandable;
 
 public class Recipe {
-    private final List<Executable> program;
+    private final List<Commandable> program;
     
     private final Map<List<String>, Dependency> dependencies;
     
@@ -30,7 +30,7 @@ public class Recipe {
      * @param rebuilds
      *            The list of rebuild test conditions for the recipe.
      */
-    public Recipe(List<Executable> program, Map<List<String>, Dependency> dependencies, Set<File> classes, List<Rebuild> rebuilds) {
+    public Recipe(List<Commandable> program, Map<List<String>, Dependency> dependencies, Set<File> classes, List<Rebuild> rebuilds) {
         this.program = program;
         this.dependencies = dependencies;
         this.classes = classes;
@@ -46,7 +46,7 @@ public class Recipe {
         return rebuilds;
     }
     
-    public List<Executable> getProgram() {
+    public List<Commandable> getProgram() {
         return program;
     }
     

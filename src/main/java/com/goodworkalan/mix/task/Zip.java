@@ -10,13 +10,13 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import com.goodworkalan.comfort.io.Find;
+import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.mix.FindList;
 import com.goodworkalan.mix.Make;
 import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
-import com.goodworkalan.mix.builder.Executable;
 import com.goodworkalan.mix.builder.RecipeStatement;
 
 public class Zip {
@@ -112,7 +112,7 @@ public class Zip {
     }
     
     public RecipeStatement end() {
-        return recipeElement.executable(new Executable() {
+        return recipeElement.executable(new Commandable() {
             public void execute(Environment env) {
                 Mix mix = env.get(Mix.class, 0);
                 env.verbose(Zip.class, "start", output);

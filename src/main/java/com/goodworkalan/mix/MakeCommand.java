@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
-import com.goodworkalan.mix.builder.Executable;
 
 /**
  * The make command take a single recipe name as an argument and executes the
@@ -58,8 +57,8 @@ public class MakeCommand implements Commandable {
             }
             if (build) {
                 env.verbose("dirty", recipeName);
-                for (Executable executable : project.getRecipe(recipeName).getProgram()) {
-                    executable.execute(env);
+                for (Commandable commandable : project.getRecipe(recipeName).getProgram()) {
+                    commandable.execute(env);
                 }
             } else {
                 env.verbose("clean", recipeName);

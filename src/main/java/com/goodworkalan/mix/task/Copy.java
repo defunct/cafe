@@ -3,11 +3,11 @@ package com.goodworkalan.mix.task;
 import java.io.File;
 
 import com.goodworkalan.comfort.io.Files;
+import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.mix.FindList;
 import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixError;
-import com.goodworkalan.mix.builder.Executable;
 import com.goodworkalan.mix.builder.RecipeStatement;
 
 /**
@@ -55,7 +55,7 @@ public class Copy {
 
     public RecipeStatement end() {
         end.end();
-        return recipeElement.executable(new Executable() {
+        return recipeElement.executable(new Commandable() {
             public void execute(Environment env) {
                 Mix mix = env.get(Mix.class, 0);
                 File output = mix.relativize(outputDirectory);

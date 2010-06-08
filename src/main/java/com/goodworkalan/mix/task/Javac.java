@@ -9,6 +9,7 @@ import java.util.Set;
 
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.comfort.io.Find;
+import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.library.Artifact;
 import com.goodworkalan.go.go.library.PathPart;
@@ -21,7 +22,6 @@ import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.MixException;
 import com.goodworkalan.mix.Project;
-import com.goodworkalan.mix.builder.Executable;
 import com.goodworkalan.mix.builder.RecipeStatement;
 import com.goodworkalan.spawn.Exit;
 import com.goodworkalan.spawn.Spawn;
@@ -47,7 +47,7 @@ public class Javac extends JavacOptionsElement<RecipeStatement, Javac>{
         ending = new JavacEnd() {
             public void end(JavacConfiguration configuration) {
                 configure(configuration);
-                parent.executable(new Executable() {
+                parent.executable(new Commandable() {
                     public void execute(Environment env) {
                         List<String> arguments = new ArrayList<String>();
                         if (!warnings) {
