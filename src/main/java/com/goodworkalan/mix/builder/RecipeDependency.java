@@ -11,10 +11,11 @@ import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.Recipe;
 import com.goodworkalan.mix.RecipePathPart;
 
-// FIXME OutputDepdenency and RecipeDependency
 /**
  * A recipe dependency that includes the recipe output and also includes the
  * dependencies of any recipes the given recipe depends upon.
+ * <p>
+ * FIXME OutputDepdenency and RecipeDependency - Eh? What's that about?
  * 
  * @author Alan Gutierrez
  */

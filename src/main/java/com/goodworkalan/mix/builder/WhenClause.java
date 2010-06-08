@@ -7,12 +7,12 @@ import com.goodworkalan.mix.FindList;
 import com.goodworkalan.mix.task.FindElement;
 
 /**
- * An element in the domain-specific language that specifies the output files of
+ * An element in the domain-specific language that specifies the source files of
  * a rebuild if dirty test.
  * 
  * @author Alan Guiterrez
  */
-public class NewerThanElement {
+public class WhenClause {
     /** The parent recipe element in the domain-specific language. */
     private final RecipeStatement parent;
     
@@ -21,46 +21,41 @@ public class NewerThanElement {
     
     /** The set of criteria to match sources. */
     private final FindList sources;
-    
-    /** The set of criteria to match outputs. */
-    private final FindList outputs;
 
     /**
-     * Create a new newer than element.
+     * Create a new when element.
      * 
      * @param parent
      *            The parent recipe element in the domain-specific language.
      * @param rebuilds
      *            The list of rebuilds for the recipe.
-     * @param sources
-     *            The set of criteria to match sources.
      */
-    NewerThanElement(RecipeStatement parent, List<Rebuild> rebuilds, FindList sources) {
+    public WhenClause(RecipeStatement parent, List<Rebuild> rebuilds) {
         this.parent = parent;
         this.rebuilds = rebuilds;
-        this.sources = sources;
-        this.outputs = new FindList();
+        this.sources = new FindList();
     }
 
     /**
-     * Specify the output files to compare to the source files.
+     * Specify the source files to compare to the output files.
      * 
      * @param directory
      *            The root directory in which to perform the find.
      * @return A find element to specify file match criteria for files within
      *         the given directory.
      */
-    public FindElement<NewerThanElement> output(File directory) {
-        return new FindElement<NewerThanElement>(this, outputs, directory);
+    public FindElement<WhenClause> source(File directory) {
+        return new FindElement<WhenClause>(this, sources, directory);
     }
 
     /**
-     * Add a rebuild test to the list of rebuild tests for the recipe.
+     * Return a newer than element that is used to specify the output files of
+     * the rebuild if dirty test.
      * 
-     * @return The parent recipe element.
+     * @return A newer than element to specify the output files of the rebuild
+     *         if dirty test.
      */
-    public RecipeStatement end() {
-        rebuilds.add(new Rebuild(sources, outputs));
-        return parent;
+    public NewerThanClause newerThan() {
+        return new NewerThanClause(parent, rebuilds, sources);
     }
 }

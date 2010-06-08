@@ -36,7 +36,7 @@ public class RebuildClause {
      * @return A when element to specify the source files of the rebuild if
      *         dirty test.
      */
-    public WhenElement when() {
-        return new WhenElement(parent, rebuilds);
+    public WhenClause when() {
+        return new WhenClause(parent, rebuilds);
     }
 }
