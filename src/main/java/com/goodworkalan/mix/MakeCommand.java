@@ -8,7 +8,6 @@ import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.mix.builder.Executable;
-import com.goodworkalan.mix.builder.Rebuild;
 
 /**
  * The make command take a single recipe name as an argument and executes the

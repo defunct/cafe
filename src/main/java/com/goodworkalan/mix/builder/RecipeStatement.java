@@ -12,6 +12,7 @@ import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.MixException;
 import com.goodworkalan.mix.ProducesElement;
 import com.goodworkalan.mix.Production;
+import com.goodworkalan.mix.Rebuild;
 import com.goodworkalan.mix.Recipe;
 import com.goodworkalan.mix.RecipeModule;
 import com.goodworkalan.reflective.Reflective;

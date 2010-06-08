@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import com.goodworkalan.mix.FindList;
+import com.goodworkalan.mix.Rebuild;
 import com.goodworkalan.mix.task.FindElement;
 
 /**

@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.goodworkalan.mix.builder.Executable;
-import com.goodworkalan.mix.builder.Rebuild;
 
 public class Recipe {
     private final List<Executable> program;

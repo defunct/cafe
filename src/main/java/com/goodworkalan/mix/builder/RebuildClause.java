@@ -2,6 +2,8 @@ package com.goodworkalan.mix.builder;
 
 import java.util.List;
 
+import com.goodworkalan.mix.Rebuild;
+
 /**
  * An element in the domain-specific language that specifies a rebuild if dirty
  * test that compares a set of source files to a set of output files and
