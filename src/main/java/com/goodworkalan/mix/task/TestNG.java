@@ -22,7 +22,7 @@ import com.goodworkalan.mix.Make;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
-import com.goodworkalan.mix.builder.RecipeBuilder;
+import com.goodworkalan.mix.builder.RecipeStatement;
 import com.goodworkalan.spawn.Exit;
 import com.goodworkalan.spawn.Spawn;
 
@@ -35,11 +35,11 @@ public class TestNG {
     
     private final Map<String, String> systemProperties = new LinkedHashMap<String, String>();
     
-    private final RecipeBuilder recipeElement;
+    private final RecipeStatement recipeElement;
     
     private File output;
     
-    public TestNG(RecipeBuilder recipeElement) {
+    public TestNG(RecipeStatement recipeElement) {
         this.recipeElement = recipeElement;
     }
 
@@ -67,7 +67,7 @@ public class TestNG {
         return this;
     }
 
-    public RecipeBuilder end() {
+    public RecipeStatement end() {
         recipeElement.executable(new Executable() {
             public void execute(Environment env) {
                 TestNGCommand additional = env.executor.run(TestNGCommand.class, env.io, "mix", env.arguments.get(0), "test-ng", env.arguments.get(1));

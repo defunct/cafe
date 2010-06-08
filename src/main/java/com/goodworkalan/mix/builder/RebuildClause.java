@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class RebuildClause {
     /** The parent recipe element in the domain-specific language. */
-    private final RecipeBuilder parent;
+    private final RecipeStatement parent;
     
     /** The list of rebuilds for the recipe. */
     private final List<Rebuild> rebuilds;
@@ -24,7 +24,7 @@ public class RebuildClause {
      * @param rebuilds
      *            The list of rebuilds for the recipe.
      */
-    public RebuildClause(RecipeBuilder parent, List<Rebuild> rebuilds) {
+    public RebuildClause(RecipeStatement parent, List<Rebuild> rebuilds) {
         this.parent = parent;
         this.rebuilds = rebuilds;
     }

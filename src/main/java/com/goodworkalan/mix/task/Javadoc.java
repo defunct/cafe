@@ -23,11 +23,11 @@ import com.goodworkalan.mix.Make;
 import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
-import com.goodworkalan.mix.builder.RecipeBuilder;
+import com.goodworkalan.mix.builder.RecipeStatement;
 import com.goodworkalan.spawn.Exit;
 import com.goodworkalan.spawn.Spawn;
 
-public class Javadoc extends JavadocOptionsElement<RecipeBuilder, Javadoc> {
+public class Javadoc extends JavadocOptionsElement<RecipeStatement, Javadoc> {
     private File output;
     
     /** The directory where package lists for offline linking are kept. */
@@ -38,7 +38,7 @@ public class Javadoc extends JavadocOptionsElement<RecipeBuilder, Javadoc> {
     /** Artifacts. */
     private final List<Artifact> artifacts = new ArrayList<Artifact>();
     
-    public Javadoc(RecipeBuilder recipeElement) {
+    public Javadoc(RecipeStatement recipeElement) {
         super(recipeElement, new SelfServer<Javadoc>(), null);
         self.setSelf(this);
         this.ending = new JavadocEnd() {

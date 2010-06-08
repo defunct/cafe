@@ -17,10 +17,10 @@ import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
-import com.goodworkalan.mix.builder.RecipeBuilder;
+import com.goodworkalan.mix.builder.RecipeStatement;
 
 public class Zip {
-    private final RecipeBuilder recipeElement;
+    private final RecipeStatement recipeElement;
 
     private final byte[] buffer = new byte[4098];
 
@@ -38,7 +38,7 @@ public class Zip {
     /** The output file name. */
     private File output;
 
-    public Zip(RecipeBuilder recipeElement) {
+    public Zip(RecipeStatement recipeElement) {
         this.recipeElement = recipeElement;
     }
 
@@ -111,7 +111,7 @@ public class Zip {
         }
     }
     
-    public RecipeBuilder end() {
+    public RecipeStatement end() {
         return recipeElement.executable(new Executable() {
             public void execute(Environment env) {
                 Mix mix = env.get(Mix.class, 0);

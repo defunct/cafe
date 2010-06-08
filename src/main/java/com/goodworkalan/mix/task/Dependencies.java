@@ -17,10 +17,10 @@ import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
-import com.goodworkalan.mix.builder.RecipeBuilder;
+import com.goodworkalan.mix.builder.RecipeStatement;
 
 public class Dependencies {
-    private final RecipeBuilder recipeElement;
+    private final RecipeStatement recipeElement;
     
     /** The recipe name. */
     private String recipe;
@@ -28,7 +28,7 @@ public class Dependencies {
     /** The output file. */
     private File output;
     
-    public Dependencies(RecipeBuilder recipeElement) {
+    public Dependencies(RecipeStatement recipeElement) {
         this.recipeElement = recipeElement;
     }
 
@@ -54,7 +54,7 @@ public class Dependencies {
         return this;
     }
 
-    public RecipeBuilder end() {
+    public RecipeStatement end() {
         recipeElement.executable(new Executable() {
             public void execute(Environment env) {
                 Project project = env.get(Project.class, 0);

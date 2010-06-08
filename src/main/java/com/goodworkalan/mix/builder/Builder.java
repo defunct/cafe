@@ -37,8 +37,8 @@ public class Builder {
      *            The name of the recipe.
      * @return A recipe language element to specify project properties.
      */
-    public RecipeBuilder recipe(String name) {
-        return new RecipeBuilder(this, artifacts, recipes, name);
+    public RecipeStatement recipe(String name) {
+        return new RecipeStatement(this, artifacts, recipes, name);
     }
 
     /**
