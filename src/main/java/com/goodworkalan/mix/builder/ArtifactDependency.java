@@ -1,17 +1,12 @@
 package com.goodworkalan.mix.builder;
 
-import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
 
-import com.goodworkalan.comfort.io.Files;
-import com.goodworkalan.go.go.ArgumentList;
-import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.library.Include;
 import com.goodworkalan.go.go.library.PathPart;
 import com.goodworkalan.go.go.library.ResolutionPart;
 import com.goodworkalan.mix.Dependency;
-import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.Project;
 
 /**
@@ -57,27 +52,9 @@ class ArtifactDependency implements Dependency {
     /**
      * Return an empty collection indicating no dependent recipes.
      * 
-     * @param project
-     *            The project.
      * @return An empty list.
      */
-    public Collection<String> getRecipeNames(Project project) {
+    public Collection<String> getRecipeNames() {
         return Collections.emptyList();
-    }
-    
-    public void build(Mix mix, Environment env) {
-        if (mix.isSiblings()) {
-            File sibling = new File(mix.getWorkingDirectory().getParentFile(), include.getArtifact().getName());
-            if (sibling.isDirectory()) {
-                File source = new File(sibling, Files.file("src", "mix", "java"));
-                if (source.isDirectory()) {
-                    ArgumentList arguments = new ArgumentList(env.arguments.get(0));
-                    arguments.removeArgument("mix:working-directory");
-                    arguments.addArgument("mix:working-directory", sibling.getAbsolutePath());
-                    env.debug(ArtifactDependency.class, "fork");
-                    env.executor.fork(env.io, "mix", arguments, env.commands.get(1), env.arguments.get(1));
-                }
-            }
-        }
     }
 }

@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.library.Include;
 import com.goodworkalan.go.go.library.PathPart;
 import com.goodworkalan.mix.Dependency;
-import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.Recipe;
 import com.goodworkalan.mix.RecipePathPart;
@@ -61,11 +59,14 @@ class RecipeDependency implements Dependency {
         }
         return include;
     }
-    
-    public Collection<String> getRecipeNames(Project project) {
-        return Collections.singleton(name);
-    }
 
-    public void build(Mix mix, Environment env) {
+    /**
+     * Get a singleton collection containing the recipe name of this recipe
+     * dependency.
+     * 
+     * @return A singleton collection with the recipe name.
+     */
+    public Collection<String> getRecipeNames() {
+        return Collections.singleton(name);
     }
 }

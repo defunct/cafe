@@ -2,7 +2,6 @@ package com.goodworkalan.mix;
 
 import java.util.Collection;
 
-import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.library.Include;
 import com.goodworkalan.go.go.library.PathPart;
 
@@ -13,8 +12,7 @@ import com.goodworkalan.go.go.library.PathPart;
  */
 public interface Dependency {
     /**
-     * Get the part parts for the dependency. The path parts are to be used to
-     * create a <code>LibraryPath</code>.
+     * Get the part parts for the dependency.
      * 
      * @param project
      *            The project.
@@ -38,7 +36,5 @@ public interface Dependency {
      *            The project.
      * @return A collection of the immediate artifact dependencies.
      */
-    public Collection<String> getRecipeNames(Project project);
-    
-    public void build(Mix mix, Environment env);
+    public Collection<String> getRecipeNames();
 }

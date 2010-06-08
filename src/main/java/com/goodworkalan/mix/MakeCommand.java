@@ -40,7 +40,7 @@ public class MakeCommand implements Commandable {
                 String name = recipeQueue.removeFirst();
                 Recipe recipe = project.getRecipe(name);
                 for (Dependency dependency : recipe.getDependencies()) {
-                    for (String recipeName : dependency.getRecipeNames(project)) {
+                    for (String recipeName : dependency.getRecipeNames()) {
                         recipeQueue.addLast(recipeName);
                     }
                 }
@@ -51,9 +51,6 @@ public class MakeCommand implements Commandable {
             Make make = new Make(recipeName);
             env.output(Make.class, make);
             Recipe recipe = project.getRecipe(recipeName);
-            for (Dependency dependency : recipe.getDependencies()) {
-                dependency.build(mix, env);
-            }
             boolean build = recipe.getRebuilds().isEmpty();
             if (!build) {
                 for (Iterator<Rebuild> rebuilds = recipe.getRebuilds().iterator(); !build && rebuilds.hasNext();) {
