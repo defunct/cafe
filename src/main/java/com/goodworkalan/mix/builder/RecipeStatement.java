@@ -144,8 +144,8 @@ public class RecipeStatement {
      * 
      * @return A depends language element to specify project dependencies.
      */
-    public DependsElement<RecipeStatement> depends() {
-        return new DependsElement<RecipeStatement>(this, dependencies);
+    public DependsClause<RecipeStatement> depends() {
+        return new DependsClause<RecipeStatement>(this, dependencies);
     }
     
     public ProducesElement produces() {

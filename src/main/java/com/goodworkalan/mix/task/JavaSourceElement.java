@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.goodworkalan.mix.Dependency;
-import com.goodworkalan.mix.builder.DependsElement;
+import com.goodworkalan.mix.builder.DependsClause;
 
 public class JavaSourceElement<P> {
     private final List<JavacConfiguration> configurations ;
@@ -19,8 +19,8 @@ public class JavaSourceElement<P> {
         this.dependencies = dependencies;
     }
     
-    public DependsElement<JavaSourceElement<P>> depends() {
-        return new DependsElement<JavaSourceElement<P>>(this, dependencies);
+    public DependsClause<JavaSourceElement<P>> depends() {
+        return new DependsClause<JavaSourceElement<P>>(this, dependencies);
     }
     
     public JavacOptionsElement<JavaSourceElement<P>, JavacOptionsElement<JavaSourceElement<P>, ?>> javac() {

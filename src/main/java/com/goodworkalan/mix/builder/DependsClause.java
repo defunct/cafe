@@ -18,17 +18,17 @@ import com.goodworkalan.mix.Dependency;
  */
 // FIXME Make recipe execution a separate dependency list, that way you can 
 // have this dependency be only for paths.
-public class DependsElement<P> {
+public class DependsClause<P> {
     private final P recipeElement;
     
     private final Map<List<String>, Dependency> dependencies; 
     
-    public DependsElement(P recipeElement, Map<List<String>, Dependency> dependencies) {
+    public DependsClause(P recipeElement, Map<List<String>, Dependency> dependencies) {
         this.recipeElement = recipeElement;
         this.dependencies = dependencies;
     }
 
-    public DependsElement<P> classes(String name) {
+    public DependsClause<P> classes(String name) {
         if (!dependencies.containsKey(name)) {
             dependencies.put(Collections.singletonList(name), new RecipeDependency(name));
         }
@@ -43,7 +43,7 @@ public class DependsElement<P> {
      * @return This depends language element to continue specifying
      *         dependencies.
      */
-    public DependsElement<P> include(String artifact, String...excludes) {
+    public DependsClause<P> include(String artifact, String...excludes) {
         Include include = new Include(artifact, excludes);
         List<String> key = include.getArtifact().getUnversionedKey();
         if (!dependencies.containsKey(key)) {
@@ -52,7 +52,7 @@ public class DependsElement<P> {
         return this;
     }
     
-    public DependsElement<P> dependencies(Map<List<String>, Dependency> dependencies) {
+    public DependsClause<P> dependencies(Map<List<String>, Dependency> dependencies) {
         this.dependencies.putAll(dependencies);
         return this;
     }
