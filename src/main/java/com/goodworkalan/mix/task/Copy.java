@@ -8,7 +8,7 @@ import com.goodworkalan.mix.FindList;
 import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.builder.Executable;
-import com.goodworkalan.mix.builder.RecipeElement;
+import com.goodworkalan.mix.builder.RecipeBuilder;
 
 /**
  * Recursively copy files from one directory to another.
@@ -16,7 +16,7 @@ import com.goodworkalan.mix.builder.RecipeElement;
  * @author Alan Gutierrez
  */
 public class Copy {
-    private final RecipeElement recipeElement;
+    private final RecipeBuilder recipeElement;
     
     /** A file query to match files to copy. */
     private final FindList findList = new FindList();
@@ -26,7 +26,7 @@ public class Copy {
     
     private final End end = new End();
     
-    public Copy(RecipeElement recipeElement) {
+    public Copy(RecipeBuilder recipeElement) {
         this.recipeElement = recipeElement;
     }
 
@@ -53,7 +53,7 @@ public class Copy {
         return this;
     }
 
-    public RecipeElement end() {
+    public RecipeBuilder end() {
         end.end();
         return recipeElement.executable(new Executable() {
             public void execute(Environment env) {

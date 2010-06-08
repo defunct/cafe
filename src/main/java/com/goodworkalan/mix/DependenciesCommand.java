@@ -15,6 +15,12 @@ import com.goodworkalan.go.go.library.Include;
 import com.goodworkalan.go.go.library.PathPart;
 import com.goodworkalan.ilk.Ilk;
 
+/**
+ * A command that prints a listing of dependencies as artifact strings to
+ * standard out.
+ * 
+ * @author Alan Gutierrez
+ */
 @Command(parent = MixCommand.class)
 public class DependenciesCommand implements Commandable {
     public void execute(Environment env) {

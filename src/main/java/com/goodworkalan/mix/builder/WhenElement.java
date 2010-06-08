@@ -14,7 +14,7 @@ import com.goodworkalan.mix.task.FindElement;
  */
 public class WhenElement {
     /** The parent recipe element in the domain-specific language. */
-    private final RecipeElement parent;
+    private final RecipeBuilder parent;
     
     /** The list of rebuilds for the recipe. */
     private final List<Rebuild> rebuilds;
@@ -30,7 +30,7 @@ public class WhenElement {
      * @param rebuilds
      *            The list of rebuilds for the recipe.
      */
-    public WhenElement(RecipeElement parent, List<Rebuild> rebuilds) {
+    public WhenElement(RecipeBuilder parent, List<Rebuild> rebuilds) {
         this.parent = parent;
         this.rebuilds = rebuilds;
         this.sources = new FindList();

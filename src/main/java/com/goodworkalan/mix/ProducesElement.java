@@ -6,10 +6,10 @@ import java.util.Map;
 import java.util.Set;
 
 import com.goodworkalan.go.go.library.Artifact;
-import com.goodworkalan.mix.builder.RecipeElement;
+import com.goodworkalan.mix.builder.RecipeBuilder;
 
 public class ProducesElement {
-    private final RecipeElement recipeElement;
+    private final RecipeBuilder recipeElement;
     
     private final String recipe;
 
@@ -17,7 +17,7 @@ public class ProducesElement {
     
     private final Map<List<String>, Production> artifacts;
     
-    public ProducesElement(RecipeElement recipeElement, String recipe, Set<File> classes, Map<List<String>, Production> artifacts) {
+    public ProducesElement(RecipeBuilder recipeElement, String recipe, Set<File> classes, Map<List<String>, Production> artifacts) {
         this.recipeElement = recipeElement;
         this.recipe = recipe;
         this.classes = classes;
@@ -33,7 +33,7 @@ public class ProducesElement {
         return new ArtifactElement(this, recipe, artifacts, artifact);
     }
     
-    public RecipeElement end() {
+    public RecipeBuilder end() {
         return recipeElement;
     }
 }

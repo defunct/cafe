@@ -9,14 +9,14 @@ import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.MixException;
 import com.goodworkalan.mix.builder.Executable;
-import com.goodworkalan.mix.builder.RecipeElement;
+import com.goodworkalan.mix.builder.RecipeBuilder;
 
 public class Mkdirs {
     private final List<File> directories = new ArrayList<File>();
 
-    private final RecipeElement recipeElement;
+    private final RecipeBuilder recipeElement;
     
-    public Mkdirs(RecipeElement recipeElement) {
+    public Mkdirs(RecipeBuilder recipeElement) {
         this.recipeElement = recipeElement;
     }
 
@@ -25,7 +25,7 @@ public class Mkdirs {
         return this;
     }
     
-    public RecipeElement end() {
+    public RecipeBuilder end() {
         recipeElement.executable(new Executable() {
             public void execute(Environment env) {
                 Mix mix = env.get(Mix.class, 0);

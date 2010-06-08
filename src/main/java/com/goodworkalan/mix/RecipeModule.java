@@ -1,8 +1,8 @@
 package com.goodworkalan.mix;
 
-import com.goodworkalan.mix.builder.RecipeElement;
+import com.goodworkalan.mix.builder.RecipeBuilder;
 
 public class RecipeModule {
-    public void configure(RecipeElement recipeElement) {
+    public void configure(RecipeBuilder recipeElement) {
     }
 }

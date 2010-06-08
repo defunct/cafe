@@ -14,7 +14,7 @@ import com.goodworkalan.mix.task.FindElement;
  */
 public class NewerThanElement {
     /** The parent recipe element in the domain-specific language. */
-    private final RecipeElement parent;
+    private final RecipeBuilder parent;
     
     /** The list of rebuilds for the recipe. */
     private final List<Rebuild> rebuilds;
@@ -35,7 +35,7 @@ public class NewerThanElement {
      * @param sources
      *            The set of criteria to match sources.
      */
-    NewerThanElement(RecipeElement parent, List<Rebuild> rebuilds, FindList sources) {
+    NewerThanElement(RecipeBuilder parent, List<Rebuild> rebuilds, FindList sources) {
         this.parent = parent;
         this.rebuilds = rebuilds;
         this.sources = sources;
@@ -59,7 +59,7 @@ public class NewerThanElement {
      * 
      * @return The parent recipe element.
      */
-    public RecipeElement end() {
+    public RecipeBuilder end() {
         rebuilds.add(new Rebuild(sources, outputs));
         return parent;
     }

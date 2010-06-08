@@ -14,7 +14,7 @@ import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.Recipe;
-import com.goodworkalan.mix.builder.RecipeElement;
+import com.goodworkalan.mix.builder.RecipeBuilder;
 
 /**
  * Create a web application archive copying artifact dependencies to the
@@ -23,7 +23,7 @@ import com.goodworkalan.mix.builder.RecipeElement;
  * @author Alan Gutierrez
  */
 public class War extends Zip {
-    public War(RecipeElement program) {
+    public War(RecipeBuilder program) {
         super(program);
     }
 

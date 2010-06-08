@@ -7,7 +7,7 @@ import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.builder.Executable;
-import com.goodworkalan.mix.builder.RecipeElement;
+import com.goodworkalan.mix.builder.RecipeBuilder;
 
 /**
  * Delete a file or directory.
@@ -15,7 +15,7 @@ import com.goodworkalan.mix.builder.RecipeElement;
  * @author Alan Gutierrez
  */
 public class Delete {
-    private final RecipeElement recipeElement;
+    private final RecipeBuilder recipeElement;
     
     /** The file to delete. */
     private File file;
@@ -23,7 +23,7 @@ public class Delete {
     /** If true delete recursively. */
     private boolean recurse;
     
-    public Delete(RecipeElement recipeElement) {
+    public Delete(RecipeBuilder recipeElement) {
         this.recipeElement = recipeElement;
     }
 
@@ -49,7 +49,7 @@ public class Delete {
         return this;
     }
 
-    public RecipeElement end() {
+    public RecipeBuilder end() {
         recipeElement.executable(new Executable() {
             public void execute(Environment env) {
                 Mix mix = env.get(Mix.class, 0);

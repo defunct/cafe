@@ -9,9 +9,9 @@ import java.util.List;
  * 
  * @author Alan Gutierrez
  */
-public class RebuildElement {
+public class RebuildBuilder {
     /** The parent recipe element in the domain-specific language. */
-    private final RecipeElement parent;
+    private final RecipeBuilder parent;
     
     /** The list of rebuilds for the recipe. */
     private final List<Rebuild> rebuilds;
@@ -24,7 +24,7 @@ public class RebuildElement {
      * @param rebuilds
      *            The list of rebuilds for the recipe.
      */
-    public RebuildElement(RecipeElement parent, List<Rebuild> rebuilds) {
+    public RebuildBuilder(RecipeBuilder parent, List<Rebuild> rebuilds) {
         this.parent = parent;
         this.rebuilds = rebuilds;
     }

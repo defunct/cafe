@@ -35,10 +35,6 @@ public class DependsElement<P> {
         return this;
     }
     
-    public DependsElement<P> sibling(String group, String name, String version) {
-        return this;
-    }
-
     /**
      * Add artifacts while also specifying excludes.
      * 

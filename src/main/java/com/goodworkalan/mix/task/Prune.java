@@ -8,7 +8,7 @@ import com.goodworkalan.mix.FindList;
 import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.builder.Executable;
-import com.goodworkalan.mix.builder.RecipeElement;
+import com.goodworkalan.mix.builder.RecipeBuilder;
 
 /**
  * Delete files within a directory that match find criteria.
@@ -19,9 +19,9 @@ public class Prune {
     /** The find criteria. */
     private final FindList findList = new FindList();
     
-    private final RecipeElement recipeElement;
+    private final RecipeBuilder recipeElement;
 
-    public Prune(RecipeElement recipeElement) {
+    public Prune(RecipeBuilder recipeElement) {
         this.recipeElement = recipeElement;
     }
 
@@ -29,7 +29,7 @@ public class Prune {
         return new FindElement<Prune>(this, findList, directory);
     }
     
-    public RecipeElement end() {
+    public RecipeBuilder end() {
         recipeElement.executable(new Executable() {
             public void execute(Environment env) {
                 Mix mix = env.get(Mix.class, 0);

@@ -22,7 +22,7 @@ import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.MixException;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.Executable;
-import com.goodworkalan.mix.builder.RecipeElement;
+import com.goodworkalan.mix.builder.RecipeBuilder;
 import com.goodworkalan.spawn.Exit;
 import com.goodworkalan.spawn.Spawn;
 
@@ -31,7 +31,7 @@ import com.goodworkalan.spawn.Spawn;
  * 
  * @author Alan Gutierrez
  */
-public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
+public class Javac extends JavacOptionsElement<RecipeBuilder, Javac>{
     /** Disable warnings if false. */
     private boolean warnings;
     
@@ -42,7 +42,7 @@ public class Javac extends JavacOptionsElement<RecipeElement, Javac>{
     
     private FindList findList = new FindList();
     
-    public Javac(RecipeElement recipeElement) {
+    public Javac(RecipeBuilder recipeElement) {
         super(recipeElement, new SelfServer<Javac>(), null);
         ending = new JavacEnd() {
             public void end(JavacConfiguration configuration) {

@@ -17,7 +17,7 @@ import com.goodworkalan.mix.RecipeModule;
 import com.goodworkalan.reflective.Reflective;
 import com.goodworkalan.reflective.ReflectiveException;
 
-public class RecipeElement {
+public class RecipeBuilder {
     private final Builder builder;
     
     private final String name;
@@ -34,14 +34,14 @@ public class RecipeElement {
     
     private final List<Rebuild> rebuilds = new ArrayList<Rebuild>();
     
-    public RecipeElement(Builder builder, Map<List<String>, Production> artifacts, Map<String, Recipe> recipes, String name) {
+    public RecipeBuilder(Builder builder, Map<List<String>, Production> artifacts, Map<String, Recipe> recipes, String name) {
         this.builder = builder;
         this.recipes = recipes;
         this.artifacts = artifacts;
         this.name = name;
     }
     
-    public RecipeElement make(String recipe) {
+    public RecipeBuilder make(String recipe) {
         return this;
     }
 
@@ -54,8 +54,8 @@ public class RecipeElement {
      * @return A rebuild language element to specify rebuild if dirty source and
      *         output files.
      */
-    public RebuildElement rebuild() {
-        return new RebuildElement(this, rebuilds);
+    public RebuildBuilder rebuild() {
+        return new RebuildBuilder(this, rebuilds);
     }
     
     /**
@@ -65,13 +65,13 @@ public class RecipeElement {
      *            The executable to add.
      * @return This recipe builder to continue building the recipe.
      */
-    public RecipeElement executable(Executable executable) {
+    public RecipeBuilder executable(Executable executable) {
         program.add(executable);
         return this;
     }
     
     /** Here's an idea on reuse and extension. */
-    public RecipeElement reset() {
+    public RecipeBuilder reset() {
         return this;
     }
 
@@ -84,7 +84,7 @@ public class RecipeElement {
      * @return This recipe language element in order to continue to specify
      *         recipe properties.
      */
-    public RecipeElement apply(RecipeModule recipeModule) {
+    public RecipeBuilder apply(RecipeModule recipeModule) {
         recipeModule.configure(this);
         return this;
     }
@@ -130,7 +130,7 @@ public class RecipeElement {
     public <T> T task(final Class<T> taskClass) {
         try {
             try {
-                return taskClass.getConstructor(RecipeElement.class).newInstance(RecipeElement.this);
+                return taskClass.getConstructor(RecipeBuilder.class).newInstance(RecipeBuilder.this);
             } catch (Throwable e) {
                 throw new ReflectiveException(Reflective.encode(e), e);
             }
@@ -144,8 +144,8 @@ public class RecipeElement {
      * 
      * @return A depends language element to specify project dependencies.
      */
-    public DependsElement<RecipeElement> depends() {
-        return new DependsElement<RecipeElement>(this, dependencies);
+    public DependsElement<RecipeBuilder> depends() {
+        return new DependsElement<RecipeBuilder>(this, dependencies);
     }
     
     public ProducesElement produces() {
