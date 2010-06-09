@@ -1,10 +1,6 @@
-package com.goodworkalan.mix.builder;
+package com.goodworkalan.mix.cookbook;
 
-import java.util.List;
-import java.util.Map;
-
-import com.goodworkalan.go.go.library.Include;
-import com.goodworkalan.mix.Dependency;
+import com.goodworkalan.mix.builder.Builder;
 
 /**
  * Builds the set of project dependencies. This is a shorthand for projects that
@@ -13,15 +9,12 @@ import com.goodworkalan.mix.Dependency;
  * 
  * @author Alan Gutierrez
  */
-public class ProjectDependencyBuilder {
+public class DependencyStatement {
     /** The parent Java project builder. */
     private final JavaProject project;
-
-    /** The map of unversioned artifact keys to production dependency definitions. */
-    private final Map<List<String>, Dependency> production;
     
-    /** The map of unversioned artifact keys to development dependency definitions. */
-    private final Map<List<String>, Dependency> development;
+    /** The project builder. */
+    private final Builder builder;
 
     /**
      * Create a project dependency builder that records dependencies in the
@@ -29,17 +22,10 @@ public class ProjectDependencyBuilder {
      * 
      * @param project
      *            The parent Java project builder.
-     * @param production
-     *            The map of unversioned artifact keys to production dependency
-     *            definitions.
-     * @param development
-     *            The map of unversioned artifact keys to development dependency
-     *            definitions.
      */
-    public ProjectDependencyBuilder(JavaProject project, Map<List<String>, Dependency> production, Map<List<String>, Dependency> development) {
+    public DependencyStatement(JavaProject project, Builder builder) {
         this.project = project;
-        this.production = production;
-        this.development = development;
+        this.builder = builder;
     }
 
     /**
@@ -55,12 +41,14 @@ public class ProjectDependencyBuilder {
      *            The artifacts to exclude from the project.
      * @return This project builder to continue building the project.
      */
-    public ProjectDependencyBuilder production(String artifact, String...excludes) {
-        Include include = new Include(artifact, excludes);
-        List<String> key = include.getArtifact().getUnversionedKey();
-        if (!production.containsKey(key)) {
-            production.put(key, new ArtifactDependency(include));
-        }
+    public DependencyStatement production(String artifact, String...excludes) {
+        builder
+            .recipe("production")
+                .depends()
+                    .artifact(artifact, excludes)
+                    .end()
+                .end()
+            .end();
         return this;
     }
 
@@ -77,12 +65,14 @@ public class ProjectDependencyBuilder {
      *            The artifacts to exclude from the project.
      * @return This project builder to continue building the project.
      */
-    public ProjectDependencyBuilder development(String artifact, String...excludes) {
-        Include include = new Include(artifact, excludes);
-        List<String> key = include.getArtifact().getUnversionedKey();
-        if (!development.containsKey(key)) {
-            development.put(key, new ArtifactDependency(include));
-        }
+    public DependencyStatement development(String artifact, String...excludes) {
+        builder
+            .recipe("development")
+                .depends()
+                    .artifact(artifact, excludes)
+                    .end()
+                .end()
+            .end();
         return this;
     }
  

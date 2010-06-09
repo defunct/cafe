@@ -28,7 +28,7 @@ public class DependsClause<P> {
         this.dependencies = dependencies;
     }
 
-    public DependsClause<P> classes(String name) {
+    public DependsClause<P> recipe(String name) {
         if (!dependencies.containsKey(name)) {
             dependencies.put(Collections.singletonList(name), new RecipeDependency(name));
         }
@@ -43,17 +43,12 @@ public class DependsClause<P> {
      * @return This depends language element to continue specifying
      *         dependencies.
      */
-    public DependsClause<P> include(String artifact, String...excludes) {
+    public DependsClause<P> artifact(String artifact, String...excludes) {
         Include include = new Include(artifact, excludes);
         List<String> key = include.getArtifact().getUnversionedKey();
         if (!dependencies.containsKey(key)) {
             dependencies.put(key, new ArtifactDependency(include));
         }
-        return this;
-    }
-    
-    public DependsClause<P> dependencies(Map<List<String>, Dependency> dependencies) {
-        this.dependencies.putAll(dependencies);
         return this;
     }
     

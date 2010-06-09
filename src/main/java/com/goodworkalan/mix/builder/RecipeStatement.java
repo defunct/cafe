@@ -41,6 +41,14 @@ public class RecipeStatement {
         this.recipes = recipes;
         this.artifacts = artifacts;
         this.name = name;
+        
+        Recipe existing = recipes.get(name);
+        if (existing != null) {
+            program.addAll(existing.getProgram());
+            classes.addAll(existing.getClasses());
+            dependencies.putAll(existing.getDependencyMap());
+            rebuilds.addAll(existing.getRebuilds());
+        }
     }
     
     public RecipeStatement make(String recipe) {

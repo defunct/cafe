@@ -1,16 +1,23 @@
-package com.goodworkalan.mix.builder;
+package com.goodworkalan.mix.cookbook;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.goodworkalan.go.go.library.Include;
 import com.goodworkalan.mix.Dependency;
+import com.goodworkalan.mix.builder.Builder;
 import com.goodworkalan.mix.task.JavaSourceElement;
 import com.goodworkalan.mix.task.JavacConfiguration;
 
-public class JavaSpecificsElement {
+/**
+ * Used to winnow the options exposed to the user so that general settings 
+ * can be set first, then main and test specific settings can be set. This
+ * could as easily be done with lists, I think.
+ *
+ * @author Alan Gutierrez
+ */
+public class JavaSpecificsClause {
     protected final Builder builder;
 
     protected final Map<List<String>, Dependency> mainDependencies = new LinkedHashMap<List<String>, Dependency>();
@@ -23,7 +30,7 @@ public class JavaSpecificsElement {
 
     protected final List<JavacConfiguration> testJavacConfigurations = new ArrayList<JavacConfiguration>();
 
-    protected JavaSpecificsElement(Builder builder) {
+    protected JavaSpecificsClause(Builder builder) {
         this.builder = builder;
     }
 
@@ -49,12 +56,14 @@ public class JavaSpecificsElement {
      *            The artifacts to exclude from the project.
      * @return This project builder to continue building the project.
      */
-    public JavaSpecificsElement production(String artifact, String...excludes) {
-        Include include = new Include(artifact, excludes);
-        List<String> key = include.getArtifact().getUnversionedKey();
-        if (!mainDependencies.containsKey(key)) {
-            mainDependencies.put(key, new ArtifactDependency(include));
-        }
+    public JavaSpecificsClause production(String artifact, String...excludes) {
+        builder
+            .recipe("production")
+                .depends()
+                    .artifact(artifact, excludes)
+                    .end()
+                .end()
+            .end();
         return this;
     }
 
@@ -71,23 +80,25 @@ public class JavaSpecificsElement {
      *            The artifacts to exclude from the project.
      * @return This project builder to continue building the project.
      */
-    public JavaSpecificsElement development(String artifact, String...excludes) {
-        Include include = new Include(artifact, excludes);
-        List<String> key = include.getArtifact().getUnversionedKey();
-        if (!testDependencies.containsKey(key)) {
-            testDependencies.put(key, new ArtifactDependency(include));
-        }
+    public JavaSpecificsClause development(String artifact, String...excludes) {
+        builder
+            .recipe("development")
+                .depends()
+                    .artifact(artifact, excludes)
+                    .end()
+                .end()
+            .end();
         return this;
     }
 
-    public JavaSourceElement<JavaSpecificsElement> main() {
+    public JavaSourceElement<JavaSpecificsClause> main() {
         moreSpecific();
-        return new JavaSourceElement<JavaSpecificsElement>(this, mainJavacConfigurations, mainDependencies);
+        return new JavaSourceElement<JavaSpecificsClause>(this, mainJavacConfigurations, mainDependencies);
     }
     
-    public JavaSourceElement<JavaSpecificsElement> test() {
+    public JavaSourceElement<JavaSpecificsClause> test() {
         moreSpecific();
-        return new JavaSourceElement<JavaSpecificsElement>(this, testJavacConfigurations, testDependencies);
+        return new JavaSourceElement<JavaSpecificsClause>(this, testJavacConfigurations, testDependencies);
     }
     
     public Builder end() {

@@ -1,10 +1,11 @@
-package com.goodworkalan.mix.builder;
+package com.goodworkalan.mix.cookbook;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.goodworkalan.go.go.library.Artifact;
+import com.goodworkalan.mix.builder.Builder;
 import com.goodworkalan.mix.task.Copy;
 import com.goodworkalan.mix.task.Delete;
 import com.goodworkalan.mix.task.Dependencies;
@@ -22,10 +23,8 @@ import com.goodworkalan.mix.task.War;
 import com.goodworkalan.mix.task.Zip;
 
 
-public class JavaProject extends JavaSpecificsElement {
+public class JavaProject extends JavaSpecificsClause {
     private Artifact produces;
-    
-    private final List<JavacConfiguration> javacConfigurations = new ArrayList<JavacConfiguration>();
     
     private final List<JavadocConfiguration> apidocConfigurations = new ArrayList<JavadocConfiguration>();
 
@@ -48,8 +47,8 @@ public class JavaProject extends JavaSpecificsElement {
      * 
      * @return A project dependency builder.
      */
-    public ProjectDependencyBuilder depends() {
-        return new ProjectDependencyBuilder(this, mainDependencies, testDependencies);
+    public DependencyStatement depends() {
+        return new DependencyStatement(this, builder);
     }
     
     public JavacOptionsElement<JavaProject, JavacOptionsElement<JavaProject, ?>> javac() {
@@ -89,7 +88,7 @@ public class JavaProject extends JavaSpecificsElement {
                         .output(new File("target/classes")).isFile().end()
                     .end()
                 .depends()
-                    .dependencies(mainDependencies)
+                    .recipe("production")
                     .end()
                 .task(Delete.class)
                     .file(new File("target/classes"))
@@ -119,8 +118,8 @@ public class JavaProject extends JavaSpecificsElement {
                         .output(new File("target/test-classes")).isFile().end()
                     .end()
                 .depends()
-                    .dependencies(testDependencies)
-                    .classes("javac")
+                    .recipe("development")
+                    .recipe("javac")
                     .end()
                 .task(Delete.class)
                     .file(new File("target/test-classes"))
@@ -148,7 +147,7 @@ public class JavaProject extends JavaSpecificsElement {
                         .output(new File("target/apidocs")).isFile().end()
                     .end()
                 .depends()
-                    .classes("javac")
+                    .recipe("javac")
                     .end()
                 .task(Delete.class)
                     .file(new File("target/apidocs")).recurse(true)
@@ -172,7 +171,7 @@ public class JavaProject extends JavaSpecificsElement {
                         .output(new File("target/devdocs")).isFile().end()
                     .end()
                 .depends()
-                    .classes("javac")
+                    .recipe("javac")
                     .end()
                 .task(Delete.class)
                     .file(new File("target/devdocs")).recurse(true)
@@ -190,7 +189,7 @@ public class JavaProject extends JavaSpecificsElement {
                 .end()
             .recipe("test")
                 .depends()
-                    .classes("javac-test")
+                    .recipe("javac-test")
                     .end()
                 .task(TestNG.class)
                     .classes(new File("target/classes"))
@@ -207,7 +206,7 @@ public class JavaProject extends JavaSpecificsElement {
             .recipe("war")
                 .make("distribution")
                 .depends()
-                    .classes("javac")
+                    .recipe("javac")
                     .end()
                 .task(Mkdirs.class)
                     .directory(new File("target/distribution"))
@@ -229,7 +228,7 @@ public class JavaProject extends JavaSpecificsElement {
                         .output(new File("target/distribution")).isFile().end()
                     .end()
                 .depends()
-                    .classes("javac").classes("apidocs")
+                    .recipe("javac").recipe("apidocs")
                     .end()
                 .task(Delete.class)
                     .file(new File("target/distribution"))
