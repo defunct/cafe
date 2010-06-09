@@ -1,10 +1,11 @@
-package com.goodworkalan.mix;
+package com.goodworkalan.mix.builder;
 
 import java.io.File;
 import java.util.List;
 import java.util.Map;
 
 import com.goodworkalan.go.go.library.Artifact;
+import com.goodworkalan.mix.Production;
 
 /**
  * An element in the domain-specific project specification language that

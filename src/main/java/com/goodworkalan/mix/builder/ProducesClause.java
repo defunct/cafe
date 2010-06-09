@@ -1,4 +1,4 @@
-package com.goodworkalan.mix;
+package com.goodworkalan.mix.builder;
 
 import java.io.File;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.goodworkalan.go.go.library.Artifact;
-import com.goodworkalan.mix.builder.RecipeStatement;
+import com.goodworkalan.mix.Production;
 
 public class ProducesClause {
     private final RecipeStatement recipeElement;

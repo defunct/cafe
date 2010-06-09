@@ -11,7 +11,6 @@ import java.util.Set;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.MixException;
-import com.goodworkalan.mix.ProducesClause;
 import com.goodworkalan.mix.Production;
 import com.goodworkalan.mix.Rebuild;
 import com.goodworkalan.mix.Recipe;
