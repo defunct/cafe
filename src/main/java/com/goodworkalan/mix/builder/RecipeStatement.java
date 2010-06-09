@@ -15,7 +15,6 @@ import com.goodworkalan.mix.ProducesElement;
 import com.goodworkalan.mix.Production;
 import com.goodworkalan.mix.Rebuild;
 import com.goodworkalan.mix.Recipe;
-import com.goodworkalan.mix.RecipeModule;
 import com.goodworkalan.reflective.Reflective;
 import com.goodworkalan.reflective.ReflectiveException;
 
@@ -82,20 +81,6 @@ public class RecipeStatement {
     
     /** Here's an idea on reuse and extension. */
     public RecipeStatement reset() {
-        return this;
-    }
-
-    /**
-     * Call the configure method of the given recipe module passing this recipe
-     * element.
-     * 
-     * @param recipeModule
-     *            A pre-defined recipe.
-     * @return This recipe language element in order to continue to specify
-     *         recipe properties.
-     */
-    public RecipeStatement apply(RecipeModule recipeModule) {
-        recipeModule.configure(this);
         return this;
     }
 
