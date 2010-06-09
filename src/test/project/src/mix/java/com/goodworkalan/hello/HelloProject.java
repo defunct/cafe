@@ -9,15 +9,9 @@ public class HelloProject implements ProjectModule {
         builder
             .cookbook(JavaProject.class)
                 .produces("com.goodworkalan/hello/0.1")
-                .main()
-                    .depends()
-                        .artifact("com.github.bigeasy.reflective/reflective/0.+1")
-                        .end()
-                    .end()
-                .test()
-                    .depends()
-                        .artifact("org.testng/testng-jdk15/5.10")
-                        .end()
+                .depends()
+                    .production("com.github.bigeasy.reflective/reflective/0.+1")
+                    .development("org.testng/testng-jdk15/5.10")
                     .end()
                 .end()
             .end();

@@ -23,7 +23,7 @@ public class DependsClause<P> {
     
     private final Map<List<String>, Dependency> dependencies; 
     
-    public DependsClause(P recipeElement, Map<List<String>, Dependency> dependencies) {
+    DependsClause(P recipeElement, Map<List<String>, Dependency> dependencies) {
         this.recipeElement = recipeElement;
         this.dependencies = dependencies;
     }

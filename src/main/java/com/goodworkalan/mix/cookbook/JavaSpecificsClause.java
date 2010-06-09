@@ -1,11 +1,8 @@
 package com.goodworkalan.mix.cookbook;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.builder.Builder;
 import com.goodworkalan.mix.task.JavaSourceElement;
 import com.goodworkalan.mix.task.JavacConfiguration;
@@ -19,10 +16,6 @@ import com.goodworkalan.mix.task.JavacConfiguration;
  */
 public class JavaSpecificsClause {
     protected final Builder builder;
-
-    protected final Map<List<String>, Dependency> mainDependencies = new LinkedHashMap<List<String>, Dependency>();
-    
-    protected final Map<List<String>, Dependency> testDependencies = new LinkedHashMap<List<String>, Dependency>();
 
     protected final List<JavacConfiguration> javacConfigurations = new ArrayList<JavacConfiguration>();
 
@@ -93,12 +86,12 @@ public class JavaSpecificsClause {
 
     public JavaSourceElement<JavaSpecificsClause> main() {
         moreSpecific();
-        return new JavaSourceElement<JavaSpecificsClause>(this, mainJavacConfigurations, mainDependencies);
+        return new JavaSourceElement<JavaSpecificsClause>(this, mainJavacConfigurations);
     }
     
     public JavaSourceElement<JavaSpecificsClause> test() {
         moreSpecific();
-        return new JavaSourceElement<JavaSpecificsClause>(this, testJavacConfigurations, testDependencies);
+        return new JavaSourceElement<JavaSpecificsClause>(this, testJavacConfigurations);
     }
     
     public Builder end() {
