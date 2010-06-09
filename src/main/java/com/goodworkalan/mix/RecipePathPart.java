@@ -48,8 +48,10 @@ public class RecipePathPart extends ExpandingPathPart {
     }
 
     /**
-     * Get an unversioned key for the recipe path part that will never be matched
-     * by the library. 
+     * Get an unversioned key for the recipe path part that will never be
+     * matched by the library. Unexpanded parts are never kept, and because this
+     * expanded part has no directly parallel expanded part, we'll always have
+     * to expand it anyway.
      * 
      * @return The unversioned key.
      */

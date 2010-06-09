@@ -2,7 +2,7 @@ package com.goodworkalan.mix.builder;
 
 import java.io.File;
 
-import com.goodworkalan.mix.FindList;
+import com.goodworkalan.mix.task.FindList;
 
 public class SourceOutput {
     private File output;

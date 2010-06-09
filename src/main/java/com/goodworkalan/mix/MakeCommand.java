@@ -37,6 +37,7 @@ public class MakeCommand implements Commandable {
             while (!recipeQueue.isEmpty()) {
                 String name = recipeQueue.removeFirst();
                 Recipe recipe = project.getRecipe(name);
+                System.out.println(name);
                 for (Dependency dependency : recipe.getDependencies()) {
                     for (String recipeName : dependency.getRecipeNames()) {
                         recipeQueue.addLast(recipeName);

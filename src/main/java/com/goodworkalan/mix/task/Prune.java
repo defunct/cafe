@@ -5,7 +5,6 @@ import java.io.File;
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
-import com.goodworkalan.mix.FindList;
 import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.builder.RecipeStatement;

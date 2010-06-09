@@ -32,6 +32,8 @@ public class JavaProject extends JavaSpecificsClause {
     
     public JavaProject(Builder builder) {
         super(builder);
+        builder.recipe("production").end();
+        builder.recipe("development").end();
     }
     
     public JavaProject produces(String artifact) {

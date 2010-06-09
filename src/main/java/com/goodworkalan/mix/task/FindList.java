@@ -1,4 +1,4 @@
-package com.goodworkalan.mix;
+package com.goodworkalan.mix.task;
 
 import java.io.File;
 import java.util.ArrayList;

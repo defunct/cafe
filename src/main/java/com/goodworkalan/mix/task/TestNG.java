@@ -18,7 +18,6 @@ import com.goodworkalan.go.go.library.PathPart;
 import com.goodworkalan.go.go.library.PathParts;
 import com.goodworkalan.go.go.library.ResolutionPart;
 import com.goodworkalan.mix.Dependency;
-import com.goodworkalan.mix.FindList;
 import com.goodworkalan.mix.Make;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;

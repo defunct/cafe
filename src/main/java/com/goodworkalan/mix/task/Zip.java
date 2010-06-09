@@ -12,7 +12,6 @@ import java.util.zip.ZipOutputStream;
 import com.goodworkalan.comfort.io.Find;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
-import com.goodworkalan.mix.FindList;
 import com.goodworkalan.mix.Make;
 import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixError;

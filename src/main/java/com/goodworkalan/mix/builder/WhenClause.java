@@ -3,9 +3,9 @@ package com.goodworkalan.mix.builder;
 import java.io.File;
 import java.util.List;
 
-import com.goodworkalan.mix.FindList;
 import com.goodworkalan.mix.Rebuild;
 import com.goodworkalan.mix.task.FindElement;
+import com.goodworkalan.mix.task.FindList;
 
 /**
  * An element in the domain-specific language that specifies the source files of

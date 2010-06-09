@@ -2,7 +2,6 @@ package com.goodworkalan.mix.task;
 
 import java.io.File;
 
-import com.goodworkalan.mix.FindList;
 
 public class FindElement<T> {
     private final T parent;

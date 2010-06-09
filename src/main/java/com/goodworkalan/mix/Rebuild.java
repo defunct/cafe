@@ -3,6 +3,7 @@ package com.goodworkalan.mix;
 import java.io.File;
 
 import com.goodworkalan.comfort.io.Find;
+import com.goodworkalan.mix.task.FindList;
 
 /**
  * Test whether a set of source files is newer than a set of output files. The

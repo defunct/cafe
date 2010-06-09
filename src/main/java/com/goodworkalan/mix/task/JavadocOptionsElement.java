@@ -7,7 +7,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.goodworkalan.mix.FindList;
 import com.goodworkalan.mix.MixError;
 
 public class JavadocOptionsElement<P, S> {

@@ -14,6 +14,7 @@ import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.library.DirectoryPart;
 import com.goodworkalan.ilk.Ilk;
 import com.goodworkalan.mix.builder.Builder;
+import com.goodworkalan.mix.task.FindList;
 import com.goodworkalan.mix.task.Javac;
 
 /**
