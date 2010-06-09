@@ -19,7 +19,7 @@ public class MixCoberturaProject implements ProjectModule {
     public void build(Builder builder) {
         builder
             .cookbook(JavaProject.class)
-                .produces("com.github.bigeasy.mix/mix-cobertura/0.1.0.2")
+                .produces("com.github.bigeasy.mix/mix-cobertura/0.1.0.3")
                 .depends()
                     .production("com.github.bigeasy.mix/mix/0.1.+3.1")
                     .production("com.github.bigeasy.comfort-io/comfort-io/0.1.+1")
