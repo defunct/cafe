@@ -15,8 +15,8 @@ import com.goodworkalan.go.go.library.Artifact;
 import com.goodworkalan.go.go.library.PathPart;
 import com.goodworkalan.go.go.library.PathParts;
 import com.goodworkalan.go.go.library.ResolutionPart;
-import com.goodworkalan.mix.FindList;
 import com.goodworkalan.mix.MixError;
+import com.goodworkalan.mix.task.FindList;
 import com.goodworkalan.spawn.Exit;
 import com.goodworkalan.spawn.Spawn;
 
