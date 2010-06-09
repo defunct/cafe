@@ -12,9 +12,9 @@ import com.goodworkalan.go.go.library.Artifact;
  *
  * @author Alan Gutierrez
  */
-public class ArtifactElement {
+public class ArtifactClause {
     /** The parent element in the domain-specific language. */
-    private final ProducesElement produces;
+    private final ProducesClause produces;
     
     /** The recipe name. */
     private final String recipe;
@@ -45,7 +45,7 @@ public class ArtifactElement {
      * @param version
      *            The artifact version.
      */
-    ArtifactElement(ProducesElement produces, String recipe, Map<List<String>, Production> artifacts, Artifact artifact) {
+    ArtifactClause(ProducesClause produces, String recipe, Map<List<String>, Production> artifacts, Artifact artifact) {
         this.produces = produces;
         this.recipe = recipe;
         this.artifacts = artifacts;
@@ -60,7 +60,7 @@ public class ArtifactElement {
      *            The output directory for the artifact.
      * @return The parent language element.
      */
-    public ProducesElement in(File directory) {
+    public ProducesClause in(File directory) {
         artifacts.put(artifact.getKey(), new Production(artifact, recipe, directory));
         return produces;
     }

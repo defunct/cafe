@@ -8,7 +8,7 @@ import java.util.Set;
 import com.goodworkalan.go.go.library.Artifact;
 import com.goodworkalan.mix.builder.RecipeStatement;
 
-public class ProducesElement {
+public class ProducesClause {
     private final RecipeStatement recipeElement;
     
     private final String recipe;
@@ -17,20 +17,20 @@ public class ProducesElement {
     
     private final Map<List<String>, Production> artifacts;
     
-    public ProducesElement(RecipeStatement recipeElement, String recipe, Set<File> classes, Map<List<String>, Production> artifacts) {
+    public ProducesClause(RecipeStatement recipeElement, String recipe, Set<File> classes, Map<List<String>, Production> artifacts) {
         this.recipeElement = recipeElement;
         this.recipe = recipe;
         this.classes = classes;
         this.artifacts = artifacts;
     }
     
-    public ProducesElement classes(File classesDirectory) {
+    public ProducesClause classes(File classesDirectory) {
         classes.add(classesDirectory);
         return this;
     }
     
-    public ArtifactElement artifact(Artifact artifact) {
-        return new ArtifactElement(this, recipe, artifacts, artifact);
+    public ArtifactClause artifact(Artifact artifact) {
+        return new ArtifactClause(this, recipe, artifacts, artifact);
     }
     
     public RecipeStatement end() {

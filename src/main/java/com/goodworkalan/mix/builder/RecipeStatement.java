@@ -11,7 +11,7 @@ import java.util.Set;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.MixException;
-import com.goodworkalan.mix.ProducesElement;
+import com.goodworkalan.mix.ProducesClause;
 import com.goodworkalan.mix.Production;
 import com.goodworkalan.mix.Rebuild;
 import com.goodworkalan.mix.Recipe;
@@ -143,8 +143,8 @@ public class RecipeStatement {
         return new DependsClause<RecipeStatement>(this, dependencies);
     }
     
-    public ProducesElement produces() {
-        return new ProducesElement(this, name, classes, artifacts);
+    public ProducesClause produces() {
+        return new ProducesClause(this, name, classes, artifacts);
     }
 
     /**
