@@ -5,6 +5,8 @@ import java.util.List;
 
 /**
  * A comparator to order a list of strings.
+ * <p>
+ * Why do I order those lists?
  * 
  * @author Alan Gutierrez
  */

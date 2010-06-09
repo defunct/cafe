@@ -11,11 +11,27 @@ import com.goodworkalan.go.go.library.ExpandingPathPart;
 import com.goodworkalan.go.go.library.Library;
 import com.goodworkalan.go.go.library.PathPart;
 
+/**
+ * An expanding path part that expands to include a recipes output and all of
+ * its dependencies.
+ * 
+ * @author Alan Gutierrez
+ */
 public class RecipePathPart extends ExpandingPathPart {
+    /** The project. */
     private final Project project;
     
+    /** The recipe name. */
     private final String recipeName;
-    
+
+    /**
+     * Create a recipe path part with the given project and recipe name.
+     * 
+     * @param project
+     *            The project.
+     * @param recipeName
+     *            The recipe name.
+     */
     public RecipePathPart(Project project, String recipeName) {
         this.project = project;
         this.recipeName = recipeName;
@@ -31,8 +47,14 @@ public class RecipePathPart extends ExpandingPathPart {
         }
     }
 
+    /**
+     * Get an unversioned key for the recipe path part that will never be matched
+     * by the library. 
+     * 
+     * @return The unversioned key.
+     */
     public Object getUnversionedKey() {
-        return project.getRecipe(recipeName);
+        return new Object();
     }
     
     public Set<Exclude> getExcludes() {
