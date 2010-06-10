@@ -7,7 +7,7 @@ import java.util.List;
 import com.goodworkalan.go.go.library.Artifact;
 import com.goodworkalan.mix.builder.Builder;
 import com.goodworkalan.mix.task.Copy;
-import com.goodworkalan.mix.task.Delete;
+import com.goodworkalan.mix.task.Unlink;
 import com.goodworkalan.mix.task.Dependencies;
 import com.goodworkalan.mix.task.Javac;
 import com.goodworkalan.mix.task.JavacConfiguration;
@@ -92,7 +92,7 @@ public class JavaProject extends JavaSpecificsClause {
                 .depends()
                     .recipe("production")
                     .end()
-                .task(Delete.class)
+                .task(Unlink.class)
                     .file(new File("target/classes"))
                     .recurse(true)
                     .end()
@@ -123,7 +123,7 @@ public class JavaProject extends JavaSpecificsClause {
                     .recipe("development")
                     .recipe("javac")
                     .end()
-                .task(Delete.class)
+                .task(Unlink.class)
                     .file(new File("target/test-classes"))
                     .recurse(true)
                     .end()
@@ -151,7 +151,7 @@ public class JavaProject extends JavaSpecificsClause {
                 .depends()
                     .recipe("javac")
                     .end()
-                .task(Delete.class)
+                .task(Unlink.class)
                     .file(new File("target/apidocs")).recurse(true)
                     .end()
                 .task(Mkdirs.class)
@@ -175,7 +175,7 @@ public class JavaProject extends JavaSpecificsClause {
                 .depends()
                     .recipe("javac")
                     .end()
-                .task(Delete.class)
+                .task(Unlink.class)
                     .file(new File("target/devdocs")).recurse(true)
                     .end()
                 .task(Mkdirs.class)
@@ -200,7 +200,7 @@ public class JavaProject extends JavaSpecificsClause {
                     .end()
                 .end()
             .recipe("clean")
-                .task(Delete.class)
+                .task(Unlink.class)
                     .file(new File("target"))
                     .recurse(true)
                     .end()
@@ -232,7 +232,7 @@ public class JavaProject extends JavaSpecificsClause {
                 .depends()
                     .recipe("javac").recipe("apidocs")
                     .end()
-                .task(Delete.class)
+                .task(Unlink.class)
                     .file(new File("target/distribution"))
                     .recurse(true)
                     .end()

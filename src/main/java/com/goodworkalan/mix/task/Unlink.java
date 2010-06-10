@@ -14,7 +14,7 @@ import com.goodworkalan.mix.builder.RecipeStatement;
  * 
  * @author Alan Gutierrez
  */
-public class Delete {
+public class Unlink {
     private final RecipeStatement recipeElement;
     
     /** The file to delete. */
@@ -23,7 +23,7 @@ public class Delete {
     /** If true delete recursively. */
     private boolean recurse;
     
-    public Delete(RecipeStatement recipeElement) {
+    public Unlink(RecipeStatement recipeElement) {
         this.recipeElement = recipeElement;
     }
 
@@ -33,7 +33,7 @@ public class Delete {
      * @param file
      *            The file or directory to delete.
      */
-    public Delete file(File file) {
+    public Unlink file(File file) {
         this.file = file;
         return this;
     }
@@ -44,7 +44,7 @@ public class Delete {
      * @param recurse
      *            If true, delete file recursively if it is a directory.
      */
-    public Delete recurse(boolean recurse) {
+    public Unlink recurse(boolean recurse) {
         this.recurse = recurse;
         return this;
     }
@@ -56,10 +56,10 @@ public class Delete {
                 File outgoing = mix.relativize(file);
                 if (!recurse) {
                     if (outgoing.exists() && !outgoing.delete()) {
-                        throw new MixError(Delete.class, "failure", outgoing);
+                        throw new MixError(Unlink.class, "failure", outgoing);
                     }
                 } else if (!Files.unlink(outgoing)) {
-                    throw new MixError(Delete.class, "failure", outgoing);
+                    throw new MixError(Unlink.class, "failure", outgoing);
                 }
             }
         });
