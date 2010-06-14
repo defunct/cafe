@@ -49,6 +49,12 @@ public class Unlink {
         return this;
     }
 
+    /**
+     * Terminate the unlink clause and add the unlink operation to the series of
+     * operations for the recipe.
+     * 
+     * @return The recipe statement to continue building the recipe.
+     */
     public RecipeStatement end() {
         recipeElement.executable(new Commandable(){
             public void execute(Environment env) {

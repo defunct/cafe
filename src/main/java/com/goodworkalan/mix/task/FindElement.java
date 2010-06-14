@@ -54,7 +54,7 @@ public class FindElement<T> {
      *         specifying find criteria.
      */
     public FindElement<T> isFile() {
-        findList.isFile();
+        findList.filesOnly();
         return this;
     }
 

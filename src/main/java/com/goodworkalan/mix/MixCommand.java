@@ -11,9 +11,13 @@ import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.ArgumentList;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
+import com.goodworkalan.go.go.library.Artifacts;
 import com.goodworkalan.go.go.library.DirectoryPart;
+import com.goodworkalan.go.go.library.Include;
+import com.goodworkalan.go.go.library.ResolutionPart;
 import com.goodworkalan.ilk.Ilk;
 import com.goodworkalan.mix.builder.Builder;
+import com.goodworkalan.mix.task.Copy;
 import com.goodworkalan.mix.task.FindList;
 import com.goodworkalan.mix.task.Javac;
 
@@ -81,32 +85,51 @@ public class MixCommand implements Commandable {
             if (!output.mkdirs()) {
                 throw new MixError(MixCommand.class, "output.mkdirs", output);
             }
-            // FIXME Do resources too.
             File sourceDirectory = new File(mix.getWorkingDirectory(), "src/mix/java");
             env.debug("javac", sourceDirectory, output);
             if (sourceDirectory.isDirectory()) {
-                Builder hiddenBuilder = new Builder();
-                hiddenBuilder
+                Builder hidden = new Builder();
+                hidden.recipe("production").end();
+                File dependencies = new File(mix.getWorkingDirectory(), "src/mix/etc/project.dep");
+                if (dependencies.exists()) {
+                	for (Include include : Artifacts.read(dependencies)) {
+                		hidden
+                			.recipe("production")
+                				.depends()
+                					.include(include)
+                					.end()
+                				.end()
+                			.end();
+                	}
+                }
+                hidden
                     .recipe("javac")
+                    	.depends()
+                    		.recipe("production")
+                    		.end()
                         .task(Javac.class)
                             .artifact("com.github.bigeasy.mix/mix/0.+1.3.5")
                             .source(sourceDirectory.getAbsoluteFile()).end()
                             .output(output.getAbsoluteFile())
                             .end()
-                         .end();
-                env.output(Project.class, hiddenBuilder.createProject(mix.getWorkingDirectory()));
+                        .task(Copy.class)
+                        	.source(new File(mix.getWorkingDirectory(), "src/mix/resources")).exclude("**/.svn/**").end()
+                        	.output(output.getAbsoluteFile())
+                        	.end()
+                        .end();
+                env.output(Project.class, hidden.createProject(mix.getWorkingDirectory()));
             }
         } else if (projectModule != null) {
             env.invokeAfter(ProjectCommand.class);
         } else {
             FindList sources = new FindList();
             sources.addDirectory(new File(mix.getWorkingDirectory(), "src/mix/java"));
-            sources.isFile();
+            sources.filesOnly();
             sources.addDirectory(new File(mix.getWorkingDirectory(), "src/mix/resources"));
-            sources.isFile();
+            sources.filesOnly();
             FindList outputs = new FindList();
             outputs.addDirectory(output);
-            outputs.isFile();
+            outputs.filesOnly();
             if (new Rebuild(sources, outputs).isDirty(mix)) {
                 ArgumentList mixArguments = new ArgumentList(env.arguments.get(0));
                 mixArguments.removeArgument("mix:siblings");
@@ -115,6 +138,12 @@ public class MixCommand implements Commandable {
             }
             if (!output.isDirectory()) {
                 throw new MixException(MixCommand.class, "output.not.directory", output);
+            }
+            File dependencies = new File(mix.getWorkingDirectory(), "src/mix/etc/project.dep");
+            if (dependencies.exists()) {
+            	for (Include include : Artifacts.read(dependencies)) {
+                	env.extendClassPath(new ResolutionPart(include));
+            	}
             }
             env.extendClassPath(new DirectoryPart(output.getAbsoluteFile()));
             env.invokeAfter(ProjectCommand.class);

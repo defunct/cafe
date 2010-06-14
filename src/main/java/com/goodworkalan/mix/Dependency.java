@@ -32,8 +32,6 @@ public interface Dependency {
     /**
      * Get a collection of the immediate recipe dependencies.
      * 
-     * @param project
-     *            The project.
      * @return A collection of the immediate artifact dependencies.
      */
     public Collection<String> getRecipeNames();

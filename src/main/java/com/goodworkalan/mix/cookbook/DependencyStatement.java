@@ -45,7 +45,7 @@ public class DependencyStatement {
         builder
             .recipe("production")
                 .depends()
-                    .artifact(artifact, excludes)
+                    .include(artifact, excludes)
                     .end()
                 .end()
             .end();
@@ -69,7 +69,7 @@ public class DependencyStatement {
         builder
             .recipe("development")
                 .depends()
-                    .artifact(artifact, excludes)
+                    .include(artifact, excludes)
                     .end()
                 .end()
             .end();

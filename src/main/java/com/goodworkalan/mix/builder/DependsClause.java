@@ -43,8 +43,11 @@ public class DependsClause<P> {
      * @return This depends language element to continue specifying
      *         dependencies.
      */
-    public DependsClause<P> artifact(String artifact, String...excludes) {
-        Include include = new Include(artifact, excludes);
+    public DependsClause<P> include(String artifact, String...excludes) {
+        return include(new Include(artifact, excludes));
+    }
+    
+    public DependsClause<P> include(Include include) {
         List<String> key = include.getArtifact().getUnversionedKey();
         if (!dependencies.containsKey(key)) {
             dependencies.put(key, new ArtifactDependency(include));

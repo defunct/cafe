@@ -95,7 +95,7 @@ public class FindList extends ArrayList<FindList.Entry> {
      * created in Java that are not directories are considered <em>normal</em>
      * files.
      */
-    public void isFile() {
+    public void filesOnly() {
         get(size() - 1).find.isFile();
     }
 }

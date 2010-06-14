@@ -53,7 +53,7 @@ public class JavaSpecificsClause {
         builder
             .recipe("production")
                 .depends()
-                    .artifact(artifact, excludes)
+                    .include(artifact, excludes)
                     .end()
                 .end()
             .end();
@@ -77,7 +77,7 @@ public class JavaSpecificsClause {
         builder
             .recipe("development")
                 .depends()
-                    .artifact(artifact, excludes)
+                    .include(artifact, excludes)
                     .end()
                 .end()
             .end();

@@ -127,11 +127,6 @@ public class TestNG {
                 arguments.add("-testclass");
                 arguments.addAll(testClasses);
                 
-                System.out.println(arguments);
-                
-                ProcessBuilder newProcess = new ProcessBuilder();
-                newProcess.command().addAll(arguments);
-                
                 Exit exit = new Spawn().$(arguments).out(env.io.out).err(env.io.err).run();
                 
                 if (exit.code != 0) {

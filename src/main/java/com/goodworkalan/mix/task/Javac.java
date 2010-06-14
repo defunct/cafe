@@ -113,9 +113,6 @@ public class Javac extends JavacOptionsElement<RecipeStatement, Javac>{
                         env.debug(Javac.class, "arguments", arguments);
                         arguments.add(0, "javac");
                         
-                        ProcessBuilder newProcess = new ProcessBuilder();
-                        newProcess.command().addAll(arguments);
-                        
                         Exit exit = new Spawn().$(arguments).out(env.io.out).err(env.io.err).run();
                         
                         if (!exit.isSuccess()) {
