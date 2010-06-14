@@ -98,6 +98,6 @@ public class FindList extends ArrayList<FindList.Entry> {
 	 * files.
 	 */
     public void filesOnly() {
-        get(size() - 1).find.isFile();
+        get(size() - 1).find.filesOnly();
     }
 }
