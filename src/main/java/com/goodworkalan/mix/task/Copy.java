@@ -7,6 +7,8 @@ import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixError;
+import com.goodworkalan.mix.builder.FindStatement;
+import com.goodworkalan.mix.builder.FindList;
 import com.goodworkalan.mix.builder.RecipeStatement;
 
 /**
@@ -35,9 +37,9 @@ public class Copy {
         return this;
     }
 
-    public FindElement<Copy> source(File directory) {
+    public FindStatement<Copy> source(File directory) {
         end.amend();
-        return new FindElement<Copy>(this, findList, directory);
+        return new FindStatement<Copy>(this, findList, directory);
     }
 
     /**

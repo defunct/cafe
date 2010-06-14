@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.goodworkalan.mix.MixError;
+import com.goodworkalan.mix.builder.FindList;
 
 public class JavadocOptionsElement<P, S> {
     protected final P parent;

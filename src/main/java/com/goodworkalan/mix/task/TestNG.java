@@ -21,6 +21,8 @@ import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.Make;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
+import com.goodworkalan.mix.builder.FindStatement;
+import com.goodworkalan.mix.builder.FindList;
 import com.goodworkalan.mix.builder.RecipeStatement;
 import com.goodworkalan.spawn.Exit;
 import com.goodworkalan.spawn.Spawn;
@@ -52,8 +54,8 @@ public class TestNG {
         return this;
     }
     
-    public FindElement<TestNG> source(File directory) {
-        return new FindElement<TestNG>(this, findList, directory);
+    public FindStatement<TestNG> source(File directory) {
+        return new FindStatement<TestNG>(this, findList, directory);
     }
     
     public TestNG define(String name, String value) {

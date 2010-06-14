@@ -17,8 +17,8 @@ import com.goodworkalan.go.go.library.Include;
 import com.goodworkalan.go.go.library.ResolutionPart;
 import com.goodworkalan.ilk.Ilk;
 import com.goodworkalan.mix.builder.Builder;
+import com.goodworkalan.mix.builder.FindList;
 import com.goodworkalan.mix.task.Copy;
-import com.goodworkalan.mix.task.FindList;
 import com.goodworkalan.mix.task.Javac;
 
 /**

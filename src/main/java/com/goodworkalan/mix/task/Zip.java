@@ -16,6 +16,8 @@ import com.goodworkalan.mix.Make;
 import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
+import com.goodworkalan.mix.builder.FindStatement;
+import com.goodworkalan.mix.builder.FindList;
 import com.goodworkalan.mix.builder.RecipeStatement;
 
 public class Zip {
@@ -68,8 +70,8 @@ public class Zip {
      * 
      * @param directory The source directory.
      */
-    public FindElement<Zip> source(File directory) {
-        return new FindElement<Zip>(this, findList, directory);
+    public FindStatement<Zip> source(File directory) {
+        return new FindStatement<Zip>(this, findList, directory);
     }
 
     protected void addFile(File source, String entryName) throws IOException {

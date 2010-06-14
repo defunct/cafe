@@ -21,6 +21,8 @@ import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.MixException;
 import com.goodworkalan.mix.Project;
+import com.goodworkalan.mix.builder.FindStatement;
+import com.goodworkalan.mix.builder.FindList;
 import com.goodworkalan.mix.builder.RecipeStatement;
 import com.goodworkalan.spawn.Exit;
 import com.goodworkalan.spawn.Spawn;
@@ -137,8 +139,8 @@ public class Javac extends JavacOptionsElement<RecipeStatement, Javac>{
         return this;
     }
 
-    public FindElement<Javac> source(File directory) {
-        return new FindElement<Javac>(this, findList, directory);
+    public FindStatement<Javac> source(File directory) {
+        return new FindStatement<Javac>(this, findList, directory);
     }
     
     public Javac output(File output) {

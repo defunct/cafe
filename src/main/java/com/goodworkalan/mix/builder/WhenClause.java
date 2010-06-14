@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.List;
 
 import com.goodworkalan.mix.Rebuild;
-import com.goodworkalan.mix.task.FindElement;
-import com.goodworkalan.mix.task.FindList;
 
 /**
  * An element in the domain-specific language that specifies the source files of
@@ -45,8 +43,8 @@ public class WhenClause {
      * @return A find element to specify file match criteria for files within
      *         the given directory.
      */
-    public FindElement<WhenClause> source(File directory) {
-        return new FindElement<WhenClause>(this, sources, directory);
+    public FindStatement<WhenClause> source(File directory) {
+        return new FindStatement<WhenClause>(this, sources, directory);
     }
 
     /**

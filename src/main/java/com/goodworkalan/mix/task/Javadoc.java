@@ -22,6 +22,8 @@ import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.Make;
 import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.Project;
+import com.goodworkalan.mix.builder.FindStatement;
+import com.goodworkalan.mix.builder.FindList;
 import com.goodworkalan.mix.builder.RecipeStatement;
 import com.goodworkalan.spawn.Exit;
 import com.goodworkalan.spawn.Spawn;
@@ -165,8 +167,8 @@ public class Javadoc extends JavadocOptionsElement<RecipeStatement, Javadoc> {
         return this;
     }
     
-    public FindElement<Javadoc> source(File directory) {
-        return new FindElement<Javadoc>(this, findList, directory);
+    public FindStatement<Javadoc> source(File directory) {
+        return new FindStatement<Javadoc>(this, findList, directory);
     }
 
     public Javadoc output(File directory) {

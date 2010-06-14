@@ -1,14 +1,26 @@
-package com.goodworkalan.mix.task;
+package com.goodworkalan.mix.builder;
 
 import java.io.File;
 
-
-public class FindElement<T> {
+/**
+ * Specify files to find on the file system in the domain-specific project
+ * builder language. The statement builds a find list, which is a collection of
+ * file finder paired the the single directory the file finder will search.
+ * 
+ * @author Alan Gutierrez
+ * 
+ * @param <T>
+ *            The type of the parent domain-specific language element to return
+ *            at the end of the statement.
+ */
+public class FindStatement<T> {
+	/** The parent domains-specific language element. */
     private final T parent;
 
+    /** The file list. */
     private final FindList findList;
 
-    public FindElement(T parent, FindList findList, File directory) {
+    public FindStatement(T parent, FindList findList, File directory) {
         this.findList = findList;
         this.parent = parent;
         this.findList.addDirectory(directory);
@@ -22,7 +34,7 @@ public class FindElement<T> {
      * @return This domain specific language find element in order to continue
      *         specifying find criteria.
      */
-    public FindElement<T> include(String include) {
+    public FindStatement<T> include(String include) {
         findList.addInclude(include);
         return this;
     }
@@ -35,7 +47,7 @@ public class FindElement<T> {
      * @return This domain specific language find element in order to continue
      *         specifying find criteria.
      */
-    public FindElement<T> exclude(String exclude) {
+    public FindStatement<T> exclude(String exclude) {
         findList.addExclude(exclude);
         return this;
     }
@@ -53,11 +65,17 @@ public class FindElement<T> {
      * @return This domain specific language find element in order to continue
      *         specifying find criteria.
      */
-    public FindElement<T> isFile() {
+    public FindStatement<T> isFile() {
         findList.filesOnly();
         return this;
     }
 
+	/**
+	 * Terminate the find clause and return the parent domains-specific language
+	 * element.
+	 * 
+	 * @return The parent domains-specific language element.
+	 */
     public T end() {
         return parent;
     }

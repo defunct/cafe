@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.List;
 
 import com.goodworkalan.mix.Rebuild;
-import com.goodworkalan.mix.task.FindElement;
-import com.goodworkalan.mix.task.FindList;
 
 /**
  * An element in the domain-specific language that specifies the output files of
@@ -51,8 +49,8 @@ public class NewerThanClause {
      * @return A find element to specify file match criteria for files within
      *         the given directory.
      */
-    public FindElement<NewerThanClause> output(File directory) {
-        return new FindElement<NewerThanClause>(this, outputs, directory);
+    public FindStatement<NewerThanClause> output(File directory) {
+        return new FindStatement<NewerThanClause>(this, outputs, directory);
     }
 
     /**
