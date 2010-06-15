@@ -16,9 +16,9 @@ import com.goodworkalan.go.go.library.PathParts;
 import com.goodworkalan.go.go.library.ResolutionPart;
 import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixException;
+import com.goodworkalan.mix.builder.FindList;
+import com.goodworkalan.mix.builder.FindStatement;
 import com.goodworkalan.mix.builder.RecipeStatement;
-import com.goodworkalan.mix.task.FindElement;
-import com.goodworkalan.mix.task.FindList;
 import com.goodworkalan.mix.task.Javac;
 import com.goodworkalan.spawn.Exit;
 import com.goodworkalan.spawn.Spawn;
@@ -134,8 +134,8 @@ public class Antlr {
 	 * @return A find clause to specify include and exclude patterns for the
 	 *         source directory.
 	 */
-    public FindElement<Antlr> source(File directory) {
-        return new FindElement<Antlr>(this, grammars, directory);
+    public FindStatement<Antlr> source(File directory) {
+        return new FindStatement<Antlr>(this, grammars, directory);
     }
 
 	/**
@@ -160,9 +160,10 @@ public class Antlr {
                 arguments.add(Files.path(classpath));
                 arguments.add("antlr.Tool");
              
+                Mix mix = env.get(Mix.class, 0);
                 if (output != null) {
                 	arguments.add("-o");
-                	arguments.add(output.getAbsolutePath());
+                	arguments.add(mix.relativize(output).getAbsolutePath());
                 }
                 if (diagnostic) {
                 	arguments.add("-diagnostic");
@@ -182,7 +183,6 @@ public class Antlr {
                 
                 Spawn spawn = new Spawn();
 
-                Mix mix = env.get(Mix.class, 0);
                 for (FindList.Entry entry : grammars) {
                     Find find = entry.getFind();
                     if (!find.hasFilters()) {
