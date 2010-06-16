@@ -3,6 +3,12 @@ title: Mix Concerns and Decisions
 ---
 General concerns about Mix.
 
+## Statements and Clauses
+
+A clause is a part of a statement, but that does not mean that a statement
+cannot nest inside a clause. This isn't a perfect analogy with middle-school
+sentance diagrams.
+
 ## Classpaths to Launch Custom Tasks
 
 Below is a somewhat muddled discusison of what classpaths mean to recipes.
