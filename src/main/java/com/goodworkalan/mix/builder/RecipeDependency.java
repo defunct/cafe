@@ -53,12 +53,12 @@ class RecipeDependency implements Dependency {
      *            The project.
      */
     public Collection<Include> getIncludes(Project project) {
-        Collection<Include> include = new ArrayList<Include>();
+        Collection<Include> includes = new ArrayList<Include>();
         Recipe recipe = project.getRecipe(name);
         for (Dependency dependency : recipe.getDependencies()) {
-            include.addAll(dependency.getIncludes(project));
+            includes.addAll(dependency.getIncludes(project));
         }
-        return include;
+        return includes;
     }
 
     /**

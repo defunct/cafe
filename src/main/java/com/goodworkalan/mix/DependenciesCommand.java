@@ -28,39 +28,68 @@ public class DependenciesCommand implements Commandable {
 	@Argument
 	public boolean immediate;
 	
+	@Argument
+	public boolean development;
+	
     public void execute(Environment env) {
         Project project = env.get(Project.class, 0);
         Map<String, Production> byRecipeName = new HashMap<String, Production>();
         for (Production production : project.getProductions()) {
             byRecipeName.put(production.getRecipeName(), production);
         }
-        List<Include> includes = new ArrayList<Include>();
+        Map<List<String>, Include> includes = new LinkedHashMap<List<String>, Include>();
         if (immediate) {
-	        for (Production production : project.getProductions()) {
-	            Recipe recipe = project.getRecipe(production.getRecipeName());
-	            for (Dependency dependency : recipe.getDependencies()) {
-	            	includes.addAll(dependency.getIncludes(project));
-	            }
-	        }
+        	if (development) {
+        		for (Recipe recipe : project.getRecipes()) {
+        			for (Dependency dependency : recipe.getDependencies()) {
+        				for (Include include : dependency.getIncludes(project)) {
+        					includes.put(include.getArtifact().getUnversionedKey(), include);
+        				}
+        			}
+        		}
+        	} else {
+        		for (Production production : project.getProductions()) {
+        			Recipe recipe = project.getRecipe(production.getRecipeName());
+        			for (Dependency dependency : recipe.getDependencies()) {
+        				for (Include include : dependency.getIncludes(project)) {
+        					includes.put(include.getArtifact().getUnversionedKey(), include);
+        				}
+        			}
+        		}
+        	}
         } else {
-	        Map<Object, PathPart> depenendcies = new LinkedHashMap<Object, PathPart>();
-	        for (Production production : project.getProductions()) {
-	            Recipe recipe = project.getRecipe(production.getRecipeName());
-	            for (Dependency dependency : recipe.getDependencies()) {
-	                Collection<PathPart> unexpanded = dependency.getPathParts(project);
-	                for (PathPart expanded : env.library.resolve(unexpanded, depenendcies.keySet())) {
-	                    depenendcies.put(expanded.getUnversionedKey(), expanded);
-	                }
-	            }
+	        Map<Object, PathPart> path = new LinkedHashMap<Object, PathPart>();
+	        List<Dependency> dependencies = new ArrayList<Dependency>();
+	        if (development) {
+	        	for (Recipe recipe : project.getRecipes()) {
+	        		for (Dependency dependency : recipe.getDependencies()) {
+	        			dependencies.add(dependency);
+	        		}
+	        	}
+	        } else {
+	        	for (Production production : project.getProductions()) {
+	        		Recipe recipe = project.getRecipe(production.getRecipeName());
+	        		for (Dependency dependency : recipe.getDependencies()) {
+	        			dependencies.add(dependency);
+	        		}
+	        	}
 	        }
-	        for (PathPart pathPart : depenendcies.values()) {
+	        for (Dependency dependency : dependencies) {
+		        Collection<PathPart> unexpanded = dependency.getPathParts(project);
+		        for (PathPart expanded : env.library.resolve(unexpanded, path.keySet())) {
+		        	path.put(expanded.getUnversionedKey(), expanded);
+		        }
+	        }
+	        for (PathPart pathPart : path.values()) {
 	            Artifact artifact = pathPart.getArtifact();
 	            if (artifact != null) {
-	                includes.add(new Include(artifact, pathPart.getExcludes()));
-	                env.io.out.println(artifact.getArtifactsFileLine(pathPart.getExcludes()));
+	                includes.put(artifact.getUnversionedKey(), new Include(artifact, pathPart.getExcludes()));
 	            }
 	        }
         }
-        env.output(new Ilk<List<Include>>() {}, includes);
+        for (Include include : includes.values()) {
+        	env.io.out.println(include.getArtifactFileLine());
+        }
+        env.output(new Ilk<List<Include>>() {}, new ArrayList<Include>(includes.values()));
     }
 }
