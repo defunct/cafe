@@ -1,9 +1,5 @@
 package com.goodworkalan.mix;
 
-import java.util.ResourceBundle;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
 import com.goodworkalan.danger.ContextualDanger;
 
 /**
@@ -14,9 +10,6 @@ import com.goodworkalan.danger.ContextualDanger;
 public class MixException extends ContextualDanger {
     /** Serial version id. */
     private static final long serialVersionUID = 1L;
-   
-    /** The cache of resource bundles for the parent exception class. */
-    private final static ConcurrentMap<String, ResourceBundle> BUNDLE = new ConcurrentHashMap<String, ResourceBundle>();
 
     /**
      * Create a mix exception with the given error code and message format
@@ -47,6 +40,6 @@ public class MixException extends ContextualDanger {
      *            The format arguments.
      */
     public MixException(Class<?> context, String code, Throwable cause, Object...arguments) {
-        super(BUNDLE, context, code, cause, arguments);
+        super(context, code, cause, arguments);
     }
 }
