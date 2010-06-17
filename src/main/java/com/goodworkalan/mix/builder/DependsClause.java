@@ -34,15 +34,18 @@ public class DependsClause<P> {
         }
         return this;
     }
-    
-    /**
-     * Add artifacts while also specifying excludes.
-     * 
-     * @param includes
-     *            An artifacts to include.
-     * @return This depends language element to continue specifying
-     *         dependencies.
-     */
+
+	/**
+	 * Add artifacts while also specifying excludes.
+	 * 
+	 * @param artifact
+	 *            The artifact name.
+	 * @param excludes
+	 *            A list of artifacts to exclude, specified as unversioned
+	 *            artifact strings.
+	 * @return This depends language element to continue specifying
+	 *         dependencies.
+	 */
     public DependsClause<P> include(String artifact, String...excludes) {
         return include(new Include(artifact, excludes));
     }

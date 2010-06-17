@@ -33,12 +33,7 @@ public class MixCommand implements Commandable {
     public MixCommand() {
     }
 
-    /**
-     * Set whether or not Mix is being run without an Internet connection.
-     * 
-     * @param offline
-     *            If true, Mix is being run without an Internet connection.
-     */
+	/** Set whether or not Mix is being run without an Internet connection. */
     @Argument
     public boolean offline;
 

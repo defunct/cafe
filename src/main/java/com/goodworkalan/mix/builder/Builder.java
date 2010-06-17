@@ -52,14 +52,16 @@ public class Builder {
     public Project createProject(File workingDirectory) {
         return new Project(workingDirectory, artifacts, recipes);
     }
-    
-    /**
-     * Create and apply a cookbook that defines a number of recipes.
-     * 
-     * @param <T> The cookbook type.
-     * @param cookbookClass The cookbook class.
-     * @return
-     */
+
+	/**
+	 * Create and apply a cookbook that defines a number of recipes.
+	 * 
+	 * @param <T>
+	 *            The cookbook type.
+	 * @param cookbookClass
+	 *            The cookbook class.
+	 * @return An instance of the cookbook class.
+	 */
     public <T> T cookbook(Class<T> cookbookClass) {
         try {
             try {

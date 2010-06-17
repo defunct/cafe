@@ -10,7 +10,8 @@ import java.util.Set;
 import com.goodworkalan.go.go.Commandable;
 
 /**
- * A named series of {@link Task} instances that constitute a program.
+ * Describes the dependencies and commands necessary to produce an output or
+ * outcome.
  * 
  * @author Alan Gutierrez.
  */
