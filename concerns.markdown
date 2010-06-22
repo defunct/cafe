@@ -3,6 +3,42 @@ title: Mix Concerns and Decisions
 ---
 General concerns about Mix.
 
+## Fast Starts
+
+How do you get a project running fast? It seems like it is pretty easy now,
+actually, I simply copy over another project file, then start editing.
+
+Is there a better way to get things going? Maybe, how do I jump start a project,
+probably by typing the class name, which produces a class file, that can in turn
+produce an Eclipse file, that has the Mix classes ready for editing in Eclipse.
+
+Maybe.
+
+## Development Versus Test
+
+Found a need for development versus test. String Beans JPA requires Hibernate,
+in order to draw in the `javax.persistence` classes. I'm able to use Hibernate,
+because my applications use Hibernate, but really, I want to just compile
+against `javax.persistence`. My thought was to have a compilation group that
+would be excluded.
+
+But, now I'm reconsidering. It's not my fault that no one has gone to the
+trouble to package `javax.persistence` correctly, and I'd rather have someone
+exclude the bad packaging of `javax.persistence` rather than support the
+unlikely case of dependencies needed for compilation that are not needed for
+redistribution. That will still exist, but only in the very special case of
+staticly bound pluggable components, as in SLF4J.
+
+But, then accomodating the Java ecosystem as it is will be easier on the
+innocents, then designing for the Java ecosystem as it should be.
+
+The current cookbook builds its own dependencies file, so it could simply choose
+the right target for that dependencies file, and also create a compile and
+develop dependencies file.
+
+Need to avoid splintering this into the half-dozen different dependency groups
+that come with Maven. 
+
 ## Statements and Clauses
 
 A clause is a part of a statement, but that does not mean that a statement
