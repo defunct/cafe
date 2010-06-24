@@ -19,9 +19,9 @@ import com.goodworkalan.mix.Make;
 import com.goodworkalan.mix.Mix;
 import com.goodworkalan.mix.MixException;
 import com.goodworkalan.mix.Project;
+import com.goodworkalan.mix.builder.FindList;
+import com.goodworkalan.mix.builder.FindStatement;
 import com.goodworkalan.mix.builder.RecipeStatement;
-import com.goodworkalan.mix.task.FindElement;
-import com.goodworkalan.mix.task.FindList;
 import com.goodworkalan.spawn.Exit;
 import com.goodworkalan.spawn.Spawn;
 
@@ -63,8 +63,8 @@ public class JUnit {
 	 *            The source directory.
 	 * @return A file find clause to specify the source files of the test class.
 	 */
-    public FindElement<JUnit> source(File directory) {
-        return new FindElement<JUnit>(this, tests, directory);
+    public FindStatement<JUnit> source(File directory) {
+        return new FindStatement<JUnit>(this, tests, directory);
     }
     
     /**
