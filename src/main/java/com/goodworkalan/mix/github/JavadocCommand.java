@@ -16,10 +16,9 @@ import com.goodworkalan.mix.Production;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.Recipe;
 import com.goodworkalan.mix.builder.Builder;
-import com.goodworkalan.mix.builder.Executable;
 import com.goodworkalan.mix.task.Copy;
-import com.goodworkalan.mix.task.Delete;
 import com.goodworkalan.mix.task.Mkdirs;
+import com.goodworkalan.mix.task.Unlink;
 import com.goodworkalan.spawn.Spawn;
 
 /**
@@ -62,14 +61,14 @@ public class JavadocCommand implements Commandable {
                     .task(Mkdirs.class)
                         .directory(apidocs.getParentFile())
                         .end()
-                    .task(Delete.class)
+                    .task(Unlink.class)
                         .file(apidocs).recurse(true)
                         .end()
                     .task(Copy.class)
                         .source(new File("target/apidocs")).end()
                         .output(apidocs)
                         .end()
-                    .task(Delete.class)
+                    .task(Unlink.class)
                         .file(devdocs).recurse(true)
                         .end()
                     .task(Copy.class)
@@ -79,8 +78,10 @@ public class JavadocCommand implements Commandable {
                     .end();
             Project subProject = builder.createProject(mix.getWorkingDirectory());
             Recipe recipe = subProject.getRecipe("gh-pages");
-            // FIXME I want the project to MAKE.
-            for (Executable executable : recipe.getProgram()) {
+            // FIXME Easier if make was pulled out of command and made a part of
+            // project for these one offs, or is there a way to invoke make
+            // command using the project above?
+            for (Commandable executable : recipe.getProgram()) {
                 executable.execute(env);
             }
             spawn.$("git", "add", ".").out(env.io.out).err(env.io.err).run();
