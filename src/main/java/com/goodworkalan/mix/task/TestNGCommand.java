@@ -14,14 +14,19 @@ import com.goodworkalan.go.go.library.Artifact;
 import com.goodworkalan.mix.MixCommand;
 import com.goodworkalan.mix.MixError;
 
+// TODO Document.
 @Command(name = "test-ng", parent = MixCommand.class)
 public class TestNGCommand implements Commandable {
+    // TODO Document.
     public final Map<String, String> defines = new LinkedHashMap<String, String>();
     
+    // TODO Document.
     public final List<File> classes = new ArrayList<File>();
     
+    // TODO Document.
     public final List<Artifact> artifacts = new ArrayList<Artifact>();
     
+    // TODO Document.
     @Argument
     public void addDefine(String define) {
         String[] pair = define.split(":");
@@ -31,11 +36,13 @@ public class TestNGCommand implements Commandable {
         defines.put(pair[0], pair[1]);
     }
     
+    // TODO Document.
     @Argument
     public void addClasses(File file) {
         classes.add(file);
     }
     
+    // TODO Document.
     @Argument
     public void addArtifact(Artifact artifact) {
         artifacts.add(artifact);

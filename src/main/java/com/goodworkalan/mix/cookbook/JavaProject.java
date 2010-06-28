@@ -22,20 +22,25 @@ import com.goodworkalan.mix.task.TestNG;
 import com.goodworkalan.mix.task.War;
 import com.goodworkalan.mix.task.Zip;
 
-
+// TODO Document.
 public class JavaProject extends JavaSpecificsClause {
+    // TODO Document.
     private Artifact produces;
     
+    // TODO Document.
     private final List<JavadocConfiguration> apidocConfigurations = new ArrayList<JavadocConfiguration>();
 
+    // TODO Document.
     private final List<JavadocConfiguration> devdocConfigurations = new ArrayList<JavadocConfiguration>();
     
+    // TODO Document.
     public JavaProject(Builder builder) {
         super(builder);
         builder.recipe("production").end();
         builder.recipe("development").end();
     }
     
+    // TODO Document.
     public JavaProject produces(String artifact) {
         this.produces = new Artifact(artifact);
         return this;
@@ -53,6 +58,7 @@ public class JavaProject extends JavaSpecificsClause {
         return new DependencyStatement(this, builder);
     }
     
+    // TODO Document.
     public JavacOptionsElement<JavaProject, JavacOptionsElement<JavaProject, ?>> javac() {
         return JavacOptionsElement.<JavaProject>newJavacOptionsElement(this, new JavacEnd() {
             public void end(JavacConfiguration configuration) {
@@ -61,6 +67,7 @@ public class JavaProject extends JavaSpecificsClause {
         });
     }
     
+    // TODO Document.
     public JavadocOptionsElement<JavaProject, JavadocOptionsElement<JavaProject, ?>> apidocs() {
         return JavadocOptionsElement.newJavadocOptionsElement(this, new JavadocEnd() {
             public void end(JavadocConfiguration configuration) {
@@ -69,6 +76,7 @@ public class JavaProject extends JavaSpecificsClause {
         });
     }
     
+    // TODO Document.
     public JavadocOptionsElement<JavaProject, JavadocOptionsElement<JavaProject, ?>> devdocs() {
         return JavadocOptionsElement.newJavadocOptionsElement(this, new JavadocEnd() {
             public void end(JavadocConfiguration configuration) {
@@ -77,6 +85,7 @@ public class JavaProject extends JavaSpecificsClause {
         });
     }
     
+    // TODO Document.
     public Builder end() {
         builder
             .recipe("javac")

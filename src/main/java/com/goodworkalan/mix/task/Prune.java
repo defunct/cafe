@@ -20,16 +20,20 @@ public class Prune {
     /** The find criteria. */
     private final FindList findList = new FindList();
     
+    // TODO Document.
     private final RecipeStatement recipeElement;
 
+    // TODO Document.
     public Prune(RecipeStatement recipeElement) {
         this.recipeElement = recipeElement;
     }
 
+    // TODO Document.
     public FindStatement<Prune> directory(File directory) {
         return new FindStatement<Prune>(this, findList, directory);
     }
     
+    // TODO Document.
     public RecipeStatement end() {
         recipeElement.executable(new Commandable() {
             public void execute(Environment env) {

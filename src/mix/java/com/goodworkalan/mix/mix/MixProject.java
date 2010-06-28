@@ -8,7 +8,7 @@ public class MixProject implements ProjectModule {
     public void build(Builder builder) {
         builder
             .cookbook(JavaProject.class)
-                .produces("com.github.bigeasy.mix/mix/0.1.3.18")
+                .produces("com.github.bigeasy.mix/mix/0.1.3.19")
                 .depends()
                     .production("com.github.bigeasy.spawn/spawn/0.+1.1")
                     .production("com.github.bigeasy.go-go/go-go/0.+1.4")

@@ -18,8 +18,10 @@ import com.goodworkalan.go.go.library.Artifact;
 import com.goodworkalan.go.go.library.Include;
 import com.goodworkalan.ilk.Ilk;
 
+// TODO Document.
 @Command(cache = false)
 public class SiblingsCommand implements Commandable {
+    // TODO Document.
     public void execute(Environment env) {
         env.debug("start", env.getCommandLine());
         Mix mix = env.get(Mix.class, 0);
@@ -55,10 +57,12 @@ public class SiblingsCommand implements Commandable {
         }
     }
     
+    // TODO Document.
     private boolean isMixProject(File directory) {
         return directory.isDirectory() && file(directory, "src", "mix", "java").isDirectory();
     }
 
+    // TODO Document.
     private void find(Environment env, File workingDirectory, Set<Object> seen, List<File> directories) {
         File parent = workingDirectory.getParentFile();
         ArgumentList mixArguments = new ArgumentList(env.arguments.get(0));

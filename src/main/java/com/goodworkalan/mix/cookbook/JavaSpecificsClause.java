@@ -15,18 +15,24 @@ import com.goodworkalan.mix.task.JavacConfiguration;
  * @author Alan Gutierrez
  */
 public class JavaSpecificsClause {
+    // TODO Document.
     protected final Builder builder;
 
+    // TODO Document.
     protected final List<JavacConfiguration> javacConfigurations = new ArrayList<JavacConfiguration>();
 
+    // TODO Document.
     protected final List<JavacConfiguration> mainJavacConfigurations = new ArrayList<JavacConfiguration>();
 
+    // TODO Document.
     protected final List<JavacConfiguration> testJavacConfigurations = new ArrayList<JavacConfiguration>();
 
+    // TODO Document.
     protected JavaSpecificsClause(Builder builder) {
         this.builder = builder;
     }
 
+    // TODO Document.
     private void moreSpecific() {
         if (mainJavacConfigurations.isEmpty()) {
             mainJavacConfigurations.addAll(javacConfigurations);
@@ -84,16 +90,19 @@ public class JavaSpecificsClause {
         return this;
     }
 
+    // TODO Document.
     public JavaSourceElement<JavaSpecificsClause> main() {
         moreSpecific();
         return new JavaSourceElement<JavaSpecificsClause>(this, mainJavacConfigurations);
     }
     
+    // TODO Document.
     public JavaSourceElement<JavaSpecificsClause> test() {
         moreSpecific();
         return new JavaSourceElement<JavaSpecificsClause>(this, testJavacConfigurations);
     }
     
+    // TODO Document.
     public Builder end() {
         return builder;
     }

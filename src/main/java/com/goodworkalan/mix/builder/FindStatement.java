@@ -20,6 +20,7 @@ public class FindStatement<T> {
     /** The file list. */
     private final FindList findList;
 
+    // TODO Document.
     public FindStatement(T parent, FindList findList, File directory) {
         this.findList = findList;
         this.parent = parent;

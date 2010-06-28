@@ -36,13 +36,16 @@ public class Javac extends JavacOptionsElement<RecipeStatement, Javac>{
     /** Disable warnings if false. */
     private boolean warnings;
     
+    // TODO Document.
     private File output;
     
     /** Artifacts. */
     private final List<Artifact> artifacts = new ArrayList<Artifact>();
     
+    // TODO Document.
     private FindList findList = new FindList();
     
+    // TODO Document.
     public Javac(RecipeStatement recipeElement) {
         super(recipeElement, new SelfServer<Javac>(), null);
         ending = new JavacEnd() {
@@ -139,24 +142,29 @@ public class Javac extends JavacOptionsElement<RecipeStatement, Javac>{
         return this;
     }
 
+    // TODO Document.
     public FindStatement<Javac> source(File directory) {
         return new FindStatement<Javac>(this, findList, directory);
     }
     
+    // TODO Document.
     public Javac output(File output) {
         this.output = output;
         return this;
     }
 
+    // TODO Document.
     public Javac source(FindList findList) {
         findList.addAll(findList);
         return this;
     }
     
+    // TODO Document.
     public Javac configure(JavacConfiguration...configurations) {
         return configure(Arrays.asList(configurations));
     }
     
+    // TODO Document.
     public Javac configure(List<JavacConfiguration> configurations) {
         for (JavacConfiguration javacConfiguration : configurations) {
             javacConfiguration.configure(this);

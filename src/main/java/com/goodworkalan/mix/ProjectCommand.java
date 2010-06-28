@@ -11,13 +11,17 @@ import com.goodworkalan.mix.builder.Builder;
 import com.goodworkalan.reflective.Reflective;
 import com.goodworkalan.reflective.ReflectiveException;
 
+// TODO Document.
 public class ProjectCommand implements Commandable {
+    // TODO Document.
     public ProjectCommand() {
     }
 
+    // TODO Document.
     @Argument
     public String projectModule;
 
+    // TODO Document.
     private void execute(ClassLoader classLoader, Builder builder, String projectModuleClassName, boolean exceptional) {
         Class<?> loadedClass;
         try {

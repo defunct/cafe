@@ -37,6 +37,7 @@ public class RecipePathPart extends ExpandingPathPart {
         this.recipeName = recipeName;
     }
     
+    // TODO Document.
     public void expand(Library library, Collection<PathPart> expanded, Collection<PathPart> expand) {
         Recipe recipe = project.getRecipe(recipeName);
         for (Dependency dependency : recipe.getDependencies()) {
@@ -57,6 +58,7 @@ public class RecipePathPart extends ExpandingPathPart {
         return project.getRecipe(recipeName);
     }
     
+    // TODO Document.
     public Set<Exclude> getExcludes() {
         return Collections.<Exclude>emptySet();
     }

@@ -37,12 +37,15 @@ public class MixCommand implements Commandable {
     @Argument
     public boolean offline;
 
+    // TODO Document.
     @Argument
     public boolean siblings;
     
+    // TODO Document.
     @Argument
     public boolean bootstrap;
     
+    // TODO Document.
     @Argument
     public String projectModule;
 

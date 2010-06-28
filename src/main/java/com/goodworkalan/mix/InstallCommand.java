@@ -31,6 +31,7 @@ public class InstallCommand implements Commandable {
         this.libraryDirectory = libraryDirectory;
     }
 
+    // TODO Document.
     public void execute(Environment env) {
         if (libraryDirectory == null) {
             if (System.getProperty("user.home") == null) {
@@ -61,7 +62,7 @@ public class InstallCommand implements Commandable {
         Mix mix = env.get(Mix.class, 0);
         for (Production production : productions) {
             ArgumentList mixArguments = new ArgumentList(env.arguments.get(0));
-            mixArguments.removeArgument("siblings");
+            mixArguments.removeArgument("mix:siblings");
             env.executor.run(env.io, "mix", mixArguments, "make", production.getRecipeName()); 
             Artifact artifact = production.getArtifact();
             Find find = new Find();

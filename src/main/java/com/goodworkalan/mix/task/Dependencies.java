@@ -19,7 +19,9 @@ import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.builder.RecipeStatement;
 
+// TODO Document.
 public class Dependencies {
+    // TODO Document.
     private final RecipeStatement recipeElement;
     
     /** The recipe name. */
@@ -28,6 +30,7 @@ public class Dependencies {
     /** The output file. */
     private File output;
     
+    // TODO Document.
     public Dependencies(RecipeStatement recipeElement) {
         this.recipeElement = recipeElement;
     }
@@ -54,6 +57,7 @@ public class Dependencies {
         return this;
     }
 
+    // TODO Document.
     public RecipeStatement end() {
         recipeElement.executable(new Commandable() {
             public void execute(Environment env) {

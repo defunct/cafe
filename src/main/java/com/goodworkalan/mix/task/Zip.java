@@ -20,11 +20,15 @@ import com.goodworkalan.mix.builder.FindStatement;
 import com.goodworkalan.mix.builder.FindList;
 import com.goodworkalan.mix.builder.RecipeStatement;
 
+// TODO Document.
 public class Zip {
+    // TODO Document.
     private final RecipeStatement recipeElement;
 
+    // TODO Document.
     private final byte[] buffer = new byte[4098];
 
+    // TODO Document.
     private ZipOutputStream out;
     
     /** Set of files added to the zip file. */
@@ -39,6 +43,7 @@ public class Zip {
     /** The output file name. */
     private File output;
 
+    // TODO Document.
     public Zip(RecipeStatement recipeElement) {
         this.recipeElement = recipeElement;
     }
@@ -74,6 +79,7 @@ public class Zip {
         return new FindStatement<Zip>(this, findList, directory);
     }
 
+    // TODO Document.
     protected void addFile(File source, String entryName) throws IOException {
         entryName = entryName.replace(File.separator, "/");
         if (seen.contains(entryName)) {
@@ -92,13 +98,16 @@ public class Zip {
         in.close();
     }
     
+    // TODO Document.
     protected void addAdditionalEntries(Environment env, Project project, String recipeName) throws IOException {
     }
 
+    // TODO Document.
     protected void addFind(Find find, File directory) throws IOException {
         addFind(find, directory, "");
     }
 
+    // TODO Document.
     protected void addFind(Find find, File directory, String prefix) throws IOException {
         assert prefix != null;
         if (prefix.length() > 0 && !prefix.endsWith("/")) {
@@ -112,6 +121,7 @@ public class Zip {
         }
     }
     
+    // TODO Document.
     public RecipeStatement end() {
         return recipeElement.executable(new Commandable() {
             public void execute(Environment env) {

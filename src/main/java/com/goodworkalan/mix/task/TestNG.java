@@ -27,47 +27,61 @@ import com.goodworkalan.mix.builder.RecipeStatement;
 import com.goodworkalan.spawn.Exit;
 import com.goodworkalan.spawn.Spawn;
 
+// TODO Document.
 public class TestNG {
+    // TODO Document.
     private final FindList findList = new FindList();
     
+    // TODO Document.
     private final List<File> classes = new ArrayList<File>();
     
+    // TODO Document.
     private final List<Artifact> artifacts = new ArrayList<Artifact>();
     
+    // TODO Document.
     private final Map<String, String> systemProperties = new LinkedHashMap<String, String>();
     
+    // TODO Document.
     private final RecipeStatement recipeElement;
     
+    // TODO Document.
     private File output;
     
+    // TODO Document.
     public TestNG(RecipeStatement recipeElement) {
         this.recipeElement = recipeElement;
     }
 
+    // TODO Document.
     public TestNG classes(File directory) {
         classes.add(directory);
         return this;
     }
     
+    // TODO Document.
     public TestNG artifact(Artifact artifact) {
         artifacts.add(artifact);
         return this;
     }
     
+    // TODO Document.
     public FindStatement<TestNG> source(File directory) {
         return new FindStatement<TestNG>(this, findList, directory);
     }
     
+    // TODO Document.
     public TestNG define(String name, String value) {
         systemProperties.put(name, value);
         return this;
     }
     
+    // TODO Document.
     public TestNG output(File output) {
         this.output = output;
         return this;
     }
 
+    // TODO Document.
     public RecipeStatement end() {
         recipeElement.executable(new Commandable() {
             public void execute(Environment env) {

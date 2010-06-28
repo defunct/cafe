@@ -53,10 +53,12 @@ public class Mix {
         return offline;
     }
     
+    // TODO Document.
     public boolean isSiblings() {
         return siblings;
     }
     
+    // TODO Document.
     public File relativize(File file) {
         if (!file.isAbsolute()) {
             return new File(workingDirectory, file.getPath());

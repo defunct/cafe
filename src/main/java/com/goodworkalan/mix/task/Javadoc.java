@@ -28,17 +28,21 @@ import com.goodworkalan.mix.builder.RecipeStatement;
 import com.goodworkalan.spawn.Exit;
 import com.goodworkalan.spawn.Spawn;
 
+// TODO Document.
 public class Javadoc extends JavadocOptionsElement<RecipeStatement, Javadoc> {
+    // TODO Document.
     private File output;
     
     /** The directory where package lists for offline linking are kept. */
     private File packageLists;
     
+    // TODO Document.
     private FindList findList = new FindList();
     
     /** Artifacts. */
     private final List<Artifact> artifacts = new ArrayList<Artifact>();
     
+    // TODO Document.
     public Javadoc(RecipeStatement recipeElement) {
         super(recipeElement, new SelfServer<Javadoc>(), null);
         self.setSelf(this);
@@ -141,10 +145,12 @@ public class Javadoc extends JavadocOptionsElement<RecipeStatement, Javadoc> {
         };
     }
 
+    // TODO Document.
     public Javadoc configure(JavadocConfiguration...configurations) {
         return configure(Arrays.asList(configurations));
     }
     
+    // TODO Document.
     public Javadoc configure(List<JavadocConfiguration> configurations){
         for (JavadocConfiguration configuration : configurations) {
             configuration.configure(this);
@@ -152,25 +158,30 @@ public class Javadoc extends JavadocOptionsElement<RecipeStatement, Javadoc> {
         return this;
     }
 
+    // TODO Document.
     public Javadoc artifact(Artifact artifact) {
         artifacts.add(artifact);
         return this;
     }
 
+    // TODO Document.
     public Javadoc link(URI uri) {
         links.add(uri);
         return this;
     }
 
+    // TODO Document.
     public Javadoc offlineLink(URI uri, File file) {
         offlineLinks.put(uri, file);
         return this;
     }
     
+    // TODO Document.
     public FindStatement<Javadoc> source(File directory) {
         return new FindStatement<Javadoc>(this, findList, directory);
     }
 
+    // TODO Document.
     public Javadoc output(File directory) {
         this.output = directory;
         return this;

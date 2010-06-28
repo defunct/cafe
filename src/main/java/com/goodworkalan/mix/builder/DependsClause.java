@@ -10,24 +10,22 @@ import com.goodworkalan.mix.Dependency;
 /**
  * Specify the dependencies of a project.
  * 
- * FIXME I can probably merge all elements into one, after I implement siblings
- * that is all Dependency derived classes, then I can move this to a separate
- * package, it is the only one with a tight binding.
- *  
  * @author Alan Gutierrez
  */
-// FIXME Make recipe execution a separate dependency list, that way you can 
-// have this dependency be only for paths.
 public class DependsClause<P> {
+    // TODO Document.
     private final P recipeElement;
     
+    // TODO Document.
     private final Map<List<String>, Dependency> dependencies; 
     
+    // TODO Document.
     DependsClause(P recipeElement, Map<List<String>, Dependency> dependencies) {
         this.recipeElement = recipeElement;
         this.dependencies = dependencies;
     }
 
+    // TODO Document.
     public DependsClause<P> recipe(String name) {
         if (!dependencies.containsKey(name)) {
             dependencies.put(Collections.singletonList(name), new RecipeDependency(name));
@@ -50,6 +48,7 @@ public class DependsClause<P> {
         return include(new Include(artifact, excludes));
     }
     
+    // TODO Document.
     public DependsClause<P> include(Include include) {
         List<String> key = include.getArtifact().getUnversionedKey();
         if (!dependencies.containsKey(key)) {
@@ -58,6 +57,7 @@ public class DependsClause<P> {
         return this;
     }
     
+    // TODO Document.
     public P end() {
         return recipeElement;
     }

@@ -20,6 +20,7 @@ public class Project {
     /** The map of recipes indexed by recipe name. */
     private final Map<String, Recipe> recipes;
 
+    // TODO Document.
     private final SortedMap<List<String>, Production> artifacts = new TreeMap<List<String>, Production>(new StringListComparator());
 
     /**
@@ -56,6 +57,7 @@ public class Project {
         return new ArrayList<Recipe>(recipes.values());
     }
 
+    // TODO Document.
     public Recipe getRecipe(String recipeName) {
         return recipes.get(recipeName);
     }
@@ -70,6 +72,7 @@ public class Project {
         return new ArrayList<Production>(artifacts.values());
     }
     
+    // TODO Document.
     public List<Production> getProductions(String pattern) {
         String[] parts = pattern.split("/");
         if (parts.length > 3) {

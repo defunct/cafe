@@ -25,18 +25,22 @@ public class Copy {
     /** The output directory for the copy. */
     private File outputDirectory;
     
+    // TODO Document.
     private final End end = new End();
     
+    // TODO Document.
     public Copy(RecipeStatement recipeElement) {
         this.recipeElement = recipeElement;
     }
 
+    // TODO Document.
     public Copy source(FindList findList) {
         end.amend();
         findList.addAll(findList);
         return this;
     }
 
+    // TODO Document.
     public FindStatement<Copy> source(File directory) {
         end.amend();
         return new FindStatement<Copy>(this, findList, directory);
@@ -54,6 +58,7 @@ public class Copy {
         return this;
     }
 
+    // TODO Document.
     public RecipeStatement end() {
         end.end();
         return recipeElement.executable(new Commandable() {

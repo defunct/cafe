@@ -17,23 +17,33 @@ import com.goodworkalan.mix.Recipe;
 import com.goodworkalan.reflective.Reflective;
 import com.goodworkalan.reflective.ReflectiveException;
 
+// TODO Document.
 public class RecipeStatement {
+    // TODO Document.
     private final Builder builder;
     
+    // TODO Document.
     private final String name;
     
+    // TODO Document.
     private final Map<String, Recipe> recipes;
     
+    // TODO Document.
     private final List<Commandable> program = new ArrayList<Commandable>();
     
+    // TODO Document.
     private final Map<List<String>, Dependency> dependencies = new LinkedHashMap<List<String>, Dependency>();
     
+    // TODO Document.
     private final Set<File> classes = new LinkedHashSet<File>();
     
+    // TODO Document.
     private final Map<List<String>, Production> artifacts; 
     
+    // TODO Document.
     private final List<Rebuild> rebuilds = new ArrayList<Rebuild>();
     
+    // TODO Document.
     public RecipeStatement(Builder builder, Map<List<String>, Production> artifacts, Map<String, Recipe> recipes, String name) {
         this.builder = builder;
         this.recipes = recipes;
@@ -49,6 +59,7 @@ public class RecipeStatement {
         }
     }
     
+    // TODO Document.
     public RecipeStatement make(String recipe) {
         return this;
     }
@@ -144,6 +155,7 @@ public class RecipeStatement {
         return new DependsClause<RecipeStatement>(this, dependencies);
     }
     
+    // TODO Document.
     public ProducesClause produces() {
         return new ProducesClause(this, name, classes, artifacts);
     }

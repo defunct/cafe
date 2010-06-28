@@ -9,10 +9,7 @@ public class Make {
     /** The recipe to make. */
     public final String recipeName;
     
-    /**
-     * 
-     * @param recipeName The recipe to make.
-     */
+    // TODO Document.
     public Make(String recipeName) {
         this.recipeName = recipeName;
     }
