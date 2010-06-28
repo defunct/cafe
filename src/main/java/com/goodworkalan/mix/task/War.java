@@ -17,7 +17,6 @@ import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.Recipe;
 import com.goodworkalan.mix.builder.RecipeStatement;
-import com.sun.tools.javac.util.List;
 
 /**
  * Create a web application archive copying artifact dependencies to the
