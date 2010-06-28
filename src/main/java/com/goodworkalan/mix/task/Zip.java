@@ -22,8 +22,8 @@ import com.goodworkalan.mix.builder.RecipeStatement;
 
 // TODO Document.
 public class Zip {
-    // TODO Document.
-    private final RecipeStatement recipeElement;
+    /** The parent recipe builder to return when this statement ends. */
+    private final RecipeStatement recipeStatement;
 
     // TODO Document.
     private final byte[] buffer = new byte[4098];
@@ -43,9 +43,14 @@ public class Zip {
     /** The output file name. */
     private File output;
 
-    // TODO Document.
-    public Zip(RecipeStatement recipeElement) {
-        this.recipeElement = recipeElement;
+    /**
+     * Create a Zip task.
+     * 
+     * @param recipeStatement
+     *            The parent recipe builder to return when this statement ends.
+     */ 
+    public Zip(RecipeStatement recipeStatement) {
+        this.recipeStatement = recipeStatement;
     }
 
     /**
@@ -123,7 +128,7 @@ public class Zip {
     
     // TODO Document.
     public RecipeStatement end() {
-        return recipeElement.executable(new Commandable() {
+        return recipeStatement.executable(new Commandable() {
             public void execute(Environment env) {
                 Mix mix = env.get(Mix.class, 0);
                 env.verbose(Zip.class, "start", output);
