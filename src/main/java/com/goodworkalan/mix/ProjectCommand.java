@@ -8,8 +8,6 @@ import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.mix.builder.Builder;
-import com.goodworkalan.reflective.Reflective;
-import com.goodworkalan.reflective.ReflectiveException;
 
 // TODO Document.
 public class ProjectCommand implements Commandable {
@@ -43,12 +41,8 @@ public class ProjectCommand implements Commandable {
             }
             ProjectModule projectModule;
             try {
-                try {
-                    projectModule = projectModuleClass.newInstance();
-                } catch (Throwable e) {
-                    throw new ReflectiveException(Reflective.encode(e), e);
-                }
-            } catch (ReflectiveException e) {
+                projectModule = projectModuleClass.newInstance();
+            } catch (Exception e) {
                 throw new MixException(MixCommand.class, "project.module", projectModuleClass, MixCommand.class, e, "project.module", projectModuleClass);
             }
             projectModule.build(builder);

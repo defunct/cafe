@@ -14,8 +14,6 @@ import com.goodworkalan.mix.MixException;
 import com.goodworkalan.mix.Production;
 import com.goodworkalan.mix.Rebuild;
 import com.goodworkalan.mix.Recipe;
-import com.goodworkalan.reflective.Reflective;
-import com.goodworkalan.reflective.ReflectiveException;
 
 // TODO Document.
 public class RecipeStatement {
@@ -136,12 +134,8 @@ public class RecipeStatement {
 	 */
     public <T> T task(final Class<T> taskClass) {
         try {
-            try {
-                return taskClass.getConstructor(RecipeStatement.class).newInstance(RecipeStatement.this);
-            } catch (Throwable e) {
-                throw new ReflectiveException(Reflective.encode(e), e);
-            }
-        } catch (ReflectiveException e) {
+            return taskClass.getConstructor(RecipeStatement.class).newInstance(RecipeStatement.this);
+        } catch (Exception e) {
             throw new MixException(Builder.class, "cannot.create.task", taskClass);
         }
     }

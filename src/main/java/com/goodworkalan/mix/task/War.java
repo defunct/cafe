@@ -55,7 +55,8 @@ public class War extends Zip {
         for (Dependency dependency : recipe.getDependencies()) {
             parts.addAll(dependency.getPathParts(project));
         }
-        // FIXME Filter out by key instead? How do I combine dependencies? 
+        // FIXME Filter out by key instead? How do I combine dependencies? Maybe
+        // I just expand the last expantion?
         Set<String> seen = new HashSet<String>();
         for (File file : PathParts.fileSet(env.library.resolve(parts))) {
             if (!seen.contains(file.getName())) {

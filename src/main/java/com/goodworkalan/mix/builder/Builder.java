@@ -9,8 +9,6 @@ import com.goodworkalan.mix.MixException;
 import com.goodworkalan.mix.Production;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.Recipe;
-import com.goodworkalan.reflective.Reflective;
-import com.goodworkalan.reflective.ReflectiveException;
 
 /**
  * Root of a domain specific language used to specify recipies.
@@ -64,12 +62,8 @@ public class Builder {
 	 */
     public <T> T cookbook(Class<T> cookbookClass) {
         try {
-            try {
-                return cookbookClass.getConstructor(Builder.class).newInstance(Builder.this);
-            } catch (Throwable e) {
-                throw new ReflectiveException(Reflective.encode(e), e);
-            }
-        } catch (ReflectiveException e) {
+            return cookbookClass.getConstructor(Builder.class).newInstance(Builder.this);
+        } catch (Exception e) {
             throw new MixException(Builder.class, "create.cookbook", e, cookbookClass.getCanonicalName());
         }
     }
