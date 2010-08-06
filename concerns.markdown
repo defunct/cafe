@@ -39,6 +39,15 @@ develop dependencies file.
 Need to avoid splintering this into the half-dozen different dependency groups
 that come with Maven. 
 
+HEY!
+
+What if we just make it easy to use exclusions? There ought to be one and only
+one universal implementation of an interface, but if we've got that all muddy,
+as it is the case with JPA annotations at the moment, then we can go ahead and
+exclude the implementation that we disfavor.
+
+Or else it could be a matter of the import order.
+
 ## Statements and Clauses
 
 A clause is a part of a statement, but that does not mean that a statement
