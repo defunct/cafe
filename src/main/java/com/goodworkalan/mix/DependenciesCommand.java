@@ -22,7 +22,7 @@ import com.goodworkalan.ilk.Ilk;
  * 
  * @author Alan Gutierrez
  */
-@Command(parent = MixCommand.class)
+@Command(parent = CafeCommand.class)
 public class DependenciesCommand implements Commandable {
 	/** Whether or not to show just immediate dependencies. */
 	@Argument

@@ -11,11 +11,11 @@ import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.library.Artifact;
-import com.goodworkalan.mix.MixCommand;
+import com.goodworkalan.mix.CafeCommand;
 import com.goodworkalan.mix.MixError;
 
 // TODO Document.
-@Command(name = "test-ng", parent = MixCommand.class)
+@Command(name = "test-ng", parent = CafeCommand.class)
 public class TestNGCommand implements Commandable {
     // TODO Document.
     public final Map<String, String> defines = new LinkedHashMap<String, String>();

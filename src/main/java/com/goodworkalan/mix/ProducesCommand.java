@@ -12,7 +12,7 @@ import com.goodworkalan.ilk.Ilk;
  *
  * @author Alan Gutierrez
  */
-@Command(parent = MixCommand.class)
+@Command(parent = CafeCommand.class)
 public class ProducesCommand implements Commandable {
     /**
      * Print the artifacts produced by the project.

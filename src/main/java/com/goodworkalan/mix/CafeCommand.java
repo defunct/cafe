@@ -26,11 +26,11 @@ import com.goodworkalan.mix.task.Javac;
  * 
  * @author Alan Gutierrez
  */
-public class MixCommand implements Commandable {
+public class CafeCommand implements Commandable {
     /**
      * Create a mix task.
      */
-    public MixCommand() {
+    public CafeCommand() {
     }
 
 	/** Set whether or not Mix is being run without an Internet connection. */
@@ -68,7 +68,7 @@ public class MixCommand implements Commandable {
         try {
             mix = new Mix(workingDirectory.getCanonicalFile(), offline, siblings);
         } catch (IOException e) {
-            throw new MixError(MixCommand.class, "working.directory", workingDirectory);
+            throw new MixError(CafeCommand.class, "working.directory", workingDirectory);
         }
         env.output(new Ilk<Set<List<String>>>(){}, new HashSet<List<String>>());
         env.output(Mix.class, mix);
@@ -81,14 +81,14 @@ public class MixCommand implements Commandable {
                 Files.unlink(output);
             }
             if (!output.mkdirs()) {
-                throw new MixError(MixCommand.class, "output.mkdirs", output);
+                throw new MixError(CafeCommand.class, "output.mkdirs", output);
             }
-            File sourceDirectory = new File(mix.getWorkingDirectory(), "src/mix/java");
+            File sourceDirectory = new File(mix.getWorkingDirectory(), "src/cafe/java");
             env.debug("javac", sourceDirectory, output);
             if (sourceDirectory.isDirectory()) {
                 Builder hidden = new Builder();
                 hidden.recipe("production").end();
-                File dependencies = new File(mix.getWorkingDirectory(), "src/mix/etc/project.dep");
+                File dependencies = new File(mix.getWorkingDirectory(), "src/cafe/etc/project.dep");
                 if (dependencies.exists()) {
                 	for (Include include : Artifacts.read(dependencies)) {
                 		hidden
@@ -106,12 +106,12 @@ public class MixCommand implements Commandable {
                     		.recipe("production")
                     		.end()
                         .task(Javac.class)
-                            .artifact("com.github.bigeasy.mix/mix/0.+1.3.5")
+                            .artifact("com.github.bigeasy.cafe/cafe/0.+1.4")
                             .source(sourceDirectory.getAbsoluteFile()).end()
                             .output(output.getAbsoluteFile())
                             .end()
                         .task(Copy.class)
-                        	.source(new File(mix.getWorkingDirectory(), "src/mix/resources")).exclude("**/.svn/**").end()
+                        	.source(new File(mix.getWorkingDirectory(), "src/cafe/resources")).exclude("**/.svn/**").end()
                         	.output(output.getAbsoluteFile())
                         	.end()
                         .end();
@@ -121,21 +121,21 @@ public class MixCommand implements Commandable {
             env.invokeAfter(ProjectCommand.class);
         } else {
             FindList sources = new FindList();
-            sources.addDirectory(new File(mix.getWorkingDirectory(), "src/mix/java"));
+            sources.addDirectory(new File(mix.getWorkingDirectory(), "src/cafe/java"));
             sources.filesOnly();
-            sources.addDirectory(new File(mix.getWorkingDirectory(), "src/mix/resources"));
+            sources.addDirectory(new File(mix.getWorkingDirectory(), "src/cafe/resources"));
             sources.filesOnly();
             FindList outputs = new FindList();
             outputs.addDirectory(output);
             outputs.filesOnly();
             if (new Rebuild(sources, outputs).isDirty(mix)) {
                 ArgumentList mixArguments = new ArgumentList(env.arguments.get(0));
-                mixArguments.removeArgument("mix:siblings");
-                mixArguments.addArgument("mix:bootstrap", "true");
-                env.executor.run(env.io, "mix", mixArguments, "make", "javac");
+                mixArguments.removeArgument("cafe:siblings");
+                mixArguments.addArgument("cafe:bootstrap", "true");
+                env.executor.run(env.io, "cafe", mixArguments, "make", "javac");
             }
             if (!output.isDirectory()) {
-                throw new MixException(MixCommand.class, "output.not.directory", output);
+                throw new MixException(CafeCommand.class, "output.not.directory", output);
             }
             File dependencies = new File(mix.getWorkingDirectory(), "src/mix/etc/project.dep");
             if (dependencies.exists()) {

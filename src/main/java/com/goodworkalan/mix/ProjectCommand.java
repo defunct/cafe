@@ -26,7 +26,7 @@ public class ProjectCommand implements Commandable {
             loadedClass = classLoader.loadClass(projectModuleClassName);
         } catch (ClassNotFoundException e) {
             if (exceptional) {
-                throw new MixError(MixCommand.class, "project.module.missing", projectModuleClassName);
+                throw new MixError(CafeCommand.class, "project.module.missing", projectModuleClassName);
             }
             return;
         }
@@ -43,11 +43,11 @@ public class ProjectCommand implements Commandable {
             try {
                 projectModule = projectModuleClass.newInstance();
             } catch (Exception e) {
-                throw new MixException(MixCommand.class, "project.module", projectModuleClass, MixCommand.class, e, "project.module", projectModuleClass);
+                throw new MixException(CafeCommand.class, "project.module", projectModuleClass, CafeCommand.class, e, "project.module", projectModuleClass);
             }
             projectModule.build(builder);
         } else if (exceptional) {
-            throw new MixError(MixCommand.class, "not.a.project.module", projectModuleClassName);
+            throw new MixError(CafeCommand.class, "not.a.project.module", projectModuleClassName);
         }
     }
 

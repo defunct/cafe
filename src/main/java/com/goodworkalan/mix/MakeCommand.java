@@ -14,7 +14,7 @@ import com.goodworkalan.go.go.Environment;
  * 
  * @author Alan Gutierrez
  */
-@Command(parent = MixCommand.class)
+@Command(parent = CafeCommand.class)
 public class MakeCommand implements Commandable {
     /**
      * Execute the make, building the single recipe given in the command line

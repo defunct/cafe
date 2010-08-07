@@ -10,7 +10,7 @@ import com.goodworkalan.spawn.Spawn;
  *
  * @author Alan Gutierrez
  */
-@Command(parent = MixCommand.class)
+@Command(parent = CafeCommand.class)
 public class ExecuteCommand implements Commandable {
     /**
      * Execute the command in the remaining arguments in the working directory

@@ -1,14 +1,14 @@
-package com.goodworkalan.mix.mix;
+package com.goodworkalan.cafe;
 
 import com.goodworkalan.mix.ProjectModule;
 import com.goodworkalan.mix.builder.Builder;
 import com.goodworkalan.mix.cookbook.JavaProject;
 
-public class MixProject implements ProjectModule {
+public class CafeProject implements ProjectModule {
     public void build(Builder builder) {
         builder
             .cookbook(JavaProject.class)
-                .produces("com.github.bigeasy.mix/mix/0.1.3.21")
+                .produces("com.github.bigeasy.cafe/cafe/0.1.4.0")
                 .depends()
                     .production("com.github.bigeasy.spawn/spawn/0.+1.1")
                     .production("com.github.bigeasy.go-go/go-go/0.+1.4")

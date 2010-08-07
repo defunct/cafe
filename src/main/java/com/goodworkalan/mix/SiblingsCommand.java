@@ -30,12 +30,12 @@ public class SiblingsCommand implements Commandable {
             LinkedList<File> siblings = new LinkedList<File>();
             find(env, mix.getWorkingDirectory(), seen, siblings);
             ArgumentList mixArguments = new ArgumentList(env.arguments.get(0));
-            mixArguments.removeArgument("mix:siblings");
+            mixArguments.removeArgument("cafe:siblings");
             while (!siblings.isEmpty()) {
                 File sibling = siblings.removeLast();
-                env.debug("mix:sibling", sibling);
-                mixArguments.replaceArgument("mix:working-directory", sibling.getAbsolutePath());
-                List<String> commandLine = flatten("mix", mixArguments, env.getCommandLine(1), env.remaining);
+                env.debug("cafe:sibling", sibling);
+                mixArguments.replaceArgument("cafe:working-directory", sibling.getAbsolutePath());
+                List<String> commandLine = flatten("cafe", mixArguments, env.getCommandLine(1), env.remaining);
                 StringBuilder display = new StringBuilder();
                 String separator = "";
                 for (String argument : commandLine) {
@@ -46,10 +46,10 @@ public class SiblingsCommand implements Commandable {
                 env.executor.run(env.io, commandLine);
             }
             mixArguments = new ArgumentList(env.arguments.get(0));
-            mixArguments.removeArgument("mix:siblings");
+            mixArguments.removeArgument("cafe:siblings");
             StringBuilder display = new StringBuilder();
             String separator = "";
-            for (String argument : flatten("mix", mixArguments, env.getCommandLine(1), env.remaining)) {
+            for (String argument : flatten("cafe", mixArguments, env.getCommandLine(1), env.remaining)) {
                 display.append(separator).append(argument);
                 separator = " ";
             }
@@ -66,8 +66,8 @@ public class SiblingsCommand implements Commandable {
     private void find(Environment env, File workingDirectory, Set<Object> seen, List<File> directories) {
         File parent = workingDirectory.getParentFile();
         ArgumentList mixArguments = new ArgumentList(env.arguments.get(0));
-        mixArguments.removeArgument("mix:siblings");
-        mixArguments.replaceArgument("mix:working-directory", workingDirectory.getAbsolutePath());
+        mixArguments.removeArgument("cafe:siblings");
+        mixArguments.replaceArgument("cafe:working-directory", workingDirectory.getAbsolutePath());
         List<Include> dependencies = env.executor.run(new Ilk<List<Include>>() {}, InputOutput.nulls(), env.commands.get(0), mixArguments, "dependencies");
         for (Include dependency : dependencies) {
             Artifact artifact = dependency.getArtifact();
@@ -76,8 +76,8 @@ public class SiblingsCommand implements Commandable {
                 seen.add(unversionedKey);
                 File sibling = new File(parent, artifact.getName()).getAbsoluteFile();
                 if (isMixProject(sibling)) {
-                    mixArguments.replaceArgument("mix:working-directory", sibling.getAbsolutePath());
-                    List<Production> productions = env.executor.run(new Ilk<List<Production>>() {}, InputOutput.nulls(), "mix", mixArguments, "produces");
+                    mixArguments.replaceArgument("cafe:working-directory", sibling.getAbsolutePath());
+                    List<Production> productions = env.executor.run(new Ilk<List<Production>>() {}, InputOutput.nulls(), "cafe", mixArguments, "produces");
                     for (Production production : productions) {
                         if (production.getArtifact().getUnversionedKey().equals(artifact.getUnversionedKey())) {
                             directories.add(sibling);
