@@ -33,7 +33,7 @@ public class SiblingsCommand implements Commandable {
             mixArguments.removeArgument("cafe:siblings");
             while (!siblings.isEmpty()) {
                 File sibling = siblings.removeLast();
-                env.debug("cafe:sibling", sibling);
+                env.debug("sibling", sibling);
                 mixArguments.replaceArgument("cafe:working-directory", sibling.getAbsolutePath());
                 List<String> commandLine = flatten("cafe", mixArguments, env.getCommandLine(1), env.remaining);
                 StringBuilder display = new StringBuilder();
@@ -59,7 +59,7 @@ public class SiblingsCommand implements Commandable {
     
     // TODO Document.
     private boolean isMixProject(File directory) {
-        return directory.isDirectory() && file(directory, "src", "mix", "java").isDirectory();
+        return directory.isDirectory() && file(directory, "src", "cafe", "java").isDirectory();
     }
 
     // TODO Document.
