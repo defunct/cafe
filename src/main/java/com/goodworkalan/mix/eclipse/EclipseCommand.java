@@ -18,21 +18,25 @@ import com.goodworkalan.go.go.library.Artifact;
 import com.goodworkalan.go.go.library.ArtifactPart;
 import com.goodworkalan.go.go.library.PathPart;
 import com.goodworkalan.go.go.library.PathParts;
+import com.goodworkalan.mix.CafeCommand;
 import com.goodworkalan.mix.Dependency;
 import com.goodworkalan.mix.Mix;
-import com.goodworkalan.mix.MixCommand;
 import com.goodworkalan.mix.MixError;
 import com.goodworkalan.mix.Project;
 import com.goodworkalan.mix.Recipe;
 
-@Command(parent = MixCommand.class)
+// TODO Document.
+@Command(parent = CafeCommand.class)
 public class EclipseCommand implements Commandable {
+    // TODO Document.
     @Argument
     public boolean includeMix;
     
+    // TODO Document.
     @Argument
     public String description;
 
+    // TODO Document.
     private String join(String...parts) {
         StringBuilder string = new StringBuilder();
         String separator = "";
@@ -43,6 +47,7 @@ public class EclipseCommand implements Commandable {
         return string.toString();
     }
 
+    // TODO Document.
     private void source(Document document, File directory, String... path) {
         File file = Files.file(directory, path);
         if (file.isDirectory()) {
@@ -60,6 +65,7 @@ public class EclipseCommand implements Commandable {
         }
     }
 
+    // TODO Document.
     public void execute(Environment env) {
         Mix mix = env.get(Mix.class, 0);
         env.verbose("start", env.commands, mix.getWorkingDirectory());

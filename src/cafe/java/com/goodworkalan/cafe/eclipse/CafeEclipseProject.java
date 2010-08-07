@@ -1,17 +1,17 @@
-package com.goodworkalan.mix.eclipse.mix;
+package com.goodworkalan.cafe.eclipse;
 
 import com.goodworkalan.mix.ProjectModule;
 import com.goodworkalan.mix.builder.Builder;
-import com.goodworkalan.mix.builder.JavaProject;
+import com.goodworkalan.mix.cookbook.JavaProject;
 
 /**
- * Builds the project definition for Mix Eclipse.
+ * Builds the project definition for Cafe Eclipse.
  *
  * @author Alan Gutierrez
  */
-public class MixEclipseProject implements ProjectModule {
+public class CafeEclipseProject implements ProjectModule {
     /**
-     * Build the project definition Mix Eclipse.
+     * Build the project definition Cafe Eclipse.
      *
      * @param builder
      *          The project builder.
@@ -19,9 +19,9 @@ public class MixEclipseProject implements ProjectModule {
     public void build(Builder builder) {
         builder
             .cookbook(JavaProject.class)
-                .produces("com.github.bigeasy.mix/mix-eclipse/0.1.0.2")
+                .produces("com.github.bigeasy.cafe/cafe-eclipse/0.1.0.3")
                 .depends()
-                    .production("com.github.bigeasy.mix/mix/0.+1.3.12")
+                    .production("com.github.bigeasy.cafe/cafe/0.+1.4")
                     .production("com.github.bigeasy.comfort-xml/comfort-xml/0.+1")
                     .production("com.github.bigeasy.comfort-io/comfort-io/0.+1")
                     .end()    
