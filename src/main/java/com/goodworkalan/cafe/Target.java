@@ -15,7 +15,7 @@ import com.goodworkalan.go.go.Commandable;
  * 
  * @author Alan Gutierrez.
  */
-public class Recipe {
+public class Target {
     /** The list of commandables that constitutes a program. */
     public final List<Commandable> program;
     
@@ -40,7 +40,7 @@ public class Recipe {
      * @param rebuilds
      *            The list of rebuild test conditions for the recipe.
      */
-    public Recipe(List<Commandable> program, Map<List<String>, Dependency> dependencies, Set<File> classes, List<Rebuild> rebuilds) {
+    public Target(List<Commandable> program, Map<List<String>, Dependency> dependencies, Set<File> classes, List<Rebuild> rebuilds) {
         this.program = Collections.unmodifiableList(program);
         this.dependencies =  Collections.unmodifiableMap(dependencies);
         this.classes = Collections.unmodifiableSet(classes);

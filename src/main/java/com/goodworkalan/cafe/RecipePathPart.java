@@ -39,7 +39,7 @@ public class RecipePathPart extends ExpandingPathPart {
     
     // TODO Document.
     public void expand(Library library, Collection<PathPart> expanded, Collection<PathPart> expand) {
-        Recipe recipe = project.getRecipe(recipeName);
+        Target recipe = project.getRecipe(recipeName);
         for (Dependency dependency : recipe.getDependencies()) {
             expand.addAll(dependency.getPathParts(project));
         }

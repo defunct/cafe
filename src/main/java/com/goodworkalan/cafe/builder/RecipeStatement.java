@@ -12,7 +12,7 @@ import com.goodworkalan.cafe.Dependency;
 import com.goodworkalan.cafe.MixException;
 import com.goodworkalan.cafe.Production;
 import com.goodworkalan.cafe.Rebuild;
-import com.goodworkalan.cafe.Recipe;
+import com.goodworkalan.cafe.Target;
 import com.goodworkalan.go.go.Commandable;
 
 // TODO Document.
@@ -24,7 +24,7 @@ public class RecipeStatement {
     private final String name;
     
     // TODO Document.
-    private final Map<String, Recipe> recipes;
+    private final Map<String, Target> recipes;
     
     // TODO Document.
     private final List<Commandable> program = new ArrayList<Commandable>();
@@ -42,13 +42,13 @@ public class RecipeStatement {
     private final List<Rebuild> rebuilds = new ArrayList<Rebuild>();
     
     // TODO Document.
-    public RecipeStatement(Builder builder, Map<List<String>, Production> artifacts, Map<String, Recipe> recipes, String name) {
+    public RecipeStatement(Builder builder, Map<List<String>, Production> artifacts, Map<String, Target> recipes, String name) {
         this.builder = builder;
         this.recipes = recipes;
         this.artifacts = artifacts;
         this.name = name;
         
-        Recipe existing = recipes.get(name);
+        Target existing = recipes.get(name);
         if (existing != null) {
             program.addAll(existing.getProgram());
             classes.addAll(existing.getClasses());
@@ -160,7 +160,7 @@ public class RecipeStatement {
      * @return The builder element in order to continue specifying recipes.
      */
     public Builder end() {
-        recipes.put(name, new Recipe(program, dependencies, classes, rebuilds));
+        recipes.put(name, new Target(program, dependencies, classes, rebuilds));
         return builder;
     }
 }

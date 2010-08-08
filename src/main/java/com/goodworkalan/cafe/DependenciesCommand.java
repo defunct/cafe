@@ -42,7 +42,7 @@ public class DependenciesCommand implements Commandable {
         Map<List<String>, Include> includes = new LinkedHashMap<List<String>, Include>();
         if (immediate) {
         	if (development) {
-        		for (Recipe recipe : project.getRecipes()) {
+        		for (Target recipe : project.getRecipes()) {
         			for (Dependency dependency : recipe.getDependencies()) {
         				for (Include include : dependency.getIncludes(project)) {
         					includes.put(include.getArtifact().getUnversionedKey(), include);
@@ -51,7 +51,7 @@ public class DependenciesCommand implements Commandable {
         		}
         	} else {
         		for (Production production : project.getProductions()) {
-        			Recipe recipe = project.getRecipe(production.getRecipeName());
+        			Target recipe = project.getRecipe(production.getRecipeName());
         			for (Dependency dependency : recipe.getDependencies()) {
         				for (Include include : dependency.getIncludes(project)) {
         					includes.put(include.getArtifact().getUnversionedKey(), include);
@@ -63,14 +63,14 @@ public class DependenciesCommand implements Commandable {
 	        Map<Object, PathPart> path = new LinkedHashMap<Object, PathPart>();
 	        List<Dependency> dependencies = new ArrayList<Dependency>();
 	        if (development) {
-	        	for (Recipe recipe : project.getRecipes()) {
+	        	for (Target recipe : project.getRecipes()) {
 	        		for (Dependency dependency : recipe.getDependencies()) {
 	        			dependencies.add(dependency);
 	        		}
 	        	}
 	        } else {
 	        	for (Production production : project.getProductions()) {
-	        		Recipe recipe = project.getRecipe(production.getRecipeName());
+	        		Target recipe = project.getRecipe(production.getRecipeName());
 	        		for (Dependency dependency : recipe.getDependencies()) {
 	        			dependencies.add(dependency);
 	        		}

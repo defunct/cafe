@@ -11,7 +11,7 @@ import java.util.zip.ZipFile;
 import com.goodworkalan.cafe.Dependency;
 import com.goodworkalan.cafe.MixError;
 import com.goodworkalan.cafe.Project;
-import com.goodworkalan.cafe.Recipe;
+import com.goodworkalan.cafe.Target;
 import com.goodworkalan.cafe.builder.RecipeStatement;
 import com.goodworkalan.comfort.io.Find;
 import com.goodworkalan.go.go.Environment;
@@ -48,7 +48,7 @@ public class War extends Zip {
         for (Dependency dependency : project.getRecipe(recipeName).getDependencies()) {
             parts.addAll(dependency.getPathParts(project));
         }
-        Recipe recipe = project.getRecipe(recipeName);
+        Target recipe = project.getRecipe(recipeName);
         for (File file : recipe.getClasses()) {
             addFind(new Find(), file);
         }

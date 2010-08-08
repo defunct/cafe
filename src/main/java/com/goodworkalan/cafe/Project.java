@@ -18,7 +18,7 @@ public class Project {
     private final File workingDirectory;
 
     /** The map of recipes indexed by recipe name. */
-    private final Map<String, Recipe> recipes;
+    private final Map<String, Target> recipes;
 
     // TODO Document.
     private final SortedMap<List<String>, Production> artifacts = new TreeMap<List<String>, Production>(new StringListComparator());
@@ -33,7 +33,7 @@ public class Project {
      * @param artifacts
      *            A map of artifacts to their directories.
      */
-    public Project(File workingDirectory, Map<List<String>, Production> artifacts, Map<String, Recipe> recipes) {
+    public Project(File workingDirectory, Map<List<String>, Production> artifacts, Map<String, Target> recipes) {
         this.workingDirectory = workingDirectory;
         this.recipes = recipes;
         this.artifacts.putAll(artifacts);
@@ -53,12 +53,12 @@ public class Project {
      * 
      * @return A copy of the list of recipes.
      */
-    public List<Recipe> getRecipes() {
-        return new ArrayList<Recipe>(recipes.values());
+    public List<Target> getRecipes() {
+        return new ArrayList<Target>(recipes.values());
     }
 
     // TODO Document.
-    public Recipe getRecipe(String recipeName) {
+    public Target getRecipe(String recipeName) {
         return recipes.get(recipeName);
     }
 

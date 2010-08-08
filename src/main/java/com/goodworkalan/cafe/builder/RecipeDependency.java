@@ -6,7 +6,7 @@ import java.util.Collections;
 
 import com.goodworkalan.cafe.Dependency;
 import com.goodworkalan.cafe.Project;
-import com.goodworkalan.cafe.Recipe;
+import com.goodworkalan.cafe.Target;
 import com.goodworkalan.cafe.RecipePathPart;
 import com.goodworkalan.go.go.library.Include;
 import com.goodworkalan.go.go.library.PathPart;
@@ -54,7 +54,7 @@ class RecipeDependency implements Dependency {
      */
     public Collection<Include> getIncludes(Project project) {
         Collection<Include> includes = new ArrayList<Include>();
-        Recipe recipe = project.getRecipe(name);
+        Target recipe = project.getRecipe(name);
         for (Dependency dependency : recipe.getDependencies()) {
             includes.addAll(dependency.getIncludes(project));
         }

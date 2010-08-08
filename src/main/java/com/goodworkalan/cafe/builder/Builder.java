@@ -8,7 +8,7 @@ import java.util.Map;
 import com.goodworkalan.cafe.MixException;
 import com.goodworkalan.cafe.Production;
 import com.goodworkalan.cafe.Project;
-import com.goodworkalan.cafe.Recipe;
+import com.goodworkalan.cafe.Target;
 
 /**
  * Root of a domain specific language used to specify recipies.
@@ -17,7 +17,7 @@ import com.goodworkalan.cafe.Recipe;
  */
 public class Builder {
     /** The map of recipe names to recipes. */
-    private final Map<String, Recipe> recipes = new HashMap<String, Recipe>();
+    private final Map<String, Target> recipes = new HashMap<String, Target>();
     
     /** The map of unique keys to productions. */
     private final Map<List<String>, Production> artifacts = new HashMap<List<String>, Production>();
