@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.goodworkalan.cafe.MixException;
 import com.goodworkalan.cafe.Production;
 import com.goodworkalan.cafe.Project;
 import com.goodworkalan.cafe.Target;
+import com.goodworkalan.danger.Danger;
 
 /**
  * Root of a domain specific language used to specify recipies.
@@ -64,7 +64,7 @@ public class Builder {
         try {
             return cookbookClass.getConstructor(Builder.class).newInstance(Builder.this);
         } catch (Exception e) {
-            throw new MixException(Builder.class, "create.cookbook", e, cookbookClass.getCanonicalName());
+            throw new Danger(Builder.class, "create.cookbook", e, cookbookClass.getCanonicalName());
         }
     }
 

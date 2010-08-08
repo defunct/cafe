@@ -1,7 +1,7 @@
-com.goodworkalan.mix.CafeCommand
-com.goodworkalan.mix.MakeCommand
-com.goodworkalan.mix.InstallCommand
-com.goodworkalan.mix.DependenciesCommand
-com.goodworkalan.mix.ProducesCommand
-com.goodworkalan.mix.ExecuteCommand
-com.goodworkalan.mix.task.TestNGCommand
+com.goodworkalan.cafe.CafeCommand
+com.goodworkalan.cafe.MakeCommand
+com.goodworkalan.cafe.InstallCommand
+com.goodworkalan.cafe.DependenciesCommand
+com.goodworkalan.cafe.ProducesCommand
+com.goodworkalan.cafe.ExecuteCommand
+com.goodworkalan.cafe.task.TestNGCommand

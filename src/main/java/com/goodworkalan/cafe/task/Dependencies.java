@@ -9,9 +9,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
-import com.goodworkalan.cafe.Dependency;
 import com.goodworkalan.cafe.Build;
-import com.goodworkalan.cafe.MixError;
+import com.goodworkalan.cafe.Dependency;
+import com.goodworkalan.cafe.CafeError;
 import com.goodworkalan.cafe.Project;
 import com.goodworkalan.cafe.builder.RecipeStatement;
 import com.goodworkalan.go.go.Commandable;
@@ -83,7 +83,7 @@ public class Dependencies {
                 Build mix = env.get(Build.class, 0);
                 File relativized = mix.relativize(output);
                 if (!relativized.getParentFile().isDirectory() && !relativized.getParentFile().mkdirs()) {
-                    throw new MixError(Dependencies.class, "mkdirs", relativized.getParentFile());
+                    throw new CafeError(Dependencies.class, "mkdirs", relativized.getParentFile());
                 }
                 try {
                     PrintWriter writer = new PrintWriter(new FileWriter(relativized));
@@ -92,7 +92,7 @@ public class Dependencies {
                     }
                     writer.close();
                 } catch (IOException e) {
-                    throw new MixError(Dependencies.class, "write", e, relativized);
+                    throw new CafeError(Dependencies.class, "write", e, relativized);
                 }
             }
         });

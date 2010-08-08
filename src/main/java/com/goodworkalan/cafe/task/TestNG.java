@@ -10,7 +10,7 @@ import java.util.Set;
 
 import com.goodworkalan.cafe.Dependency;
 import com.goodworkalan.cafe.Make;
-import com.goodworkalan.cafe.MixError;
+import com.goodworkalan.cafe.CafeError;
 import com.goodworkalan.cafe.Project;
 import com.goodworkalan.cafe.builder.FindList;
 import com.goodworkalan.cafe.builder.FindStatement;
@@ -146,7 +146,7 @@ public class TestNG {
                 Exit exit = new Spawn().$(arguments).out(env.io.out).err(env.io.err).run();
                 
                 if (exit.code != 0) {
-                    throw new MixError(TestNG.class, "failure", exit);
+                    throw new CafeError(TestNG.class, "failure", exit);
                 }
             }
         });

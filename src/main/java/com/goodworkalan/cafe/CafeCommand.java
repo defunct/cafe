@@ -11,6 +11,7 @@ import com.goodworkalan.cafe.builder.FindList;
 import com.goodworkalan.cafe.task.Copy;
 import com.goodworkalan.cafe.task.Javac;
 import com.goodworkalan.comfort.io.Files;
+import com.goodworkalan.danger.Danger;
 import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.ArgumentList;
 import com.goodworkalan.go.go.Commandable;
@@ -68,7 +69,7 @@ public class CafeCommand implements Commandable {
         try {
             mix = new Build(workingDirectory.getCanonicalFile(), offline, siblings);
         } catch (IOException e) {
-            throw new MixError(CafeCommand.class, "working.directory", workingDirectory);
+            throw new CafeError(CafeCommand.class, "working.directory", workingDirectory);
         }
         env.output(new Ilk<Set<List<String>>>(){}, new HashSet<List<String>>());
         env.output(Build.class, mix);
@@ -81,7 +82,7 @@ public class CafeCommand implements Commandable {
                 Files.unlink(output);
             }
             if (!output.mkdirs()) {
-                throw new MixError(CafeCommand.class, "output.mkdirs", output);
+                throw new CafeError(CafeCommand.class, "output.mkdirs", output);
             }
             File sourceDirectory = new File(mix.getWorkingDirectory(), "src/cafe/java");
             env.debug("javac", sourceDirectory, output);
@@ -135,7 +136,7 @@ public class CafeCommand implements Commandable {
                 env.executor.run(env.io, "cafe", mixArguments, "make", "javac");
             }
             if (!output.isDirectory()) {
-                throw new MixException(CafeCommand.class, "output.not.directory", output);
+                throw new Danger(CafeCommand.class, "output.not.directory", output);
             }
             File dependencies = new File(mix.getWorkingDirectory(), "src/mix/etc/project.dep");
             if (dependencies.exists()) {

@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.goodworkalan.cafe.MixError;
+import com.goodworkalan.cafe.CafeError;
 import com.goodworkalan.cafe.builder.FindList;
 
 // TODO Document.
@@ -63,7 +63,7 @@ public class JavadocOptionsElement<P, S> {
     // TODO Document.
     public S visibility(String visibility) {
         if ("|public|protected|package|private|".indexOf("|" + visibility + "|") == -1) {
-            throw new MixError(JavadocOptionsElement.class, "invalid.visibility", visibility);
+            throw new CafeError(JavadocOptionsElement.class, "invalid.visibility", visibility);
         }
         this.visibility = visibility;
         return self.getSelf();

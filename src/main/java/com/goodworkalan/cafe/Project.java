@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import com.goodworkalan.danger.Danger;
+
 /**
  * Describes a software project, its source files, outputs and dependencies.
  * 
@@ -76,7 +78,7 @@ public class Project {
     public List<Production> getProductions(String pattern) {
         String[] parts = pattern.split("/");
         if (parts.length > 3) {
-            throw new MixException(Project.class, "bad.artifact.pattern", pattern);
+            throw new Danger(Project.class, "bad.artifact.pattern", pattern);
         }
         List<String> fromKey = Arrays.asList(pattern);
         if (fromKey.size() != 1) {

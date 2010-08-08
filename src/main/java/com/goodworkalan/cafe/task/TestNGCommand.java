@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.goodworkalan.cafe.CafeCommand;
-import com.goodworkalan.cafe.MixError;
+import com.goodworkalan.cafe.CafeError;
 import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Commandable;
@@ -31,7 +31,7 @@ public class TestNGCommand implements Commandable {
     public void addDefine(String define) {
         String[] pair = define.split(":");
         if (pair.length != 2) {
-            throw new MixError(TestNGCommand.class, "invalid.define", define);
+            throw new CafeError(TestNGCommand.class, "invalid.define", define);
         }
         defines.put(pair[0], pair[1]);
     }

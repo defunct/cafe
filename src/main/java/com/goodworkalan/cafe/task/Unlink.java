@@ -3,7 +3,7 @@ package com.goodworkalan.cafe.task;
 import java.io.File;
 
 import com.goodworkalan.cafe.Build;
-import com.goodworkalan.cafe.MixError;
+import com.goodworkalan.cafe.CafeError;
 import com.goodworkalan.cafe.builder.RecipeStatement;
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.go.go.Commandable;
@@ -64,10 +64,10 @@ public class Unlink {
                 File outgoing = mix.relativize(file);
                 if (!recurse) {
                     if (outgoing.exists() && !outgoing.delete()) {
-                        throw new MixError(Unlink.class, "failure", outgoing);
+                        throw new CafeError(Unlink.class, "failure", outgoing);
                     }
                 } else if (!Files.unlink(outgoing)) {
-                    throw new MixError(Unlink.class, "failure", outgoing);
+                    throw new CafeError(Unlink.class, "failure", outgoing);
                 }
             }
         });

@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.goodworkalan.cafe.Build;
 import com.goodworkalan.cafe.Dependency;
 import com.goodworkalan.cafe.Make;
-import com.goodworkalan.cafe.Build;
 import com.goodworkalan.cafe.Project;
 import com.goodworkalan.cafe.builder.FindList;
 import com.goodworkalan.cafe.builder.FindStatement;

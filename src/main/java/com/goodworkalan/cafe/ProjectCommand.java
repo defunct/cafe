@@ -5,6 +5,7 @@ import java.io.File;
 import com.goodworkalan.cafe.builder.Builder;
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.comfort.io.Find;
+import com.goodworkalan.danger.Danger;
 import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
@@ -26,7 +27,7 @@ public class ProjectCommand implements Commandable {
             loadedClass = classLoader.loadClass(projectModuleClassName);
         } catch (ClassNotFoundException e) {
             if (exceptional) {
-                throw new MixError(CafeCommand.class, "project.module.missing", projectModuleClassName);
+                throw new CafeError(CafeCommand.class, "project.module.missing", projectModuleClassName);
             }
             return;
         }
@@ -43,11 +44,11 @@ public class ProjectCommand implements Commandable {
             try {
                 projectModule = projectModuleClass.newInstance();
             } catch (Exception e) {
-                throw new MixException(CafeCommand.class, "project.module", projectModuleClass, CafeCommand.class, e, "project.module", projectModuleClass);
+                throw new Danger(CafeCommand.class, "project.module", projectModuleClass, CafeCommand.class, e, "project.module", projectModuleClass);
             }
             projectModule.build(builder);
         } else if (exceptional) {
-            throw new MixError(CafeCommand.class, "not.a.project.module", projectModuleClassName);
+            throw new CafeError(CafeCommand.class, "not.a.project.module", projectModuleClassName);
         }
     }
 

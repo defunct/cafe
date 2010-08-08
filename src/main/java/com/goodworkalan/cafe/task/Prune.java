@@ -3,7 +3,7 @@ package com.goodworkalan.cafe.task;
 import java.io.File;
 
 import com.goodworkalan.cafe.Build;
-import com.goodworkalan.cafe.MixError;
+import com.goodworkalan.cafe.CafeError;
 import com.goodworkalan.cafe.builder.FindList;
 import com.goodworkalan.cafe.builder.FindStatement;
 import com.goodworkalan.cafe.builder.RecipeStatement;
@@ -43,7 +43,7 @@ public class Prune {
                     for (String fileName : entry.getFind().find(directory)) {
                         File source = new File(directory, fileName);
                         if (!Files.unlink(source)) {
-                            throw new MixError(Prune.class, "failure", source);
+                            throw new CafeError(Prune.class, "failure", source);
                         }
                     }
                 }

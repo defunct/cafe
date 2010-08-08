@@ -9,10 +9,10 @@ import java.util.Map;
 import java.util.Set;
 
 import com.goodworkalan.cafe.Dependency;
-import com.goodworkalan.cafe.MixException;
 import com.goodworkalan.cafe.Production;
 import com.goodworkalan.cafe.Rebuild;
 import com.goodworkalan.cafe.Target;
+import com.goodworkalan.danger.Danger;
 import com.goodworkalan.go.go.Commandable;
 
 // TODO Document.
@@ -136,7 +136,7 @@ public class RecipeStatement {
         try {
             return taskClass.getConstructor(RecipeStatement.class).newInstance(RecipeStatement.this);
         } catch (Exception e) {
-            throw new MixException(Builder.class, "cannot.create.task", taskClass);
+            throw new Danger(Builder.class, "cannot.create.task", taskClass);
         }
     }
 

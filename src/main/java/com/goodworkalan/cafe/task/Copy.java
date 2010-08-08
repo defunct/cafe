@@ -3,7 +3,7 @@ package com.goodworkalan.cafe.task;
 import java.io.File;
 
 import com.goodworkalan.cafe.Build;
-import com.goodworkalan.cafe.MixError;
+import com.goodworkalan.cafe.CafeError;
 import com.goodworkalan.cafe.builder.FindList;
 import com.goodworkalan.cafe.builder.FindStatement;
 import com.goodworkalan.cafe.builder.RecipeStatement;
@@ -73,11 +73,11 @@ public class Copy {
                             File destination = new File(output, file);
                             if (source.isDirectory()) {
                                 if (!destination.isDirectory() && !destination.mkdirs()) {
-                                    throw new MixError(Copy.class, "mkdirs", destination);
+                                    throw new CafeError(Copy.class, "mkdirs", destination);
                                 }
                             } else {
                                 if (!destination.getParentFile().isDirectory() && !destination.getParentFile().mkdirs()) {
-                                    throw new MixError(Copy.class, "mkdirs", destination);
+                                    throw new CafeError(Copy.class, "mkdirs", destination);
                                 }
                                 Files.copy(source, destination);
                             }

@@ -25,7 +25,7 @@ public class MakeCommand implements Commandable {
      */
     public void execute(Environment env) {
         if (env.remaining.isEmpty()) {
-            throw new MixError(MakeCommand.class, "no.targets");
+            throw new CafeError(MakeCommand.class, "no.targets");
         }
         Project project = env.get(Project.class, 0);
         Build mix = env.get(Build.class, 0);

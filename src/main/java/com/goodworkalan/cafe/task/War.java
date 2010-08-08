@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.zip.ZipFile;
 
 import com.goodworkalan.cafe.Dependency;
-import com.goodworkalan.cafe.MixError;
+import com.goodworkalan.cafe.CafeError;
 import com.goodworkalan.cafe.Project;
 import com.goodworkalan.cafe.Target;
 import com.goodworkalan.cafe.builder.RecipeStatement;
@@ -67,7 +67,7 @@ public class War extends Zip {
                     try {
                         new ZipFile(file);
                     } catch (IOException e) {
-                        throw new MixError(War.class, "invalid.jar", e, file);
+                        throw new CafeError(War.class, "invalid.jar", e, file);
                     }
                     addFile(file, "WEB-INF/lib/" + file.getName());
                 }

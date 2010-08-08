@@ -9,9 +9,9 @@ import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import com.goodworkalan.cafe.Make;
 import com.goodworkalan.cafe.Build;
-import com.goodworkalan.cafe.MixError;
+import com.goodworkalan.cafe.Make;
+import com.goodworkalan.cafe.CafeError;
 import com.goodworkalan.cafe.Project;
 import com.goodworkalan.cafe.builder.FindList;
 import com.goodworkalan.cafe.builder.FindStatement;
@@ -88,7 +88,7 @@ public class Zip {
     protected void addFile(File source, String entryName) throws IOException {
         entryName = entryName.replace(File.separator, "/");
         if (seen.contains(entryName)) {
-            throw new MixError(Zip.class, "seen", entryName, output);
+            throw new CafeError(Zip.class, "seen", entryName, output);
         }
         seen.add(entryName);
         byte[] buffer = this.buffer;
@@ -144,7 +144,7 @@ public class Zip {
                     addAdditionalEntries(env, project, make.recipeName);
                     out.close();
                 } catch (IOException e) {
-                    throw new MixError(Zip.class, "failure", e, absoluteOutput);
+                    throw new CafeError(Zip.class, "failure", e, absoluteOutput);
                 }
             }
         });

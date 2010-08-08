@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.goodworkalan.cafe.Build;
-import com.goodworkalan.cafe.MixError;
-import com.goodworkalan.cafe.MixException;
+import com.goodworkalan.cafe.CafeError;
 import com.goodworkalan.cafe.builder.RecipeStatement;
+import com.goodworkalan.danger.Danger;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
 
@@ -40,13 +40,13 @@ public class Mkdirs {
                     directory = mix.relativize(directory);
                     if (directory.exists()) {
                         if (!directory.isDirectory()) {
-                            throw new MixError(Mkdirs.class, "file.exists", directory);
+                            throw new CafeError(Mkdirs.class, "file.exists", directory);
                         }
                         env.debug(Mkdirs.class, "exists", directory);
                     } else if (directory.mkdirs()) {
                         env.debug(Mkdirs.class, "create", directory);
                     } else {
-                        throw new MixException(Mkdirs.class, "failure", directory);
+                        throw new Danger(Mkdirs.class, "failure", directory);
                     }
                 }
             }

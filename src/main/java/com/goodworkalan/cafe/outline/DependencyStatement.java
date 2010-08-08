@@ -1,4 +1,4 @@
-package com.goodworkalan.mix.outline;
+package com.goodworkalan.cafe.outline;
 
 import com.goodworkalan.cafe.builder.Builder;
 

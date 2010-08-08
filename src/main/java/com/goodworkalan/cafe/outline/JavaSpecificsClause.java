@@ -1,4 +1,4 @@
-package com.goodworkalan.mix.outline;
+package com.goodworkalan.cafe.outline;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.comfort.io.Find;
+import com.goodworkalan.danger.Danger;
 import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.ArgumentList;
 import com.goodworkalan.go.go.Command;
@@ -35,7 +36,7 @@ public class InstallCommand implements Commandable {
     public void execute(Environment env) {
         if (libraryDirectory == null) {
             if (System.getProperty("user.home") == null) {
-                throw new MixException(InstallCommand.class, "no.user.home");
+                throw new Danger(InstallCommand.class, "no.user.home");
             }
             File home = new File(System.getProperty("user.home"));
             libraryDirectory = new File(home, ".m2/repository");
@@ -53,7 +54,7 @@ public class InstallCommand implements Commandable {
             for (String argument : env.remaining) {
                 Production production = byName.get(argument);
                 if (production == null) {
-                    throw new MixError(InstallCommand.class, "noSuchArtifact", argument);
+                    throw new CafeError(InstallCommand.class, "noSuchArtifact", argument);
                 }
                 productions.add(production);
             }
@@ -74,7 +75,7 @@ public class InstallCommand implements Commandable {
                 File destination = new File(outputDirectory, fileName);
                 File parent = destination.getParentFile();
                 if (!(parent.isDirectory() || parent.mkdirs())) {
-                    throw new MixException(InstallCommand.class, "mkdirs", parent, libraryDirectory);
+                    throw new Danger(InstallCommand.class, "mkdirs", parent, libraryDirectory);
                 }
                 Files.copy(new File(sourceDirectory, fileName), destination);
             }

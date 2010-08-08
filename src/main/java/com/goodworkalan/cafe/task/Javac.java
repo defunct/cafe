@@ -7,17 +7,17 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import com.goodworkalan.cafe.Build;
 import com.goodworkalan.cafe.Dependency;
 import com.goodworkalan.cafe.Make;
-import com.goodworkalan.cafe.Build;
-import com.goodworkalan.cafe.MixError;
-import com.goodworkalan.cafe.MixException;
+import com.goodworkalan.cafe.CafeError;
 import com.goodworkalan.cafe.Project;
 import com.goodworkalan.cafe.builder.FindList;
 import com.goodworkalan.cafe.builder.FindStatement;
 import com.goodworkalan.cafe.builder.RecipeStatement;
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.comfort.io.Find;
+import com.goodworkalan.danger.Danger;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.library.Artifact;
@@ -81,12 +81,12 @@ public class Javac extends JavacOptionsElement<RecipeStatement, Javac>{
                             arguments.add(target);
                         }
                         if (output == null) {
-                            throw new MixError(Javac.class, "output");
+                            throw new CafeError(Javac.class, "output");
                         }
                         Build mix = env.get(Build.class, 0);
                         File workingOutput = mix.relativize(output);
                         if (!(workingOutput.isDirectory() || workingOutput.mkdirs())) {
-                            throw new MixException(Javac.class, "mkdirs", workingOutput);
+                            throw new Danger(Javac.class, "mkdirs", workingOutput);
                         }
                         arguments.add("-d");
                         arguments.add(workingOutput.getPath());
@@ -121,7 +121,7 @@ public class Javac extends JavacOptionsElement<RecipeStatement, Javac>{
                         Exit exit = new Spawn().$(arguments).out(env.io.out).err(env.io.err).run();
                         
                         if (!exit.isSuccess()) {
-                            throw new MixException(Javac.class, "invoke", mix.getWorkingDirectory(), arguments);
+                            throw new Danger(Javac.class, "invoke", mix.getWorkingDirectory(), arguments);
                         }
                     }
                 });
