@@ -12,12 +12,12 @@ import com.goodworkalan.go.go.library.Library;
 import com.goodworkalan.go.go.library.PathPart;
 
 /**
- * An expanding path part that expands to include a recipes output and all of
+ * An expanding path part that expands to include a target's output and all of
  * its dependencies.
  * 
  * @author Alan Gutierrez
  */
-public class RecipePathPart extends ExpandingPathPart {
+public class TargetPathPart extends ExpandingPathPart {
     /** The project. */
     private final Project project;
     
@@ -32,7 +32,7 @@ public class RecipePathPart extends ExpandingPathPart {
      * @param recipeName
      *            The recipe name.
      */
-    public RecipePathPart(Project project, String recipeName) {
+    public TargetPathPart(Project project, String recipeName) {
         this.project = project;
         this.recipeName = recipeName;
     }

@@ -7,7 +7,7 @@ import java.util.Collections;
 import com.goodworkalan.cafe.Dependency;
 import com.goodworkalan.cafe.Project;
 import com.goodworkalan.cafe.Target;
-import com.goodworkalan.cafe.RecipePathPart;
+import com.goodworkalan.cafe.TargetPathPart;
 import com.goodworkalan.go.go.library.Include;
 import com.goodworkalan.go.go.library.PathPart;
 
@@ -42,7 +42,7 @@ class RecipeDependency implements Dependency {
      *            The project.
      */
     public Collection<PathPart> getPathParts(Project project) {
-        return Collections.<PathPart>singletonList(new RecipePathPart(project, name));
+        return Collections.<PathPart>singletonList(new TargetPathPart(project, name));
     }
 
     /**
