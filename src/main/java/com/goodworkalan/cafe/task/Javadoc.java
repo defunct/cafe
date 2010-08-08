@@ -11,7 +11,7 @@ import java.util.Set;
 
 import com.goodworkalan.cafe.Dependency;
 import com.goodworkalan.cafe.Make;
-import com.goodworkalan.cafe.Mix;
+import com.goodworkalan.cafe.Build;
 import com.goodworkalan.cafe.Project;
 import com.goodworkalan.cafe.builder.FindList;
 import com.goodworkalan.cafe.builder.FindStatement;
@@ -51,7 +51,7 @@ public class Javadoc extends JavadocOptionsElement<RecipeStatement, Javadoc> {
                 configure(configuration);
                 parent.executable(new Commandable() {
                     public void execute(Environment env) {
-                        Mix mix = env.get(Mix.class, 0);
+                        Build mix = env.get(Build.class, 0);
                         Project project = env.get(Project.class, 0);
                         List<String> arguments = new ArrayList<String>();
                         

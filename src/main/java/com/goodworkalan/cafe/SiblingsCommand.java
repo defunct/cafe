@@ -24,7 +24,7 @@ public class SiblingsCommand implements Commandable {
     // TODO Document.
     public void execute(Environment env) {
         env.debug("start", env.getCommandLine());
-        Mix mix = env.get(Mix.class, 0);
+        Build mix = env.get(Build.class, 0);
         if (mix.isSiblings()) {
             Set<Object> seen = new HashSet<Object>();
             LinkedList<File> siblings = new LinkedList<File>();

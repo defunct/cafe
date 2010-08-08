@@ -10,7 +10,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import com.goodworkalan.cafe.Make;
-import com.goodworkalan.cafe.Mix;
+import com.goodworkalan.cafe.Build;
 import com.goodworkalan.cafe.MixError;
 import com.goodworkalan.cafe.Project;
 import com.goodworkalan.cafe.builder.FindList;
@@ -130,7 +130,7 @@ public class Zip {
     public RecipeStatement end() {
         return recipeStatement.executable(new Commandable() {
             public void execute(Environment env) {
-                Mix mix = env.get(Mix.class, 0);
+                Build mix = env.get(Build.class, 0);
                 env.verbose(Zip.class, "start", output);
                 File absoluteOutput = mix.relativize(output);
                 try {

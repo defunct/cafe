@@ -64,14 +64,14 @@ public class CafeCommand implements Commandable {
      *            The environment.
      */
     public void execute(Environment env) {
-        Mix mix;
+        Build mix;
         try {
-            mix = new Mix(workingDirectory.getCanonicalFile(), offline, siblings);
+            mix = new Build(workingDirectory.getCanonicalFile(), offline, siblings);
         } catch (IOException e) {
             throw new MixError(CafeCommand.class, "working.directory", workingDirectory);
         }
         env.output(new Ilk<Set<List<String>>>(){}, new HashSet<List<String>>());
-        env.output(Mix.class, mix);
+        env.output(Build.class, mix);
         env.debug("start");
         // Need to run the compiler out of the context (one more reason
         // why compilers are not pluggable) of the compiler command.

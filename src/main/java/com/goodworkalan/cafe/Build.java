@@ -7,7 +7,7 @@ import java.io.File;
  * 
  * @author Alan Gutierrez
  */
-public class Mix {
+public class Build {
     /**
      * The project root directory, defaults to the current working
      * directory.
@@ -29,7 +29,7 @@ public class Mix {
      * @param siblings
      *            If true, invoke the command on all siblings.
      */
-    public Mix(File workingDirectory, boolean offline, boolean siblings) {
+    public Build(File workingDirectory, boolean offline, boolean siblings) {
         this.workingDirectory = workingDirectory;
         this.offline = offline;
         this.siblings = siblings;

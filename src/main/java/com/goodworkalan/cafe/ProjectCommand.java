@@ -59,7 +59,7 @@ public class ProjectCommand implements Commandable {
      *            The environment.
      */
     public void execute(Environment env) {
-        Mix mix = env.get(Mix.class, 0);
+        Build mix = env.get(Build.class, 0);
         File output = Files.file(mix.getWorkingDirectory(), "target", "mix-classes");
         Builder builder = new Builder();
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();

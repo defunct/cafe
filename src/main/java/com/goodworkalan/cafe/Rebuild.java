@@ -39,7 +39,7 @@ public class Rebuild {
      * 
      * @return True if a rebuild is required.
      */
-    public boolean isDirty(Mix mix) {
+    public boolean isDirty(Build mix) {
         long newest = 0L;
         for (FindList.Entry entry : sources) {
             Find find = entry.getFind();

@@ -2,7 +2,7 @@ package com.goodworkalan.cafe.task;
 
 import java.io.File;
 
-import com.goodworkalan.cafe.Mix;
+import com.goodworkalan.cafe.Build;
 import com.goodworkalan.cafe.MixError;
 import com.goodworkalan.cafe.builder.FindList;
 import com.goodworkalan.cafe.builder.FindStatement;
@@ -37,7 +37,7 @@ public class Prune {
     public RecipeStatement end() {
         recipeElement.executable(new Commandable() {
             public void execute(Environment env) {
-                Mix mix = env.get(Mix.class, 0);
+                Build mix = env.get(Build.class, 0);
                 for (FindList.Entry entry : findList) {
                     File directory = mix.relativize(entry.getDirectory());
                     for (String fileName : entry.getFind().find(directory)) {

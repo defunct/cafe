@@ -9,7 +9,7 @@ import java.util.Set;
 
 import com.goodworkalan.cafe.Dependency;
 import com.goodworkalan.cafe.Make;
-import com.goodworkalan.cafe.Mix;
+import com.goodworkalan.cafe.Build;
 import com.goodworkalan.cafe.MixError;
 import com.goodworkalan.cafe.MixException;
 import com.goodworkalan.cafe.Project;
@@ -83,7 +83,7 @@ public class Javac extends JavacOptionsElement<RecipeStatement, Javac>{
                         if (output == null) {
                             throw new MixError(Javac.class, "output");
                         }
-                        Mix mix = env.get(Mix.class, 0);
+                        Build mix = env.get(Build.class, 0);
                         File workingOutput = mix.relativize(output);
                         if (!(workingOutput.isDirectory() || workingOutput.mkdirs())) {
                             throw new MixException(Javac.class, "mkdirs", workingOutput);

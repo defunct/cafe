@@ -28,7 +28,7 @@ public class MakeCommand implements Commandable {
             throw new MixError(MakeCommand.class, "no.targets");
         }
         Project project = env.get(Project.class, 0);
-        Mix mix = env.get(Mix.class, 0);
+        Build mix = env.get(Build.class, 0);
         LinkedList<String> buildQueue = new LinkedList<String>();
         for (String superRecipeName : env.remaining) {
             env.verbose("start", superRecipeName);

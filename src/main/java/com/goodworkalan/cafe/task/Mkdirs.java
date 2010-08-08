@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.goodworkalan.cafe.Mix;
+import com.goodworkalan.cafe.Build;
 import com.goodworkalan.cafe.MixError;
 import com.goodworkalan.cafe.MixException;
 import com.goodworkalan.cafe.builder.RecipeStatement;
@@ -34,7 +34,7 @@ public class Mkdirs {
     public RecipeStatement end() {
         recipeElement.executable(new Commandable() {
             public void execute(Environment env) {
-                Mix mix = env.get(Mix.class, 0);
+                Build mix = env.get(Build.class, 0);
                 env.verbose(Mkdirs.class, "start", directories);
                 for (File directory : directories) {
                     directory = mix.relativize(directory);

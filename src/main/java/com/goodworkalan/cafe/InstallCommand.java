@@ -59,7 +59,7 @@ public class InstallCommand implements Commandable {
             }
         }
 
-        Mix mix = env.get(Mix.class, 0);
+        Build mix = env.get(Build.class, 0);
         for (Production production : productions) {
             ArgumentList mixArguments = new ArgumentList(env.arguments.get(0));
             mixArguments.removeArgument("cafe:siblings");

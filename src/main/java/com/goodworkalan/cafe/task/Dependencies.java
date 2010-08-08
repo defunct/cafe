@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.goodworkalan.cafe.Dependency;
-import com.goodworkalan.cafe.Mix;
+import com.goodworkalan.cafe.Build;
 import com.goodworkalan.cafe.MixError;
 import com.goodworkalan.cafe.Project;
 import com.goodworkalan.cafe.builder.RecipeStatement;
@@ -80,7 +80,7 @@ public class Dependencies {
                         }
                     }
                 }
-                Mix mix = env.get(Mix.class, 0);
+                Build mix = env.get(Build.class, 0);
                 File relativized = mix.relativize(output);
                 if (!relativized.getParentFile().isDirectory() && !relativized.getParentFile().mkdirs()) {
                     throw new MixError(Dependencies.class, "mkdirs", relativized.getParentFile());

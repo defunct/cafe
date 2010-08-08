@@ -2,7 +2,7 @@ package com.goodworkalan.cafe.task;
 
 import java.io.File;
 
-import com.goodworkalan.cafe.Mix;
+import com.goodworkalan.cafe.Build;
 import com.goodworkalan.cafe.MixError;
 import com.goodworkalan.cafe.builder.FindList;
 import com.goodworkalan.cafe.builder.FindStatement;
@@ -63,7 +63,7 @@ public class Copy {
         end.end();
         return recipeElement.executable(new Commandable() {
             public void execute(Environment env) {
-                Mix mix = env.get(Mix.class, 0);
+                Build mix = env.get(Build.class, 0);
                 File output = mix.relativize(outputDirectory);
                 for (FindList.Entry entry : findList) {
                     File sourceDirectory = mix.relativize(entry.getDirectory());
