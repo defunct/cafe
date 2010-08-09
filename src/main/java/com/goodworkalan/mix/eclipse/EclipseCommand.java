@@ -18,12 +18,12 @@ import com.goodworkalan.go.go.library.Artifact;
 import com.goodworkalan.go.go.library.ArtifactPart;
 import com.goodworkalan.go.go.library.PathPart;
 import com.goodworkalan.go.go.library.PathParts;
-import com.goodworkalan.mix.CafeCommand;
-import com.goodworkalan.mix.Dependency;
-import com.goodworkalan.mix.Mix;
-import com.goodworkalan.mix.MixError;
-import com.goodworkalan.mix.Project;
-import com.goodworkalan.mix.Recipe;
+import com.goodworkalan.cafe.CafeCommand;
+import com.goodworkalan.cafe.Dependency;
+import com.goodworkalan.cafe.Build;
+import com.goodworkalan.cafe.CafeError;
+import com.goodworkalan.cafe.Project;
+import com.goodworkalan.cafe.Target;
 
 // TODO Document.
 @Command(parent = CafeCommand.class)
@@ -67,7 +67,7 @@ public class EclipseCommand implements Commandable {
 
     // TODO Document.
     public void execute(Environment env) {
-        Mix mix = env.get(Mix.class, 0);
+        Build mix = env.get(Build.class, 0);
         env.verbose("start", env.commands, mix.getWorkingDirectory());
 
         Serializer serializer = new Serializer();
@@ -116,7 +116,7 @@ public class EclipseCommand implements Commandable {
         }
 
         List<PathPart> parts = new ArrayList<PathPart>();
-        for (Recipe recipe : project.getRecipes()) {
+        for (Target recipe : project.getRecipes()) {
             for (Dependency dependency : recipe.getDependencies()) {
                 parts.addAll(dependency.getPathParts(project));
             }
@@ -139,7 +139,7 @@ public class EclipseCommand implements Commandable {
         for (Artifact artifact : artifacts) {
             ArtifactPart artifactPart = env.library.getArtifactPart(artifact);
             if (artifactPart == null) {
-                throw new MixError(EclipseCommand.class, "artifact.missing", artifact);
+                throw new CafeError(EclipseCommand.class, "artifact.missing", artifact);
             }
             if (!variables.containsKey(artifactPart.getLibraryDirectory())) {
                 variables.put(artifactPart.getLibraryDirectory(), "REPO_" + count);
@@ -153,7 +153,7 @@ public class EclipseCommand implements Commandable {
             File directory = artifactPart.getLibraryDirectory();
             File jar = new File(directory, artifact.getPath("jar"));
             if (!jar.exists()) {
-                throw new MixError(EclipseCommand.class, "jar.missing", artifact);
+                throw new CafeError(EclipseCommand.class, "jar.missing", artifact);
             }
             String variable = variables.get(directory);
             Element part = document.createElement("classpathentry", null);
