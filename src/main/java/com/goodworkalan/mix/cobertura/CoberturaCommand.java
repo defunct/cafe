@@ -1,14 +1,14 @@
 package com.goodworkalan.mix.cobertura;
 
+import com.goodworkalan.cafe.CafeCommand;
 import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.Command;
 import com.goodworkalan.go.go.Commandable;
 import com.goodworkalan.go.go.Environment;
 import com.goodworkalan.go.go.library.Artifact;
-import com.goodworkalan.mix.MixCommand;
 
 // TODO Document.
-@Command(parent = MixCommand.class)
+@Command(parent = CafeCommand.class)
 public class CoberturaCommand implements Commandable {
     // TODO Document.
     @Argument

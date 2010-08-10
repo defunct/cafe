@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import com.goodworkalan.cafe.CafeError;
+import com.goodworkalan.cafe.builder.FindList;
 import com.goodworkalan.comfort.io.Files;
 import com.goodworkalan.go.go.Argument;
 import com.goodworkalan.go.go.Command;
@@ -15,8 +17,6 @@ import com.goodworkalan.go.go.library.Artifact;
 import com.goodworkalan.go.go.library.PathPart;
 import com.goodworkalan.go.go.library.PathParts;
 import com.goodworkalan.go.go.library.ResolutionPart;
-import com.goodworkalan.mix.MixError;
-import com.goodworkalan.mix.builder.FindList;
 import com.goodworkalan.spawn.Exit;
 import com.goodworkalan.spawn.Spawn;
 
@@ -149,7 +149,7 @@ public class InstrumentCommand implements Commandable {
         Exit exit = new Spawn().$(arguments).out(env.io.out).err(env.io.err).run();
 
         if (exit.code != 0) {
-            throw new MixError(InstrumentCommand.class, "fork");
+            throw new CafeError(InstrumentCommand.class, "fork");
         }
     }
 }
