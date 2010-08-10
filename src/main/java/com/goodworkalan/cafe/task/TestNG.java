@@ -85,7 +85,7 @@ public class TestNG {
     public RecipeStatement end() {
         recipeElement.executable(new Commandable() {
             public void execute(Environment env) {
-                TestNGCommand additional = env.executor.run(TestNGCommand.class, env.io, "mix", env.arguments.get(0), "test-ng", env.arguments.get(1));
+                TestNGCommand additional = env.executor.run(TestNGCommand.class, env.io, "cafe", env.arguments.get(0), "test-ng", env.arguments.get(1));
 
                 for (Map.Entry<String, String> entry : additional.defines.entrySet()) {
                     define(entry.getKey(), entry.getValue());
