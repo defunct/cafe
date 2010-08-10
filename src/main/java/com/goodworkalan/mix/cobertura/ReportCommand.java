@@ -20,6 +20,7 @@ import com.goodworkalan.mix.builder.FindList;
 import com.goodworkalan.spawn.Exit;
 import com.goodworkalan.spawn.Spawn;
 
+// TODO Document.
 @Command(parent = CoberturaCommand.class)
 public class ReportCommand implements Commandable {
     /** A file query to match files to copy. */
@@ -81,6 +82,7 @@ public class ReportCommand implements Commandable {
         this.dataFile = dataFile;
     }
 
+    // TODO Document.
     public void execute(Environment env) {
         Artifact cobertura = env.get(Artifact.class, 1);
         List<String> arguments = new ArrayList<String>();

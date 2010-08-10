@@ -107,6 +107,7 @@ public class InstrumentCommand implements Commandable {
         this.dataFile = dataFile;
     }
 
+    // TODO Document.
     public void execute(Environment env) {
         Artifact cobertura = env.get(Artifact.class, 1);
         List<String> arguments = new ArrayList<String>();
